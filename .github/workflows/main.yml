@@ -32,6 +32,7 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config --global user.email "me@gteng.org"
           git config --global user.name "gengteng"
+          git clone https://github.com/theme-next/hexo-theme-next themes/next
           npm install hexo-cli -g
           npm install
 

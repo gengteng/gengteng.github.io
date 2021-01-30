@@ -108,4 +108,4 @@ theme: next
 deploy:
   type: git
   repo: https://github.com/gengteng/gengteng.github.io.git
-  branch: main
+  branch: gh-page

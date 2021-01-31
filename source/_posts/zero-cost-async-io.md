@@ -1,7 +1,7 @@
 ---
 title: 零成本异步IO
 date: 2021-01-30 09:13:54
-tags: Rust
+tags: [Rust]
 ---
 > 这是 Withoutboats 在 2019 年 3 月的 Rust Latam 上所做报告的一个整理。这个报告主要介绍他参与开发了一年半的语言特性，包括 Rust 异步 I/O 的发展历程，以及目前已经稳定的零成本抽象的`async`/`await` 语法的关键实现原理。
 

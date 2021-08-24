@@ -143,6 +143,96 @@ Cow
 Cabbage
 ```
 
+使用 Rust 语言编写如下：
+
+```rust
+use std::fmt::Debug;
+
+// 产品抽象
+trait Animal {}
+trait Vegetable {}
+
+// 工厂抽象
+trait Farm {
+    type A: Animal;
+    type V: Vegetable;
+    const NAME: &'static str;
+
+    fn create_animal() -> Self::A;
+    fn create_vegetable() -> Self::V;
+}
+
+#[derive(Debug)]
+struct Cow;
+impl Animal for Cow {}
+#[derive(Debug)]
+struct Cabbage;
+impl Vegetable for Cabbage {}
+struct FarmA;
+impl Farm for FarmA {
+    type A = Cow;
+    type V = Cabbage;
+    const NAME: &'static str = "A";
+
+    fn create_animal() -> Self::A {
+        Cow
+    }
+
+    fn create_vegetable() -> Self::V {
+        Cabbage
+    }
+}
+
+#[derive(Debug)]
+struct Sheep;
+impl Animal for Sheep {}
+#[derive(Debug)]
+struct Cauliflower;
+impl Vegetable for Cauliflower {}
+struct FarmB;
+impl Farm for FarmB {
+    type A = Sheep;
+    type V = Cauliflower;
+    const NAME: &'static str = "B";
+
+    fn create_animal() -> Self::A {
+        Sheep
+    }
+
+    fn create_vegetable() -> Self::V {
+        Cauliflower
+    }
+}
+
+// 实际调用
+fn run_a_farm<F>()
+where
+    F: Farm,
+    F::A: Debug,
+    F::V: Debug,
+{
+    println!("Farm {}:", F::NAME);
+    println!("\tAnimal: {:?}", F::create_animal());
+    println!("\tVegetable: {:?}", F::create_vegetable());
+}
+
+fn main() {
+    run_a_farm::<FarmA>();
+    run_a_farm::<FarmB>();
+}
+```
+
+输出结果为：
+
+```
+Farm A:
+	Animal: Cow
+	Vegetable: Cabbage
+Farm B:
+	Animal: Sheep
+	Vegetable: Cauliflower
+```
+
 ### 典型应用场景
 
 1. 界面换肤，一款皮肤下，不同的控件的样式；

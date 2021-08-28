@@ -227,6 +227,14 @@ chat:
   icon: fa fa-comment # Icon name in Font Awesome, set false to disable icon.
   text: Chat # Button text, change it as you wish.
 
+utteranc:
+  enable: true
+  repo: gengteng/gengteng.github.io
+  pathname: pathname
+  # theme: github-light,github-dark,github-dark-orange
+  theme: github-light
+  cdn: https://utteranc.es/client.js
+
 
 # ---------------------------------------------------------------
 # Post Settings

@@ -14,7 +14,7 @@ tags: ['algorithm', 'binary search']
 
 ----
 
-### Java 实现
+* Java 实现
 
 ```java
 public static int getLocalMinimumIndex(int[] array) {
@@ -53,7 +53,7 @@ public static int getLocalMinimumIndex(int[] array) {
 
 ----
 
-### Rust 实现
+* Rust 实现
 
 ```rust
 fn get_local_minimum_index(array: &[i32]) -> Option<usize> {

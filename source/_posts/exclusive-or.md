@@ -29,8 +29,10 @@ a = a ^ b; // a = 1 ^ 2 ^ 1 = 2, b = 1
 
 数组元素交换时，要确保交换的不是一个空间，可以相等，但不能是同一块内存跟自己进行异或运算：
 
+* Java 实现
+
 ```java
-public static void swap(int[] array, int i, int j) {
+void swap(int[] array, int i, int j) {
     if (i == j) {
         // 无法确保 i != j 一定要加这个检查，否则该位置值变为 0
         return;
@@ -46,7 +48,7 @@ public static void swap(int[] array, int i, int j) {
 
 一个数组中有一种数出现了奇数次，其他数都出现了偶数次，怎么打印这种数。
 
-#### Java 实现
+* Java 实现
 
 ```java
 int getOddTimesNumber(int[] array) {
@@ -58,7 +60,7 @@ int getOddTimesNumber(int[] array) {
 }
 ```
 
-#### Rust 实现
+* Rust 实现
 
 ```rust
 fn get_odd_times_number_0(array: &[i32]) -> i32 {
@@ -103,14 +105,18 @@ fn test_get_odd_times_number() {
 例如：
 ```
 0b10101000 -> 0b00001000
-      ^-只留这个 `1`
+      ^---只留这个 `1`
 ```
+
+* Java 实现
 
 ```java
 int getRightmostOne(int value) {
     return value & (~value + 1);
 }
 ```
+
+* Rust 实现
 
 ```rust
 fn get_rightmost_one(value: i32) -> i32 {

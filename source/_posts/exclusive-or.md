@@ -201,7 +201,7 @@ fn get_odd_times_numbers(array: &[i32]) -> (i32, i32) {
         }
     }
 
-    (a, one ^ a)
+    (a, xor ^ a)
 }
 ```
 
@@ -216,6 +216,6 @@ fn get_odd_times_numbers(array: &[i32]) -> (i32, i32) {
         .iter()
         .fold(0, |a, b| if one & b != 0 { a ^ *b } else { a });
 
-    (a, one ^ a)
+    (a, xor ^ a)
 }
 ```

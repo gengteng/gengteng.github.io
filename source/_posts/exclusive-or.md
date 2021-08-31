@@ -223,6 +223,46 @@ fn get_odd_times_numbers(array: &[i32]) -> (i32, i32) {
 
     (a, xor ^ a)
 }
+
+```
+
+* Rust 测试代码
+
+```rust
+#[test]
+fn test_get_odd_times_numbers() {
+    use rand::prelude::*;
+
+    let mut rng = thread_rng();
+
+    for _ in 0..1000 {
+        let mut vec = Vec::new();
+        let odd_number_a = rng.gen_range(0..5);
+        let odd_number_b = loop {
+            let b = rng.gen_range(0..5);
+            if b != odd_number_a {
+                break b;
+            } else {
+                continue;
+            }
+        };
+        for i in 0..5 {
+            let times: usize = rng.gen_range(1..3) * 2
+                + if i == odd_number_a || i == odd_number_b {
+                    1
+                } else {
+                    0
+                };
+            for _ in 0..times {
+                vec.push(i);
+            }
+        }
+        vec.shuffle(&mut rng);
+
+        let get = get_odd_times_numbers(&vec);
+        assert!(get == (odd_number_a, odd_number_b) || get == (odd_number_b, odd_number_a));
+    }
+}
 ```
 
 ### 5. 计算某个数为 `1` 的二进制位数

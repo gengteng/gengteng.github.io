@@ -152,15 +152,20 @@ int[] getOddTimesNumbers(int[] array) {
 
     // xor == a ^ b
     // 因为 a != b （两种数），所以 a ^ b != 0，则必然存在为 1 的二进制位
-    // 不妨就使用最后一个1，即
+    // 不妨就使用最后一个 1，即
     int one = xor & (~xor + 1);
+    // 假设这个 1 在第 N 位
     int a = 0;
     for (int i: array) {
+        // 将数组分为两类：1. N 位上为 1 的；2. N 位上为 0 的。
+        // a 和 b 一定分别属于这两类，不会同属一类，因为 a ^ b 的 N 位是 1
+        // 这里只把第 1 类异或起来，得到一种数
         if ((i & one) != 0) {
             a ^= i;
         }
     }
 
+    // 用之前得到的这种数异或 xor，得到另一种
     return new int[]{a, a ^ xor};
 }
 ```
@@ -217,5 +222,55 @@ fn get_odd_times_numbers(array: &[i32]) -> (i32, i32) {
         .fold(0, |a, b| if one & b != 0 { a ^ *b } else { a });
 
     (a, xor ^ a)
+}
+```
+
+### 5. 计算某个数为 `1` 的二进制位数
+
+例如：
+
+```
+0b00101100 --> 3
+```
+
+* Java 实现
+
+```java
+int countOnes(int a) {
+    int count  = 0;
+
+    while (a != 0) {
+        count += 1;
+        int one = a & (~a + 1);
+        a ^= one; // 把这个 1 给去掉
+    }
+
+    return count;
+}
+
+```
+
+* Rust 实现
+
+```rust
+fn count_ones(mut a: i32) -> u32 {
+    let mut count = 0;
+
+    while a != 0 {
+        count += 1;
+        // a ^= a & (!a + 1) 在 debug 编译条件下可能溢出，无法通过测试，release 无所谓；wrapping_add 在 debug 条件下也没问题
+        a ^= a & (!a).wrapping_add(1);
+    }
+
+    count
+}
+
+
+#[test]
+fn test_count_ones() {
+    for _ in 0..1000 {
+        let a = rand::random();
+        assert_eq!(count_ones(a), a.count_ones());
+    }
 }
 ```

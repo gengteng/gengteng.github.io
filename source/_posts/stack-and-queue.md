@@ -1,8 +1,11 @@
 ---
-title: 环形队列
+title: 栈和队列
 date: 2021-09-06 15:45:08
-tags: ['algorithm', 'queue', 'ring']
+tags: ['algorithm', 'queue', 'stack', 'ring buffer']
 ---
+
+
+### 1. 环形队列
 
 * Java 实现
 
@@ -123,4 +126,120 @@ pop are
 rb: RingBuffer{array=[null, null, null, you], limit=4, pushIndex=0, popIndex=3, size=1}
 pop you
 rb: RingBuffer{array=[null, null, null, null], limit=4, pushIndex=0, popIndex=0, size=0}
+```
+
+### 2. 时间复杂度为O(1)的栈中最小值获取方法
+
+* Java 实现
+
+```java
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Stack;
+
+public class GetMinStack<E extends Comparable<E>> extends Stack<E> {
+    private final Stack<E> minStack;
+
+    public static void main(String[] args) {
+        GetMinStack<Integer> stack = new GetMinStack<>();
+        int[] data = {8, 4, 2, 6, 1, 9, -1, 3};
+        for (int i: data) {
+            stack.push(i);
+            Optional<Integer> min = stack.getMin();
+            System.out.println("push " + i + ", min: " + min.get() + ", stack" + stack + ", minStack: " + stack.getMinStack());
+        }
+
+        while (!stack.empty()) {
+            int i = stack.pop();
+            Optional<Integer> min = stack.getMin();
+            if (min.isPresent()) {
+                System.out.println("pop " + i + ", min: " + min.get() + ", stack" + stack + ", minStack: " + stack.getMinStack());
+            } else {
+                System.out.println("pop " + i + ", stack is empty");
+            }
+        }
+    }
+
+    public GetMinStack() {
+        minStack = new Stack<>();
+    }
+
+    @Override
+    public synchronized E pop() {
+        E item = super.pop();
+        E min = minStack.peek();
+        // 如果出栈的元素跟最小栈顶元素相等，则最小栈顶也出栈
+        if (min == item) {
+            minStack.pop();
+        }
+        return item;
+    }
+
+    @Override
+    public E push(E item) {
+        if (!minStack.empty()) {
+            E min = minStack.peek();
+            // 如果栈不空，看最小栈顶与入栈元素哪个小；
+            // 一样大或者入栈元素小，则该元素入最小栈；
+            // 否则不做任何操作
+            if (min.compareTo(item) >= 0) {
+                minStack.push(item);
+            }
+        } else {
+            // 栈空就直接入栈
+            minStack.push(item);
+        }
+        return super.push(item);
+    }
+
+    public Optional<E> getMin() {
+        if (empty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(minStack.peek());
+        }
+    }
+
+    public Collection<E> getMinStack() {
+        return Collections.unmodifiableCollection(this.minStack);
+    }
+}
+```
+
+输出内容：
+
+```
+push 8, min: 8, stack[8], minStack: [8]
+push 4, min: 4, stack[8, 4], minStack: [8, 4]
+push 2, min: 2, stack[8, 4, 2], minStack: [8, 4, 2]
+push 6, min: 2, stack[8, 4, 2, 6], minStack: [8, 4, 2]
+push 1, min: 1, stack[8, 4, 2, 6, 1], minStack: [8, 4, 2, 1]
+push 9, min: 1, stack[8, 4, 2, 6, 1, 9], minStack: [8, 4, 2, 1]
+push -1, min: -1, stack[8, 4, 2, 6, 1, 9, -1], minStack: [8, 4, 2, 1, -1]
+push 3, min: -1, stack[8, 4, 2, 6, 1, 9, -1, 3], minStack: [8, 4, 2, 1, -1]
+pop 3, min: -1, stack[8, 4, 2, 6, 1, 9, -1], minStack: [8, 4, 2, 1, -1]
+pop -1, min: 1, stack[8, 4, 2, 6, 1, 9], minStack: [8, 4, 2, 1]
+pop 9, min: 1, stack[8, 4, 2, 6, 1], minStack: [8, 4, 2, 1]
+pop 1, min: 2, stack[8, 4, 2, 6], minStack: [8, 4, 2]
+pop 6, min: 2, stack[8, 4, 2], minStack: [8, 4, 2]
+pop 2, min: 4, stack[8, 4], minStack: [8, 4]
+pop 4, min: 8, stack[8], minStack: [8]
+pop 8, stack is empty
+```
+
+### 3. 用栈实现队列
+
+* Java 实现
+
+```java
+// TODO
+```
+
+### 4. 用队列实现栈
+
+* Java 实现
+
+```java
+// TODO
 ```

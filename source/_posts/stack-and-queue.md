@@ -237,8 +237,10 @@ import java.util.Optional;
 import java.util.Stack;
 
 public class StackQueue<E> {
-    private Stack<E> pushStack;
-    private Stack<E> popStack;
+    // 用来入队
+    private final Stack<E> pushStack;
+    // 用来出队
+    private final Stack<E> popStack;
 
     public static void main(String[] args) {
         StackQueue<String> queue = new StackQueue<>();
@@ -344,5 +346,76 @@ StackQueue{pushStack=[]=>, popStack=[]=>}
 * Java 实现
 
 ```java
-// TODO
+import java.util.LinkedList;
+import java.util.Optional;
+import java.util.Queue;
+
+public class QueueStack<E> {
+    private Queue<E> data;
+    private Queue<E> help;
+
+    public static void main(String[] args) {
+        QueueStack<String> stack = new QueueStack<>();
+        String[] data = {"hello", "world", "how", "are", "you"};
+        for (String s: data) {
+            stack.push(s);
+        }
+        Optional<String> op = stack.pop();
+        while (op.isPresent()) {
+            System.out.println(op.get());
+            op = stack.pop();
+        }
+    }
+
+    public QueueStack() {
+        data = new LinkedList<>();
+        help = new LinkedList<>();
+    }
+
+    public boolean empty() {
+        return data.isEmpty() && help.isEmpty();
+    }
+
+    public boolean contains(E object) {
+        return data.contains(object) || help.contains(object);
+    }
+
+    public int size() {
+        return data.size() + help.size();
+    }
+
+    public void push(E e) {
+        data.add(e);
+    }
+
+    public Optional<E> pop() {
+        int size = data.size();
+        if (size == 0) {
+            return Optional.empty();
+        }
+
+        for (int i=0;i<size-1;++i) {
+            help.add(data.poll());
+        }
+
+        E e = data.poll();
+
+        // swap
+        Queue<E> temp = help;
+        help = data;
+        data = temp;
+
+        return Optional.of(e);
+    }
+}
+```
+
+输出内容：
+
+```
+you
+are
+how
+world
+hello
 ```

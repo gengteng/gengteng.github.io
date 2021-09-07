@@ -128,7 +128,7 @@ pop you
 rb: RingBuffer{array=[null, null, null, null], limit=4, pushIndex=0, popIndex=0, size=0}
 ```
 
-### 2. 时间复杂度为O(1)的栈中最小值获取方法
+### 2. 时间复杂度为 $O(1)$ 的栈中最小值获取方法
 
 * Java 实现
 

@@ -233,7 +233,110 @@ pop 8, stack is empty
 * Java 实现
 
 ```java
-// TODO
+import java.util.Optional;
+import java.util.Stack;
+
+public class StackQueue<E> {
+    private Stack<E> pushStack;
+    private Stack<E> popStack;
+
+    public static void main(String[] args) {
+        StackQueue<String> queue = new StackQueue<>();
+        String[] data = {"hello", "world", "how", "are", "you"};
+        for (String s: data) {
+            queue.push(s);
+        }
+        System.out.println(queue);
+        Optional<String> op = queue.poll();
+        while (op.isPresent()) {
+            System.out.println(op.get());
+            op = queue.poll();
+        }
+        System.out.println(queue);
+        for (String s: data) {
+            queue.push(s);
+        }
+        System.out.println(queue);
+        op = queue.poll();
+        for (String s: data) {
+            queue.push(s);
+        }
+        System.out.println(queue);
+        while (op.isPresent()) {
+            System.out.println(op.get());
+            op = queue.poll();
+        }
+        System.out.println(queue);
+    }
+
+    public StackQueue() {
+        pushStack = new Stack<>();
+        popStack = new Stack<>();
+    }
+
+    public int size() {
+        return pushStack.size() + popStack.size();
+    }
+
+    public boolean empty() {
+        return pushStack.empty() && popStack.empty();
+    }
+
+    public boolean contains(Object o) {
+        return pushStack.contains(o) || popStack.contains(o);
+    }
+
+    public void push(E element) {
+        pushStack.push(element);
+    }
+
+    public Optional<E> poll() {
+        if (popStack.empty()) {
+            while (!pushStack.empty()) {
+                popStack.push(pushStack.pop());
+            }
+            if (popStack.empty()) {
+                return Optional.empty();
+            }
+        }
+
+        return Optional.of(popStack.pop());
+    }
+
+    @Override
+    public String toString() {
+        // => 表示栈顶
+        return "StackQueue{" +
+                "pushStack=" + pushStack +
+                "=>, popStack=" + popStack +
+                "=>}";
+    }
+}
+```
+
+输出内容：
+
+```
+StackQueue{pushStack=[hello, world, how, are, you]=>, popStack=[]=>}
+hello
+world
+how
+are
+you
+StackQueue{pushStack=[]=>, popStack=[]=>}
+StackQueue{pushStack=[hello, world, how, are, you]=>, popStack=[]=>}
+StackQueue{pushStack=[hello, world, how, are, you]=>, popStack=[you, are, how, world]=>}
+hello
+world
+how
+are
+you
+hello
+world
+how
+are
+you
+StackQueue{pushStack=[]=>, popStack=[]=>}
 ```
 
 ### 4. 用队列实现栈

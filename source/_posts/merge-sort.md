@@ -333,3 +333,83 @@ public class SmallSum {
     }
 }
 ```
+
+## 求数组中的降序对
+
+> 例如：`[3, 1, 7, 0, 2]` 中的降序对有 `(3, 1)`、`(3, 0)`、`(3, 2)`、`(1, 0)`、`(7, 0)`、`(7, 2)`。
+
+即求数组中每个数右边有多少个数比它小，就有多少个降序对。
+
+```rust
+#[test]
+fn test_get_descending_pairs() {
+    for _ in 0..100 {
+        let mut array0: [u8; 32] = rand::random();
+        let mut array1 = array0.clone();
+        let set0 = array0.get_descending_pairs();
+        let set1 = array1.get_descending_pairs_simple();
+        assert_eq!(set0, set1);
+    }
+}
+
+trait DescendingPair<T> {
+    fn get_descending_pairs(&mut self) -> HashSet<(T, T)>;
+    fn get_descending_pairs_simple(&mut self) -> HashSet<(T, T)>;
+}
+
+impl<T: Ord + Clone + Hash> DescendingPair<T> for [T] {
+    fn get_descending_pairs(&mut self) -> HashSet<(T, T)> {
+        let mut set = HashSet::new();
+        if self.len() < 2 {
+            return set;
+        }
+
+        let mid = self.len() >> 1;
+        let mut left = self[..mid].get_descending_pairs();
+        let mut right = self[mid..].get_descending_pairs();
+        set.extend(left.drain());
+        set.extend(right.drain());
+
+        let mut help = Vec::with_capacity(self.len());
+        let mut j = 0;
+        let mut k = mid;
+        let len = self.len();
+
+        while j < mid && k < len {
+            if self[j] > self[k] {
+                let mut temp = self[k..]
+                    .iter()
+                    .map(|v| (self[j].clone(), v.clone()))
+                    .collect::<HashSet<_>>();
+                set.extend(temp.drain());
+
+                help.push(self[j].clone());
+                j += 1;
+            } else {
+                help.push(self[k].clone());
+                k += 1;
+            }
+        }
+
+        help.extend_from_slice(&self[j..mid]);
+        help.extend_from_slice(&self[k..]);
+
+        assert_eq!(help.len(), self.len());
+        self.clone_from_slice(&help);
+
+        set
+    }
+
+    fn get_descending_pairs_simple(&mut self) -> HashSet<(T, T)> {
+        let mut set = HashSet::new();
+        for i in 0..self.len() {
+            for j in 0..i {
+                if self[j] > self[i] {
+                    set.insert((self[j].clone(), self[i].clone()));
+                }
+            }
+        }
+        set
+    }
+}
+```

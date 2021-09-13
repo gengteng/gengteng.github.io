@@ -170,6 +170,17 @@ public static <T extends Comparable<T>> void mergeSortLoop(T[] array) {
 * Rust 实现
 
 ```rust
+#[test]
+fn test_loop_merge_sort() {
+    for _ in 0..100 {
+        let mut array0: [u8; 32] = rand::random();
+        let mut array1 = array0.clone();
+        array0.loop_merge_sort();
+        array1.sort();
+        assert_eq!(array0, array1);
+    }
+}
+
 impl<T: Ord + Clone> MergeSort for [T] {
     fn merge_sort(&mut self) {
         //...

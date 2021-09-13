@@ -1,10 +1,17 @@
 ---
-title: 归并排序
+title: 归并排序及应用
 date: 2021-09-12 00:05:51
 tags: ['algorithm', 'sort']
+mathjax: true
 ---
 
-## 递归方法
+## 归并排序
+
+* 算法时间复杂度： $O(NlogN)$
+* 相比冒泡、选择等时间复杂度为 $O(N^2)$ 的排序算法，没有浪费比较行为；
+* 插入排序时即便使用二分查找插入位置，也需要将插入位置后的元素依次向右移动，每次插入复杂度为 $O(N)$。
+
+### 递归方法
 
 * Java 实现
 
@@ -128,7 +135,7 @@ impl<T: Ord + Clone> MergeSort for [T] {
 }
 ```
 
-## 非递归方法
+### 非递归方法
 
 * Java 实现
 
@@ -240,6 +247,89 @@ impl<T: Ord + Clone> MergeSort for [T] {
 
             merge_size <<= 1;
         }
+    }
+}
+```
+
+## 求数组的小和
+
+在一个数组中，一个数左边比它小的数的总和，叫数的小和，所有数的小和加起来叫数组小和。求数组小和。
+
+> 例子：`[1, 3, 4, 2, 5]`
+> 
+> `1` 左边比自己小的数：没有  
+> `3` 左边比自己小的数：`1`  
+> `4` 左边比自己小的数：`1` `3`  
+> `2` 左边比自己小的数：`1`  
+> `5` 左边比自己小的数：`1` `3` `4` `2`  
+> 
+> 所以，数组的小和为 $1 + 1 + 3 + 1 + 1 + 3 + 4 + 2 = 16$
+
+* Java 实现
+
+```java
+public class SmallSum {
+    public static void main(String[] args) {
+        System.out.println(smallSum(new int[]{1, 3, 4, 2, 5}) + " == " + getSmallSumSimple(new int[]{1, 3, 4, 2, 5}));
+    }
+
+    static int getSmallSumSimple(int[] array) {
+        int smallSum = 0;
+        for (int i = 0; i < array.length; ++i) {
+            for (int j = 0; j < i; ++j) {
+                if (array[j] < array[i]) {
+                    smallSum += array[j];
+                }
+            }
+        }
+        return smallSum;
+    }
+
+    static int smallSum(int[] array) {
+        int[] help = new int[array.length];
+        return doMergeSmallSum(array, help, 0, help.length);
+    }
+
+    static int doMergeSmallSum(int[] array, int[] help, int start, int end) {
+        if (end - start < 2) {
+            return 0;
+        }
+
+        int mid = start + ((end - start) >> 1);
+        int left = doMergeSmallSum(array, help, start, mid);
+        int right = doMergeSmallSum(array, help, mid, end);
+        return left + right + doMerge(array, help, start, mid, end);
+    }
+
+    static int doMerge(int[] array, int[] help, int start, int mid, int end) {
+        int i = start;
+        int j = mid;
+        int k = start;
+        int sum = 0;
+
+        while (i < mid && j < end) {
+            if (array[i] < array[j]) {
+                int t = array[i++];
+                help[k++] = t;
+                sum += t * (end - j);
+            } else {
+                help[k++] = array[j++];
+            }
+        }
+
+        while (i < mid) {
+            help[k++] = array[i++];
+        }
+
+        while (j < end) {
+            help[k++] = array[j++];
+        }
+
+        for (k = start; k < end; k++) {
+            array[k] = help[k];
+        }
+
+        return sum;
     }
 }
 ```

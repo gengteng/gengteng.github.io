@@ -133,11 +133,102 @@ impl<T: Ord + Clone> MergeSort for [T] {
 * Java 实现
 
 ```java
-// TODO
+public static <T extends Comparable<T>> void mergeSortLoop(T[] array) {
+    if (array == null || array.length < 2) {
+        return;
+    }
+
+    Comparable[] help = (T[]) new Comparable[array.length];
+
+    int mergeSize = 1;
+
+    while (mergeSize < array.length) {
+        int left = 0;
+
+        while (left < array.length) {
+            int mid = left + mergeSize;
+
+            if (mid >= array.length) {
+                break;
+            }
+
+            int right = Math.min(mid + mergeSize, array.length);
+            mergeSorted(array, help, left, mid, right);
+            left = right;
+        }
+
+
+        if (mergeSize >= array.length >> 1) {
+            break;
+        }
+
+        mergeSize <<= 1;
+    }
+}
 ```
 
 * Rust 实现
 
 ```rust
-// TODO
+impl<T: Ord + Clone> MergeSort for [T] {
+    fn merge_sort(&mut self) {
+        //...
+    }
+
+    fn loop_merge_sort(&mut self) {
+        let len = self.len();
+        if len < 2 {
+            return;
+        }
+
+        let mut merge_size: usize = 1;
+        while merge_size < len {
+            let mut left = 0;
+
+            while left < len {
+                let mid = left + merge_size;
+                if mid >= len {
+                    break;
+                }
+
+                let right = (mid + merge_size).min(len);
+
+                // merge sorted
+                let mut vec = Vec::with_capacity(right - left);
+
+                let mut i = left;
+                let mut j = mid;
+                while i < mid && j < right {
+                    if self[i] <= self[j] {
+                        vec.push(self[i].clone());
+                        i += 1;
+                    } else {
+                        vec.push(self[j].clone());
+                        j += 1;
+                    }
+                }
+
+                while i < mid {
+                    vec.push(self[i].clone());
+                    i += 1;
+                }
+
+                while j < right {
+                    vec.push(self[j].clone());
+                    j += 1;
+                }
+
+                (&mut self[left..right]).clone_from_slice(&vec);
+
+                left = right;
+            }
+
+            if merge_size > len >> 1 {
+                break;
+            }
+
+            merge_size <<= 1;
+        }
+    }
+}
 ```

@@ -2,6 +2,7 @@
 title: 快速排序[WIP]
 date: 2021-09-13 15:34:56
 tags: ['algorithm', 'sort']
+mathjax: true
 ---
 
 ## 分区问题

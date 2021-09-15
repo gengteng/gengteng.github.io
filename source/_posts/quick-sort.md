@@ -60,12 +60,29 @@ public class Partition {
 * Rust 实现
 
 ```rust
+#[test]
+fn test_partition() {
+    let mut array = [4, 2, 5, 7, 5, 4, 2, 9, 3, 5, 1];
+    assert_eq!(array.partition(5), Index::Position(9));
+    assert_eq!(array.partition(3), Index::Position(4));
+    assert_eq!(array.partition(11), Index::Greater);
+    assert_eq!(array.partition(0), Index::Less);
+}
+
+#[derive(Debug, Eq, PartialEq)]
+pub enum Index {
+    Less,
+    Position(usize),
+    Greater,
+}
+
 pub trait Partition<T> {
-    fn partition(&mut self, value: T) -> Option<usize>;
+    fn partition(&mut self, value: T) -> Index;
 }
 
 impl<T: Ord> Partition<T> for [T] {
-    fn partition(&mut self, value: T) -> Option<usize> {
+    // 返回大于部分的起始索引
+    fn partition(&mut self, value: T) -> Index {
         let mut left = None;
         for i in 0..self.len() {
             if self[i] <= value {
@@ -80,7 +97,11 @@ impl<T: Ord> Partition<T> for [T] {
             }
         }
 
-        left.map(|v| v + 1)
+        match left {
+            None => Index::Less,
+            Some(i) if i == self.len() - 1 => Index::Greater,
+            Some(i) => Index::Position(i + 1),
+        }
     }
 }
 ```
@@ -100,33 +121,208 @@ impl<T: Ord> Partition<T> for [T] {
 * Rust 实现
 
 ```rust
+use std::cmp::Ordering;
+
+#[test]
+fn test_netherlands_flag_partition() {
+    let mut array = [7, 1, 2, 0, 8, 5, 3, 9, 2, 6, 5, 1, 0, 8, 7, 4];
+    // sorted:      [0, 0, 1, 1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9]
+    // index(hex):  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F]
+    assert_eq!(array.netherlands_flag_partition(2), (Some(4), Some(6)));
+    assert_eq!(array.netherlands_flag_partition(7), (Some(0xB), Some(0xD)));
+    assert_eq!(array.netherlands_flag_partition(-1), (None, Some(0)));
+    assert_eq!(array.netherlands_flag_partition(0), (None, Some(2)));
+    assert_eq!(
+        array.netherlands_flag_partition(10),
+        (Some(array.len()), None)
+    );
+    assert_eq!(
+        array.netherlands_flag_partition(9),
+        (Some(array.len() - 1), None)
+    );
+}
+
 pub trait NetherlandsFlagPartition<T> {
-    fn netherlands_flag_partition(&mut self, value: T) -> (isize, isize);
+    fn netherlands_flag_partition(&mut self, value: T) -> (Option<usize>, Option<usize>);
 }
 
 impl<T: Ord> NetherlandsFlagPartition<T> for [T] {
-    fn netherlands_flag_partition(&mut self, value: T) -> (isize, isize) {
-        let mut left = -1isize;
-        let mut right = self.len() as isize;
+    // 返回相等部分和大于部分的起始索引
+    fn netherlands_flag_partition(&mut self, value: T) -> (Option<usize>, Option<usize>) {
+        let len = self.len();
+        let mut left = None;
+        let mut right = None;
         let mut i = 0;
-        while i < right {
-            match self[i as usize].cmp(&value) {
+        while i < right.unwrap_or(len) {
+            match self[i].cmp(&value) {
                 Ordering::Less => {
-                    left += 1;
-                    self.swap(i as usize, left as usize);
+                    match left {
+                        None => {
+                            self.swap(0, i);
+                            left = Some(0);
+                        }
+                        Some(left_value) => {
+                            let new_left = left_value + 1;
+                            self.swap(new_left, i);
+                            left = Some(new_left);
+                        }
+                    }
                     i += 1;
                 }
                 Ordering::Equal => {
                     i += 1;
                 }
                 Ordering::Greater => {
-                    right -= 1;
-                    self.swap(i as usize, right as usize);
+                    match right {
+                        None => {
+                            self.swap(len - 1, i);
+                            right = Some(len - 1);
+                        }
+                        Some(right_value) => {
+                            let new_right = right_value - 1;
+                            self.swap(new_right, i);
+                            right = Some(new_right);
+                        }
+                    }
+
+                    // i 不要自增，让下一次循环检查新换到前面的值
                 }
             }
         }
 
-        (left, right)
+        (left.map(|v| v + 1), right)
+    }
+}
+```
+
+* Rust 实现（用枚举表示结果）
+
+```rust
+use std::cmp::Ordering;
+
+#[test]
+fn test_netherlands_flag_partition() {
+    let mut array = [7, 1, 2, 0, 8, 5, 3, 9, 2, 6, 5, 1, 0, 8, 7, 4];
+    assert_eq!(
+        array.netherlands_flag_partition(2),
+        NetherlandsFlagResult::Three(4, 6)
+    );
+    assert_eq!(
+        array.netherlands_flag_partition(7),
+        NetherlandsFlagResult::Three(11, 13)
+    );
+    assert_eq!(
+        array.netherlands_flag_partition(-1),
+        NetherlandsFlagResult::Greater
+    );
+    assert_eq!(
+        array.netherlands_flag_partition(0),
+        NetherlandsFlagResult::ValueStart(2)
+    );
+    assert_eq!(
+        array.netherlands_flag_partition(10),
+        NetherlandsFlagResult::Less
+    );
+    assert_eq!(
+        array.netherlands_flag_partition(9),
+        NetherlandsFlagResult::ValueEnd(15)
+    );
+
+    let mut array = [2, 2, 2, 2, 2];
+    assert_eq!(
+        array.netherlands_flag_partition(2),
+        NetherlandsFlagResult::Equal
+    );
+}
+
+#[derive(Debug, Eq, PartialEq)]
+pub enum NetherlandsFlagResult {
+    /// 分为三部分，分别是 < value, == value, > value, 返回后两部分的起始索引
+    Three(usize, usize),
+    /// 分为两部分，== value, > value, 返回第二部分的起始索引
+    ValueStart(usize),
+    /// 分为两部分，< value, == value, 返回第二部分的起始索引
+    ValueEnd(usize),
+    /// 所有值都小于 value
+    Less,
+    /// 所有值都大于 value
+    Greater,
+    /// 所有值都等于 value
+    Equal,
+}
+
+pub trait NetherlandsFlagPartition<T> {
+    fn netherlands_flag_partition(&mut self, value: T) -> NetherlandsFlagResult;
+}
+
+impl<T: Ord> NetherlandsFlagPartition<T> for [T] {
+    // 返回相等部分和大于部分的起始索引
+    fn netherlands_flag_partition(&mut self, value: T) -> NetherlandsFlagResult {
+        let len = self.len();
+        let mut left = None;
+        let mut right = None;
+        let mut i = 0;
+        while i < right.unwrap_or(len) {
+            match self[i].cmp(&value) {
+                Ordering::Less => {
+                    match left {
+                        None => {
+                            self.swap(0, i);
+                            left = Some(0);
+                        }
+                        Some(left_value) => {
+                            let new_left = left_value + 1;
+                            self.swap(new_left, i);
+                            left = Some(new_left);
+                        }
+                    }
+                    i += 1;
+                }
+                Ordering::Equal => {
+                    i += 1;
+                }
+                Ordering::Greater => {
+                    match right {
+                        None => {
+                            self.swap(len - 1, i);
+                            right = Some(len - 1);
+                        }
+                        Some(right_value) => {
+                            let new_right = right_value - 1;
+                            self.swap(new_right, i);
+                            right = Some(new_right);
+                        }
+                    }
+
+                    // i 不要自增，让下一次循环检查新换到前面的值
+                }
+            }
+        }
+
+        match (left.map(|v| v + 1), right) {
+            (None, Some(i)) => {
+                if i == 0 {
+                    NetherlandsFlagResult::Greater
+                } else {
+                    NetherlandsFlagResult::ValueStart(i)
+                }
+            }
+            (Some(i), None) => {
+                if i >= self.len() {
+                    NetherlandsFlagResult::Less
+                } else {
+                    NetherlandsFlagResult::ValueEnd(i)
+                }
+            }
+            (Some(i), Some(j)) => {
+                if i >= self.len() {
+                    NetherlandsFlagResult::Greater
+                } else {
+                    NetherlandsFlagResult::Three(i, j)
+                }
+            }
+            (None, None) => NetherlandsFlagResult::Equal,
+        }
     }
 }
 ```

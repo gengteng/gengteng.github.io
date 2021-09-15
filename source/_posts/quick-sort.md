@@ -367,7 +367,51 @@ impl<T: Ord> NetherlandsFlagPartition<T> for [T] {
 * Rust 实现
 
 ```rust
+#[test]
+fn test_quick_sort() {
+    for _ in 0..1000 {
+        let mut array0: [i32; 32] = random();
+        let mut array1 = array0.clone();
 
+        array0.sort();
+        array1.quick_sort();
+
+        assert_eq!(array0, array1);
+    }
+}
+
+pub trait QuickSort {
+    fn quick_sort(&mut self);
+}
+
+impl<T: Ord + Clone> QuickSort for [T] {
+    fn quick_sort(&mut self) {
+        if self.len() < 2 {
+            return;
+        }
+
+        let value = self[0].clone();
+
+        match self.netherlands_flag_partition(value) {
+            NetherlandsFlagResult::Three(start, end) => {
+                self[..start].quick_sort();
+                self[end..].quick_sort();
+            }
+            NetherlandsFlagResult::ValueStart(start) => {
+                self[start..].quick_sort();
+            }
+            NetherlandsFlagResult::ValueEnd(end) => {
+                self[..end].quick_sort();
+            }
+            NetherlandsFlagResult::Less | NetherlandsFlagResult::Greater => {
+                self.quick_sort();
+            }
+            NetherlandsFlagResult::Equal => {
+                return;
+            }
+        }
+    }
+}
 ```
 
 ### v3.0
@@ -391,5 +435,50 @@ impl<T: Ord> NetherlandsFlagPartition<T> for [T] {
 * Rust 实现
 
 ```rust
+#[test]
+fn test_quick_sort() {
+    for _ in 0..1000 {
+        let mut array0: [i32; 32] = random();
+        let mut array1 = array0.clone();
 
+        array0.sort();
+        array1.quick_sort();
+
+        assert_eq!(array0, array1);
+    }
+}
+
+pub trait QuickSort {
+    fn quick_sort(&mut self);
+}
+
+impl<T: Ord + Clone> QuickSort for [T] {
+    fn quick_sort(&mut self) {
+        if self.len() < 2 {
+            return;
+        }
+
+        let index = rand::thread_rng().gen_range(0..self.len());
+        let value = self[index].clone();
+
+        match self.netherlands_flag_partition(value) {
+            NetherlandsFlagResult::Three(start, end) => {
+                self[..start].quick_sort();
+                self[end..].quick_sort();
+            }
+            NetherlandsFlagResult::ValueStart(start) => {
+                self[start..].quick_sort();
+            }
+            NetherlandsFlagResult::ValueEnd(end) => {
+                self[..end].quick_sort();
+            }
+            NetherlandsFlagResult::Less | NetherlandsFlagResult::Greater => {
+                self.quick_sort();
+            }
+            NetherlandsFlagResult::Equal => {
+                return;
+            }
+        }
+    }
+}
 ```

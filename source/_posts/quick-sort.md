@@ -72,8 +72,11 @@ fn test_partition() {
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum Index {
+    // 值比所有数组元素都小
     Less,
+    // 能找到一个分区位置
     Position(usize),
+    // 值比所有数组元素都大
     Greater,
 }
 
@@ -116,7 +119,56 @@ impl<T: Ord> Partition<T> for [T] {
 * Java 实现
 
 ```java
+static void swap(int[] array, int i, int j) {
+    if (i == j) {
+        return;
+    }
 
+    array[i] = array[i] ^ array[j];
+    array[j] = array[i] ^ array[j];
+    array[i] = array[i] ^ array[j];
+}
+
+static int[] netherlandsFlagPartition(int[] array, int value) {
+    if (array == null) {
+        return null;
+    }
+
+    int left = -1;
+    int right = array.length - 1;
+
+    int i = 0;
+
+    while (i < right) {
+        if (array[i] < value) {
+            left += 1;
+            // swap(left, i)
+            swap(array, left, i);
+            i += 1;
+        } else if (array[i] > value) {
+            right -= 1;
+            swap(array, right, i);
+        } else { // array[i] == value
+            i += 1;
+        }
+    }
+
+    return new int[]{left + 1, right};
+}
+
+public static void main(String[] args) {
+    int[] array = {2, 3, 5, 1, 2, 6, 4, 3, 8, 4, 3, 5, 1, 3, 5, 8};
+    int[] idxs = netherlandsFlagPartition(array, 5);
+    System.out.println(Arrays.toString(idxs));
+    System.out.println(Arrays.toString(array));
+}
+```
+
+输出内容：
+
+```
+[10, 13]
+[2, 3, 1, 2, 4, 3, 4, 3, 1, 3, 5, 5, 5, 8, 6, 8]
 ```
 
 * Rust 实现
@@ -349,7 +401,51 @@ impl<T: Ord> NetherlandsFlagPartition<T> for [T] {
 * Rust 实现
 
 ```rust
+#[test]
+fn test_quick_sort1() {
+    for _ in 0..1000 {
+        let mut array0: [u8; 32] = rand::random();
+        let mut array1 = array0.clone();
 
+        array0.sort();
+        array1.quick_sort1();
+
+        assert_eq!(array0, array1);
+    }
+}
+
+pub trait QuickSort1 {
+    fn quick_sort1(&mut self);
+}
+
+impl<T: Ord + Clone> QuickSort1 for [T] {
+    fn quick_sort1(&mut self) {
+        let len = self.len();
+        if len < 2 {
+            return;
+        }
+
+        let value = self[len - 1].clone();
+
+        match self[..len - 1].partition(value) {
+            // value 比所有元素都小，把 value 挪到第一个位置，排序剩下的
+            Index::Less => {
+                self.swap(0, len - 1);
+                self[1..].quick_sort1();
+            }
+            // 把 value 与第一个大于区的数交换
+            Index::Position(i) => {
+                self.swap(i, len - 1);
+                self[..i].quick_sort1();
+                self[i + 1..].quick_sort1();
+            }
+            // value比所有元素都大，不动，排序前面所有的
+            Index::Greater => {
+                self[..len - 1].quick_sort1();
+            }
+        }
+    }
+}
 ```
 
 ### v2.0

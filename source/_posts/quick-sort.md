@@ -1,12 +1,11 @@
 ---
-title: 快速排序[WIP]
+title: 快速排序
 date: 2021-09-13 15:34:56
 tags: ['algorithm', 'sort']
 mathjax: true
 ---
 
 ## 分区问题
-
 
 ### 二分
 
@@ -15,38 +14,29 @@ mathjax: true
 * Java 实现
 
 ```java
-public class Partition {
-
-    public static void main(String[] args) {
-        int[] array = {2, 3, 5, 1, 2, 6, 4, 3, 8, 4, 3, 5, 1, 3, 5, 8};
-        System.out.println(Arrays.toString(array));
-        int p = partition(array, 4);
-        System.out.println(p);
-        System.out.println(Arrays.toString(array));
+static int partition(int[] array, int value, int start, int end) {
+    if (array == null || start >= end) {
+        return -1;
     }
 
-    static int partition(int[] array, int value) {
-        int left = -1;
+    int left = -1;
 
-        if (array == null) {
-            return left;
-        }
-
-        for (int i = 0; i < array.length; ++i) {
-            if (array[i] <= value) {
-                int newLeft = left + 1;
-                if (i != newLeft) {
-                    // swap
-                    array[i] = array[i] ^ array[newLeft];
-                    array[newLeft] = array[i] ^ array[newLeft];
-                    array[i] = array[i] ^ array[newLeft];
-                }
-                left = newLeft;
+    for (int i = start; i < end; i++) {
+        if (array[i] <= value) {
+            if (left == -1) {
+                left = start;
+            } else {
+                left += 1;
             }
+            swap(array, i, left);
         }
-
-        return left + 1;
     }
+
+    return left + 1;
+}
+
+static int partition(int[] array, int value) {
+    return partition(array, value, 0, array.length);
 }
 ```
 
@@ -130,19 +120,21 @@ static void swap(int[] array, int i, int j) {
 }
 
 static int[] netherlandsFlagPartition(int[] array, int value) {
-    if (array == null) {
+    return netherlandsFlagPartition(array, value, 0, array.length);
+}
+
+static int[] netherlandsFlagPartition(int[] array, int value, int start, int end) {
+    if (array == null || start >= end) {
         return null;
     }
 
     int left = -1;
-    int right = array.length - 1;
-
-    int i = 0;
+    int right = end;
+    int i = start;
 
     while (i < right) {
         if (array[i] < value) {
-            left += 1;
-            // swap(left, i)
+            left = left == -1 ? start : (left + 1);
             swap(array, left, i);
             i += 1;
         } else if (array[i] > value) {
@@ -154,13 +146,6 @@ static int[] netherlandsFlagPartition(int[] array, int value) {
     }
 
     return new int[]{left + 1, right};
-}
-
-public static void main(String[] args) {
-    int[] array = {2, 3, 5, 1, 2, 6, 4, 3, 8, 4, 3, 5, 1, 3, 5, 8};
-    int[] idxs = netherlandsFlagPartition(array, 5);
-    System.out.println(Arrays.toString(idxs));
-    System.out.println(Arrays.toString(array));
 }
 ```
 
@@ -395,7 +380,21 @@ impl<T: Ord> NetherlandsFlagPartition<T> for [T] {
 * Java 实现
 
 ```java
+static void quickSort1(int[] array) {
+    recurse1(array, 0, array.length);
+}
 
+static void recurse1(int[] array, int start, int end) {
+    if (array == null || start >= end - 1) {
+        return;
+    }
+
+    int pivot = array[end - 1];
+    int idx = partition(array, pivot, start, end - 1);
+    swap(array, idx, end - 1);
+    recurse1(array, start, idx);
+    recurse1(array, idx + 1, end);
+}
 ```
 
 * Rust 实现
@@ -458,31 +457,50 @@ impl<T: Ord + Clone> QuickSort1 for [T] {
 * Java 实现
 
 ```java
+static void quickSort2(int[] array) {
+    recurse2(array, 0, array.length);
+}
 
+static void recurse2(int[] array, int start, int end) {
+    if (array == null || start >= end - 1) {
+        return;
+    }
+
+    int pivot = array[end - 1];
+    int[] idxs = netherlandsFlagPartition(array, pivot, start, end);
+    if (idxs == null) {
+        return;
+    }
+    recurse2(array, start, idxs[0]);
+
+    if (idxs[1] < end - 1) {
+        recurse2(array, idxs[1], end);
+    }
+}
 ```
 
 * Rust 实现
 
 ```rust
 #[test]
-fn test_quick_sort() {
+fn test_quick_sort2() {
     for _ in 0..1000 {
         let mut array0: [i32; 32] = random();
         let mut array1 = array0.clone();
 
         array0.sort();
-        array1.quick_sort();
+        array1.quick_sort2();
 
         assert_eq!(array0, array1);
     }
 }
 
-pub trait QuickSort {
-    fn quick_sort(&mut self);
+pub trait QuickSort2 {
+    fn quick_sort2(&mut self);
 }
 
-impl<T: Ord + Clone> QuickSort for [T] {
-    fn quick_sort(&mut self) {
+impl<T: Ord + Clone> QuickSort2 for [T] {
+    fn quick_sort2(&mut self) {
         if self.len() < 2 {
             return;
         }
@@ -491,17 +509,17 @@ impl<T: Ord + Clone> QuickSort for [T] {
 
         match self.netherlands_flag_partition(value) {
             NetherlandsFlagResult::Three(start, end) => {
-                self[..start].quick_sort();
-                self[end..].quick_sort();
+                self[..start].quick_sort2();
+                self[end..].quick_sort2();
             }
             NetherlandsFlagResult::ValueStart(start) => {
-                self[start..].quick_sort();
+                self[start..].quick_sort2();
             }
             NetherlandsFlagResult::ValueEnd(end) => {
-                self[..end].quick_sort();
+                self[..end].quick_sort2();
             }
             NetherlandsFlagResult::Less | NetherlandsFlagResult::Greater => {
-                self.quick_sort();
+                self.quick_sort2();
             }
             NetherlandsFlagResult::Equal => {
                 return;
@@ -526,31 +544,52 @@ impl<T: Ord + Clone> QuickSort for [T] {
 * Java 实现
 
 ```java
+static void quickSort3(int[] array) {
+    recurse3(array, 0, array.length);
+}
 
+static void recurse3(int[] array, int start, int end) {
+    if (array == null || start >= end - 1) {
+        return;
+    }
+
+    int pi = (int) (Math.random() * (end - start));
+    System.out.println(start + pi);
+    int pivot = array[start + pi];
+    int[] idxs = netherlandsFlagPartition(array, pivot, start, end);
+    if (idxs == null) {
+        return;
+    }
+    recurse3(array, start, idxs[0]);
+
+    if (idxs[1] < end - 1) {
+        recurse3(array, idxs[1], end);
+    }
+}
 ```
 
 * Rust 实现
 
 ```rust
 #[test]
-fn test_quick_sort() {
+fn test_quick_sort3() {
     for _ in 0..1000 {
         let mut array0: [i32; 32] = random();
         let mut array1 = array0.clone();
 
         array0.sort();
-        array1.quick_sort();
+        array1.quick_sort3();
 
         assert_eq!(array0, array1);
     }
 }
 
-pub trait QuickSort {
-    fn quick_sort(&mut self);
+pub trait QuickSort3 {
+    fn quick_sort3(&mut self);
 }
 
 impl<T: Ord + Clone> QuickSort for [T] {
-    fn quick_sort(&mut self) {
+    fn quick_sort3(&mut self) {
         if self.len() < 2 {
             return;
         }
@@ -560,22 +599,38 @@ impl<T: Ord + Clone> QuickSort for [T] {
 
         match self.netherlands_flag_partition(value) {
             NetherlandsFlagResult::Three(start, end) => {
-                self[..start].quick_sort();
-                self[end..].quick_sort();
+                self[..start].quick_sort3();
+                self[end..].quick_sort3();
             }
             NetherlandsFlagResult::ValueStart(start) => {
-                self[start..].quick_sort();
+                self[start..].quick_sort3();
             }
             NetherlandsFlagResult::ValueEnd(end) => {
-                self[..end].quick_sort();
+                self[..end].quick_sort3();
             }
             NetherlandsFlagResult::Less | NetherlandsFlagResult::Greater => {
-                self.quick_sort();
+                self.quick_sort3();
             }
             NetherlandsFlagResult::Equal => {
                 return;
             }
         }
     }
+}
+```
+
+### Swap 函数 
+
+* Java 实现
+
+```java
+static void swap(int[] array, int i, int j) {
+    if (i == j) {
+        return;
+    }
+
+    array[i] = array[i] ^ array[j];
+    array[j] = array[i] ^ array[j];
+    array[i] = array[i] ^ array[j];
 }
 ```

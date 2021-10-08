@@ -1,5 +1,5 @@
 ---
-title: 设计模式（三）[WIP]
+title: 设计模式（三）
 date: 2021-09-14 14:10:37
 tags: ['Design Pattern']
 ---

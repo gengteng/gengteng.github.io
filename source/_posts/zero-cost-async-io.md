@@ -102,7 +102,7 @@ enum Poll<T> {
 
 同时它还能够使我们在程序的不同部分之间建立真正清晰的抽象边界，大多数 `Future` 库都带有事件循环（event loop），这也是调度你的 `Future` 执行 I/O 的方法，但你实际上对此没有任何控制权。而在 Rust 中，各组件之间的边界非常整洁，执行器（executor）负责调度你的 `Future` ，反应器（reactor）处理所有的 I/O ，然后是你的实际代码。因此最终用户可以自行决定使用什么执行器，使用他们想使用的反应器，从而获得更强的控制力，这在系统编程语言中真的很重要。而此模型最重要的真正优势在于，它使我们能够以一种真正零成本的完美方式实现这种状态机式的 `Future` 。也就是当你编写的 `Future` 代码被编译成实际的本地（native）代码时，它就像一个状态机；在该状态机中，每次 I/O 的暂停点都有一个变体（variant），而每个变体都保存了恢复执行所需的状态。这表示为一个枚举（enum）结构，即一个包含变体判别式及所有可能状态的联合体（union）。
 
-![StateMachines](2021/01/30/zero-cost-async-io/StateMachines.jpg)
+![StateMachines](StateMachines.jpg)
 
 > 译者注：报告视频中的幻灯片比较模糊，我对其进行了重绘与翻译，下同。
 
@@ -110,27 +110,27 @@ enum Poll<T> {
 
 整个 `Future` 只需要一次堆内存分配，其大小就是你将这个状态机分配到堆中的大小，并且没有额外的开销。你不需要装箱、回调之类的东西，只有真正零成本的完美模型。这些概念对于很多人来说比较难于理解，所以这是我力求做到最好的幻灯片，直观地呈现这个过程中发生了什么：你创建一个 `Future`，它被分配到某个内存中特定的位置，然后你可以在执行器（executor）中启动它。
 
-![PollWakeCycle1](2021/01/30/zero-cost-async-io/PollWakeCycle1.jpg)
+![PollWakeCycle1](PollWakeCycle1.jpg)
 
 执行器会轮询 `Future`，直到最终 `Future` 需要执行某种 I/O 。
 
-![PollWakeCycle2](2021/01/30/zero-cost-async-io/PollWakeCycle2.jpg)
+![PollWakeCycle2](PollWakeCycle2.jpg)
 
 在这种情况下，该 `Future` 将被移交给处理 I/O 的反应器，即 `Future` 会等待该特定 I/O 。最终，在该 I/O 事件发生时，反应器将使用你在轮询它时传递的Waker 参数唤醒 `Future` ，将其传回执行器；
 
-![PollWakeCycle3](2021/01/30/zero-cost-async-io/PollWakeCycle3.jpg)
+![PollWakeCycle3](PollWakeCycle3.jpg)
 
 然后当需要再次执行I/O时，执行器再将其放回反应器；它将像这样来回穿梭，直到最终被解决（resolved）。在被解决并得出最终结果时，执行器知道它已经完成，就会释放句柄和整个`Future`，整个调用过程就完成了。
 
-![PollWakeCycle4](2021/01/30/zero-cost-async-io/PollWakeCycle4.jpg)
+![PollWakeCycle4](PollWakeCycle4.jpg)
 
 总结一下：这种模型形成了一种循环，我们轮询 `Future` ，然后等待 I/O 将其唤醒，然后一次又一次地轮询和唤醒，直到最终整个过程完成为止。
 
-![PollWakeCycle](2021/01/30/zero-cost-async-io/PollWakeCycle.jpg)
+![PollWakeCycle](PollWakeCycle.jpg)
 
 并且这种模型相当高效。
 
-![QuiteFast](2021/01/30/zero-cost-async-io/QuiteFast.jpg)
+![QuiteFast](QuiteFast.jpg)
 
 这是在有关 `Future` 的第一篇文章中发布的基准测试，与其他语言的许多不同实现进行了对比。柱形越高表示性能越好，我们的 `Future` 模型在最左侧，所以说我们有了非常出色的零成本抽象，即使是与许多其他语言中最快的异步 I/O 实现相比也是相当有竞争力的。
 
@@ -189,7 +189,7 @@ await!($future) => {
 
 基本上所有试图使用 `Future` 的人都会遇到非常令人困惑的错误消息。在这些消息中，编译器会提示你的`Future`的生命周期不是静态的（`'static`）或没有实现某个 `trait` 等等；这些提示你并不真正理解，但编译器想提出有用的建议，你也就跟着这个建议去做，直到编译成功；你可能会给闭包加上 `move` 关键字，或者把某些值放到引用计数的指针（`Rc`）中，然后将复制（`clone`）它；你将所有这些开销添加到了似乎并不必要的事情上，却不明白为什么要这样做，而当你已经疲于处理这些时，代码已经乱成一锅粥了，所以很多人都被 `Future` 的问题卡住了。
 
-![CombinatorChain](2021/01/30/zero-cost-async-io/CombinatorChain.jpg)
+![CombinatorChain](CombinatorChain.jpg)
 
 而且它对于组合器产生这种非常大的类型也没什么办法，你的整个终端窗口（terminal）将被其中一个组合器链的类型填满。你用了`and_then`，以及又一个 `and_then`，然后是 `map_err` 紧跟一个 TCP 流等等等等，你必须仔细研究一下，才能弄清楚所遇到的实际错误是什么。
 
@@ -213,13 +213,13 @@ let db_response = await self.query(&sql);
 
 这里存在的问题是，对 SQL 字符串的引用是对存储在相同 `Future` 状态中的其他内容的引用，因此它成为一种自引用结构。
 
-![SelfReferentialFuture](2021/01/30/zero-cost-async-io/SelfReferentialFuture.jpg)
+![SelfReferentialFuture](SelfReferentialFuture.jpg)
 
 如果把这个 `Future` 视作一个真的结构体的话，这就是理论上它所拥有的字段。除了代表数据库句柄的 `self` 之外，还有 SQL 字符串以及对这个 SQL 字符串的引用，即一个最终指回同一结构体中某个字段的引用。
 
 一些新的潜在结构会成为非常棘手的问题，因为我们没有通用的解决方案。当你移动该结构时，我们不允许你使用自引用，是因为我们会在新位置创建一个原有结构的新副本，旧副本会变为无效，但是在复制时，新副本的引用仍指向旧副本的字段，该指针就变成了悬空指针（dangling pointer），而这正是 Rust 必须避免的内存问题。
 
-![DanglingPointer](2021/01/30/zero-cost-async-io/DanglingPointer.jpg)
+![DanglingPointer](DanglingPointer.jpg)
 
 所以我们不能使用自引用结构，因为如果你移动它们，那么它们将失效。然而，我们实际上并不需要真正移动这些 `Future` 。如果你还记得在堆中通过句柄使用 `Future` 的模型，它在反应器和执行器之间来回传递，所以 `Future` 本身永远不会真正移动；而只要你保证不移动，`Future` 包含自引用就完全没问题。
 

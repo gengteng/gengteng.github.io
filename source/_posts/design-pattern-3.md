@@ -84,86 +84,86 @@ public class DecoratorPattern {
 
 ```rust
 pub trait Component {
-        fn do_sth(&self);
+    fn do_sth(&self);
+}
+
+pub struct Component1;
+
+impl Component for Component1 {
+    fn do_sth(&self) {
+        print!("1");
     }
+}
 
-    pub struct Component1;
+pub struct Component2;
 
-    impl Component for Component1 {
-        fn do_sth(&self) {
-            print!("1");
-        }
+impl Component for Component2 {
+    fn do_sth(&self) {
+        print!("2");
     }
+}
 
-    pub struct Component2;
+pub trait Decorator<T: Component>: Component {
+    fn wrap(inner: T) -> Self;
+}
 
-    impl Component for Component2 {
-        fn do_sth(&self) {
-            print!("2");
-        }
+struct DecoratorA<T> {
+    inner: T,
+}
+
+impl<T: Component> Component for DecoratorA<T> {
+    fn do_sth(&self) {
+        self.inner.do_sth();
+        print!("A");
     }
+}
 
-    pub trait Decorator<T: Component>: Component {
-        fn wrap(inner: T) -> Self;
+impl<T: Component> Decorator<T> for DecoratorA<T> {
+    fn wrap(inner: T) -> Self {
+        Self { inner }
     }
+}
 
-    struct DecoratorA<T> {
-        inner: T,
+struct DecoratorB<T> {
+    inner: T,
+}
+
+impl<T: Component> Component for DecoratorB<T> {
+    fn do_sth(&self) {
+        self.inner.do_sth();
+        print!("B");
     }
+}
 
-    impl<T: Component> Component for DecoratorA<T> {
-        fn do_sth(&self) {
-            self.inner.do_sth();
-            print!("A");
-        }
+impl<T: Component> Decorator<T> for DecoratorB<T> {
+    fn wrap(inner: T) -> Self {
+        Self { inner }
     }
+}
 
-    impl<T: Component> Decorator<T> for DecoratorA<T> {
-        fn wrap(inner: T) -> Self {
-            Self { inner }
-        }
-    }
+#[test]
+fn test_decorator() {
+    let c1 = Component1;
+    c1.do_sth();
+    println!();
+    let ab1 = DecoratorA::wrap(DecoratorB::wrap(Component1));
+    ab1.do_sth();
+    println!();
+    let abbaa2 = DecoratorA::wrap(DecoratorB::wrap(DecoratorB::wrap(DecoratorA::wrap(
+        DecoratorA::wrap(Component2),
+    ))));
+    abbaa2.do_sth();
+    println!();
 
-    struct DecoratorB<T> {
-        inner: T,
-    }
-
-    impl<T: Component> Component for DecoratorB<T> {
-        fn do_sth(&self) {
-            self.inner.do_sth();
-            print!("B");
-        }
-    }
-
-    impl<T: Component> Decorator<T> for DecoratorB<T> {
-        fn wrap(inner: T) -> Self {
-            Self { inner }
-        }
-    }
-
-    #[test]
-    fn test_decorator() {
-        let c1 = Component1;
-        c1.do_sth();
-        println!();
-        let ab1 = DecoratorA::wrap(DecoratorB::wrap(Component1));
-        ab1.do_sth();
-        println!();
-        let abbaa2 = DecoratorA::wrap(DecoratorB::wrap(DecoratorB::wrap(DecoratorA::wrap(
-            DecoratorA::wrap(Component2),
-        ))));
-        abbaa2.do_sth();
-        println!();
-
-        // 在Rust中，如果不需要运行时动态装饰，就没有必要产生很多小对象
-        // 装饰了好几轮，最后占用内存还是 Component2 的大小
-        assert_eq!(
-            std::mem::size_of::<
-                DecoratorA<DecoratorB<DecoratorB<DecoratorA<DecoratorA<Component2>>>>>,
-            >(),
-            0
-        );
-    }
+    // 在Rust中，如果不需要运行时动态装饰，就没有必要产生很多小对象
+    // 装饰了好几轮，最后占用内存还是 Component2 的大小
+    assert_eq!(
+        std::mem::size_of::<
+            DecoratorA<DecoratorB<DecoratorB<DecoratorA<DecoratorA<Component2>>>>>,
+        >(),
+        0
+    );
+}
 ```
 
 输出内容：

@@ -77,7 +77,3 @@ tags: ['synchronous', 'asynchronous', 'blocking', 'nonblocking']
 在写这篇文章的时候，我并没有查询很多资料，但自认为这算是一个可以简化问题，帮助理解的模型。
 
 希望能给读者一些启发，也欢迎批评指正。
-
-## test
-
-<iframe src="https://embed.0xecho.com.ipns.page?color-theme=light&desc=&has-h-padding=true&has-v-padding=true&modules=comment%2Cdislike%2Clike&receiver=&target_uri=https%3A%2F%2Fgteng.org" frameborder="0"></iframe>

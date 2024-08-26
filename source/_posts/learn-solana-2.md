@@ -31,3 +31,5 @@ This section delves into Solana's consensus mechanism, focusing on the innovativ
 - **Security:** The combination of PoH and PoS enhances network security by ensuring the integrity and order of transactions without relying on a traditional clock.
 
 Through this detailed exploration, it is clear that PoH plays a critical role in Solana's ability to maintain high performance and secure transaction processing, distinguishing it from other blockchain architectures.
+
+> **Course address**: https://www.hackquest.io/

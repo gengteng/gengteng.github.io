@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gteng.org","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="耿腾的博客">
+<meta property="og:url" content="https://gteng.org/index.html">
+<meta property="og:site_name" content="耿腾的博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Geng Teng">
+<meta property="article:tag" content="Rust,Java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gteng.org/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>耿腾的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">耿腾的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">常期望安定，还期望即兴。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/08/13/learn-solana-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Geng Teng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿腾的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/08/13/learn-solana-2/" class="post-title-link" itemprop="url">Solana Developer’s Journey: Part 3 - Proof of History</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-08-13 12:32:08" itemprop="dateCreated datePublished" datetime="2024-08-13T12:32:08+08:00">2024-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-08-26 17:31:55" itemprop="dateModified" datetime="2024-08-26T17:31:55+08:00">2024-08-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>Content Overview</strong><br>This section delves into Solana’s consensus mechanism, focusing on the innovative use of Proof of History (PoH) alongside Proof of Stake (PoS). Understanding these mechanisms is essential for grasping how Solana achieves high-speed transaction processing and network security. This section breaks down PoH, its role in Solana’s architecture, and its interaction with PoS to maintain network order and efficiency.</p>
+<p><strong>Section One: Proof of History (PoH) Overview</strong>  </p>
+<ul>
+<li><strong>Hash Functions:</strong><ul>
+<li><strong>SHA-256:</strong> Solana uses the SHA-256 hash function, a secure algorithm that transforms input data into a fixed-length hash. This is crucial for maintaining the chronological order of events.</li>
+<li><strong>Key Properties:</strong> One-way nature (irreversible), sensitivity to input changes (small changes in input produce significant changes in output), and consistency (same input always yields the same hash).</li>
+</ul>
+</li>
+</ul>
+<p><strong>Section Two: PoH Workflow</strong>  </p>
+<ul>
+<li><strong>Initial Value and Hash Iterations:</strong><ul>
+<li><strong>Starting Point:</strong> PoH begins with a random value, such as a fact or headline, and then repeatedly hashes this value.</li>
+<li><strong>Iteration Process:</strong> Each hash output becomes the input for the next iteration, creating a chain of hashes that represent a sequence of events.</li>
+<li><strong>Resulting Chain:</strong> This chain forms the foundation for the block (slot), with each transaction linked to the hash of the previous transaction, ensuring a consistent order.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Section Three: Verifiability and Global Consistency</strong>  </p>
+<ul>
+<li><strong>Verifiable Sequence:</strong> The PoH sequence is inherently verifiable, as it includes additional data such as hash counts and event information. This ensures that the order of transactions can be easily confirmed.</li>
+<li><strong>Global Consistency:</strong> Even if different nodes have slightly varied timestamps, PoH ensures a globally consistent clock through the number of hash iterations, which substitutes for traditional timekeeping.</li>
+</ul>
+<p><strong>Section Four: Broadcasting and Parallel Verification</strong>  </p>
+<ul>
+<li><strong>Block Creation and Slicing:</strong> When a block is created, its data is divided and verified in parallel across multiple GPU cores.</li>
+<li><strong>Broadcasting:</strong> The verified block is then broadcasted to the entire Solana network, where the consistent chronological order and synchronized time clocks facilitate easy verification and block ordering.</li>
+</ul>
+<p><strong>Section Five: Importance of PoH in Solana</strong>  </p>
+<ul>
+<li><strong>Efficiency:</strong> PoH allows Solana to achieve high throughput and low latency in transaction processing.</li>
+<li><strong>Security:</strong> The combination of PoH and PoS enhances network security by ensuring the integrity and order of transactions without relying on a traditional clock.</li>
+</ul>
+<p>Through this detailed exploration, it is clear that PoH plays a critical role in Solana’s ability to maintain high performance and secure transaction processing, distinguishing it from other blockchain architectures.</p>
+<blockquote>
+<p><strong>Course address</strong>: <a target="_blank" rel="noopener" href="https://www.hackquest.io/">https://www.hackquest.io/</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/08/13/learn-solana-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Geng Teng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿腾的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/08/13/learn-solana-1/" class="post-title-link" itemprop="url">Solana Developer’s Journey: Part 2 - Consensus Mechanism</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-08-13 11:28:50" itemprop="dateCreated datePublished" datetime="2024-08-13T11:28:50+08:00">2024-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-08-26 17:31:55" itemprop="dateModified" datetime="2024-08-26T17:31:55+08:00">2024-08-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>Content Overview</strong><br>This section discusses the differences between the two major blockchains, Solana and Ethereum. Understanding their technical details and ecosystem differences is crucial for developers and ecosystem participants. This section provides an overall introduction to Solana, with specific details expanded in the following chapters. The discussion covers aspects such as consensus mechanism, transaction processing capabilities, transaction fees, smart contracts, accounts, programming languages, and developer friendliness.</p>
+<p><strong>Section One: Consensus Mechanism</strong></p>
+<ul>
+<li><strong>Solana</strong>: Utilizes a combination of Proof of History (PoH) and Proof of Stake (PoS). PoH records and verifies timestamps and block order, enabling nodes to reach consensus quickly. PoS is used for validator selection, ensuring network security and resistance to attacks.</li>
+<li><strong>Ethereum</strong>: Completed the Ethereum 2.0 upgrade in September 2022, transitioning from Proof of Work (PoW) to Proof of Stake (PoS), significantly reducing energy consumption and enhancing security.</li>
+</ul>
+<p><strong>Section Two: Transaction Processing Capability</strong></p>
+<ul>
+<li><strong>Solana</strong>: Supports parallel processing by dividing transactions into subsets assigned to different validation nodes, significantly enhancing throughput. It processes over 2,000 transactions per second on average, maintaining low fees.</li>
+<li><strong>Ethereum</strong>: Processes transactions sequentially, with a throughput of 15 to 30 transactions per second on average. Layer 2 and Rollup solutions enhance processing capability and reduce fees. The upcoming Proto-Danksharding upgrade is expected to further improve performance.</li>
+</ul>
+<p><strong>Section Three: Transaction Fees (Gas Fees)</strong></p>
+<ul>
+<li><strong>Solana</strong>: Calculates fees dynamically based on transaction complexity and size, with average fees below $0.01, around $0.00025, making it cost-effective for small transactions.</li>
+<li><strong>Ethereum</strong>: Fees fluctuate based on network congestion. The current range for simple transfers is $1 to $10. The EIP-1559 upgrade introduced a new fee market mechanism to make fees more predictable.</li>
+</ul>
+<p><strong>Section Four: Smart Contracts</strong></p>
+<ul>
+<li><strong>Solana</strong>: Treats everything as an account, including smart contracts (referred to as programs). Programs are divided into executable accounts and data accounts, simplifying upgrades.</li>
+<li><strong>Ethereum</strong>: Smart contracts include both logic code and state data, and once deployed, they do not support direct upgrades, only indirect upgrades through redeployment.</li>
+</ul>
+<p><strong>Section Five: Accounts</strong></p>
+<ul>
+<li><strong>Solana</strong>: Everything is an account, including program code, state data, and metadata. This single-account model supports parallel processing of multiple transactions, enhancing performance.</li>
+<li><strong>Ethereum</strong>: Divides into Externally Owned Accounts (EOA) and Smart Contract accounts, offering a flexible and powerful decentralized application development platform.</li>
+</ul>
+<p><strong>Section Six: Programming Language and Developer Friendliness</strong></p>
+<ul>
+<li><strong>Solana</strong>: Supports multiple programming languages, including Rust and C, known for their high performance.</li>
+<li><strong>Ethereum</strong>: Uses Solidity, a language designed for smart contract development, with a wealth of development tools and a large developer community, providing abundant resources for newcomers.</li>
+</ul>
+<p><strong>Section Seven: Ecosystem and User Base</strong></p>
+<ul>
+<li><strong>Solana</strong>: Rapidly building its ecosystem, presenting many opportunities despite being relatively new.</li>
+<li><strong>Ethereum</strong>: Boasts the largest decentralized application (DApp) ecosystem and a vast user and developer community, offering strong network effects and a higher degree of decentralization.</li>
+</ul>
+<p>Through this comparison, it is clear that each platform has its strengths and challenges. Ethereum’s widespread adoption and mature ecosystem provide stability and trust, while Solana’s high performance and low costs offer advantages for applications requiring these features.</p>
+<blockquote>
+<p><strong>Course address</strong>: <a target="_blank" rel="noopener" href="https://www.hackquest.io/">https://www.hackquest.io/</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/08/13/learn-solana-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Geng Teng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿腾的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/08/13/learn-solana-0/" class="post-title-link" itemprop="url">Solana Developer’s Journey: Part 1 - The Evolution and Core Concepts</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-08-13 11:22:42" itemprop="dateCreated datePublished" datetime="2024-08-13T11:22:42+08:00">2024-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-08-26 17:31:55" itemprop="dateModified" datetime="2024-08-26T17:31:55+08:00">2024-08-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>Content Overview</strong><br>Before we start learning to build on Solana, let’s first understand its history.</p>
+<p><strong>History of Solana</strong></p>
+<p><strong>Key Events and Figures</strong></p>
+<ul>
+<li><p><strong>November 2017</strong>: Anatoly Yakovenko published a whitepaper introducing the concept of “Proof of History” (PoH), designed to solve time synchronization issues among mutually untrusting computers. With experience in designing distributed systems at Qualcomm, Mesosphere, and Dropbox, Anatoly recognized that reliable clocks could simplify network synchronization, enabling fast network operations constrained only by bandwidth.</p>
+</li>
+<li><p><strong>Background and Motivation</strong>: Anatoly observed that blockchains like Bitcoin and Ethereum, lacking a clock, could achieve only 15 transactions per second. He envisioned the need for peak transaction speeds of 65,000 transactions per second for a globally decentralized payment system like Visa. Realizing that solving time inconsistency among computers was crucial, he applied years of research in distributed systems to the blockchain domain, which not only improved efficiency but also increased speed by orders of magnitude.</p>
+</li>
+<li><p><strong>Early Development</strong>: Initially, Anatoly implemented the Solana prototype in C language on his GitHub. Greg Fitzgerald, who had previously collaborated with Anatoly at Qualcomm, encouraged him to rewrite the project in Rust. Within two weeks, Anatoly successfully migrated the project to Rust and named it Loom.</p>
+</li>
+<li><p><strong>February 13, 2018</strong>: Greg Fitzgerald began creating an open-source prototype based on Anatoly’s whitepaper.</p>
+</li>
+<li><p><strong>February 28, 2018</strong>: Greg released the first version capable of verifying and processing over 10,000 signed transactions in half a second. Shortly after, another former Qualcomm colleague, Stephen Akridge, demonstrated how to enhance processing speed by using graphics processors for signature verification. Anatoly then invited Greg, Stephen, and three others to co-found a company named Loom.</p>
+</li>
+<li><p><strong>Renaming to Solana</strong>: Around the same time, another Ethereum-based project called Loom Network emerged, causing occasional confusion between the two projects. The Loom team decided to rename their project. Eventually, they chose the name “Solana” in homage to their three years of work and surfing in Solana Beach, Northern San Diego.</p>
+</li>
+<li><p><strong>March 28, 2018</strong>: The team created Solana’s GitHub and officially named Greg Fitzgerald’s prototype Solana.</p>
+</li>
+</ul>
+<p><strong>Summary</strong><br>The creation of Solana was the result of years of effort by Anatoly Yakovenko and his team, drawing on their extensive experience in distributed systems and blockchain technology. Key figures include Anatoly Yakovenko, Greg Fitzgerald, and Stephen Akridge. Through the innovative “Proof of History” mechanism and efficient development practices, they established Solana as a blockchain platform known for its high throughput and low latency.</p>
+<blockquote>
+<p><strong>Course address</strong>: <a target="_blank" rel="noopener" href="https://www.hackquest.io/">https://www.hackquest.io/</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/05/30/zkp-note-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Geng Teng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿腾的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/30/zkp-note-2/" class="post-title-link" itemprop="url">零知识证明笔记-2-PLONK概述笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-05-30 16:05:41" itemprop="dateCreated datePublished" datetime="2024-05-30T16:05:41+08:00">2024-05-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-08-26 17:31:55" itemprop="dateModified" datetime="2024-08-26T17:31:55+08:00">2024-08-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Why-ZKP"><a href="#Why-ZKP" class="headerlink" title="Why ZKP?"></a>Why ZKP?</h1><p>零知识证明 Zero-knowledge Proofs</p>
+<p>其中的 Proof($\pi$)  必须是个有用的：$Theorem / Statement / Proposition$</p>
+<ol>
+<li>不要把 Proof 这个词忘掉，到底证明了什么？</li>
+<li>两个角色，证明者（prover）、验证者（verifier），是双方的。写代码的时候要时刻关注写的到底是哪部分，是证明者的代码，还是验证者的代码。</li>
+</ol>
+<script type="math/tex; mode=display">
+Prover  \rArr\pi\rArr Verifier</script><p><strong>Prover Code</strong>: 需要关注，有没有产生一个有效的证明，产生这个证明的时候有没有泄漏不该泄漏的信息。<br><strong>Verifier Code</strong>：关注，这个证明是不是有效的。</p>
+<blockquote>
+<p>写代码的时候容易忘掉。<br>这是一个 Two-party interaction</p>
+</blockquote>
+<ol>
+<li>关注以下三个性质：</li>
+</ol>
+<ul>
+<li><strong>完备性（Completeness）</strong>：诚实的证明者（honest prover）一定能成功证明。</li>
+<li><strong>可靠性（Soundness）</strong>：恶意的证明者（malicious prover）一定通不过验证。<strong>很难测试，需要非常认真、仔细、深入的考虑这个问题：如何保证 verifier 不会被欺骗。</strong></li>
+<li><strong>零知识（Zero-knowledge）</strong>：恶意的验证者（malicious verifier）无法获得有用的知识。</li>
+</ul>
+<blockquote>
+<p>关注 Meta Theorems (Completeness and Soundness)的证明<br>如何保证我们写的 babyplonk 是 sound 的。</p>
+</blockquote>
+<ul>
+<li>Prover 和 Verifier 之间有大量的交互。Verifier 会发送大量的 challenge 给 Prover。challenge 越多，Proof Size 就越大。</li>
+<li>交互过程中的步骤顺序不能调换。</li>
+<li>实际项目中如果有安全漏洞是非常严重的。</li>
+<li>攻击本身也可能是 ZK 的，不知道谁干的。</li>
+</ul>
+<h2 id="Non-interactive"><a href="#Non-interactive" class="headerlink" title="Non-interactive"></a>Non-interactive</h2><p>BlockChain 中经常使用 Non-interactive ZKP。 Fiat-Shamir Transformation 能把 public-coin protocol 转换成 non-interactive protocol。</p>
+<blockquote>
+<p>public-coin 指的是掷硬币，公开的发随机数 challenge。<br>借助 Random Oracle (RO) 工具来辅助 Prover 来产生这些硬币。随机数不一定是由 verifier 作为来源，由可信第三方来提供也可以。<br>Prover 与 RO 交互，产生证明 $\pi$ 直接发送给 Verifier。不需要等待 Verifier 回复，Verifier 可以在未来异步验证这个证明。<br>通常使用一个足够安全的哈希函数（Cryptographic Hash Function）来替代 RO 的角色。没有严格的证明，大概率不会出问题。</p>
+</blockquote>
+<h2 id="Commitment"><a href="#Commitment" class="headerlink" title="Commitment"></a>Commitment</h2><ol>
+<li>$O(1)$ Size。无论数据多大，比如 10 GB 的文件，都可以产生一个很小的串来代表它。</li>
+<li>Binding。$CM(D1)\not ={CM(D2)} \iff D1\not ={D2}$。</li>
+<li>Hiding。能够保护数据，可以混入随机数。同一个文件两次 Commit 可以得到不同的 Commitment。</li>
+</ol>
+<p>Blockchain： Put commitment on chain （EIP-4844，Rollup-blob）</p>
+<h2 id="Commit-and-Prove"><a href="#Commit-and-Prove" class="headerlink" title="Commit-and-Prove"></a>Commit-and-Prove</h2><p><img src="zkp-note-2/commit-and-prove.jpg" alt="alt text"></p>
+<h1 id="Why-zkSNARK"><a href="#Why-zkSNARK" class="headerlink" title="Why zkSNARK"></a>Why zkSNARK</h1>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/05/25/zkp-note-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Geng Teng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿腾的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/25/zkp-note-1/" class="post-title-link" itemprop="url">零知识证明笔记-1-密码学基础</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-05-25 15:11:36" itemprop="dateCreated datePublished" datetime="2024-05-25T15:11:36+08:00">2024-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-08-26 17:31:55" itemprop="dateModified" datetime="2024-08-26T17:31:55+08:00">2024-08-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这是结诚浩的《图解密码技术》一书的读书笔记，我是在去北京的火车上把其中感兴趣的部分草草过完的。<a target="_blank" rel="noopener" href="https://learn.z2o-k7e.world">World of Z2O-K7E</a> 只是建议过一下，我就只是过一下，感觉还是很有帮助的，至少看过了之后，我能感觉自己的大脑切换到了“密码学的上下文”，接收零知识证明相关的知识似乎更高效了。</p>
+<h2 id="基本常识"><a href="#基本常识" class="headerlink" title="基本常识"></a>基本常识</h2><ol>
+<li>不要使用保密的密码算法（即隐蔽式的安全性），应该使用得到广为验证的公开的密码算法，而保护好密钥。</li>
+<li>使用低强度的密码会给人一种错误的安全感，比不进行加密更危险。</li>
+<li>任何密码总有一天会被破解，除了不实用的一次性密码本和传说中的量子密码。</li>
+<li>密码只是信息安全的一部分，提防“社会工程学”。</li>
+</ol>
+<h2 id="对称密码"><a href="#对称密码" class="headerlink" title="对称密码"></a>对称密码</h2><h3 id="DES-3DES"><a href="#DES-3DES" class="headerlink" title="DES / 3DES"></a>DES / 3DES</h3><p>一种将 64 位明文加密为 64 位密文的对称密码算法，需要以<strong>分组</strong>为单位对输入进行处理（这样的密码算法称为分组密码，block cipher）。DES 已经可以在现实时间内被破解。</p>
+<p>三重DES（3DES）是为了增加 DES 的强度设计的。三重 DES 并不是三轮加密，而是加密、解密、加密。如果三轮的密钥都相同，就跟 DES 一样了。</p>
+<p>第一轮和第三轮使用同样的密钥则称为 DES-EDE2。<br>三轮都不同则称为 DES-EDE3。</p>
+<h3 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h3><p>Rijndael 算法在 2000 年被选为 AES。</p>
+<p>分组长度固定为 128 比特，密钥长度有 128、192、256 比特三种。</p>
+<p>加密过程：SubBytes -&gt; ShiftRows -&gt; MixColumns -&gt; AddRoundKey</p>
+<p>解密过程: AddRoundKey -&gt; InvMixColumns -&gt; InvShiftRows -&gt; InvSubBytes</p>
+<h3 id="如何选择"><a href="#如何选择" class="headerlink" title="如何选择"></a>如何选择</h3><p>不用 DES，少用 3DES，尽量用 AES。</p>
+<h2 id="分组密码的模式"><a href="#分组密码的模式" class="headerlink" title="分组密码的模式"></a>分组密码的模式</h2><ul>
+<li><strong>ECB</strong>（Electronic CodeBook，电子密码本）：简单，快速，支持并行计算；明文中重复排列会反映在密文中，并且通过删除、替换密文分组可以对明文进行操作，对包含某些比特错误的密文解密时对应的分组会出错，不能抵御重放攻击。不要用。</li>
+<li><strong>CBC</strong>（Cipher Book Chaining，密文分组连接模式）：推荐使用，重复的明文不会导致重复的密文，可以解密任意密文分组。<strong>必须是先加密再 XOR</strong>，如果反过来，则其效果等同于 <strong>ECB</strong>，可以直接从 IV （初始化向量）开始，依次将前后两组密文执行 XOR，得到的每组结果恰好就等于 ECB 每组的结果。</li>
+<li><strong>CFB</strong> / <strong>OFB</strong>：不需要填充（padding）。</li>
+<li><strong>CTR</strong>（CounTeR，计数器模式）：推荐使用，主动攻击者反转密文分组中的某些比特时，明文分组中相对应的比特也会被反转。</li>
+</ul>
+<h2 id="公钥密码"><a href="#公钥密码" class="headerlink" title="公钥密码"></a>公钥密码</h2><p>RSA 的基本步骤：</p>
+<ol>
+<li>取两个比较大的质数 p 和 q。</li>
+<li>求两者的乘积 $N = p \times q$。</li>
+<li>求 <script type="math/tex; mode=display">
+L = lcm(p - 1, q - 1)</script>，即 p 和 q 的最小公倍数；有的资料说的是求欧拉函数值 $\phi = (p-1) \times (q-1)$，以下统称 $\phi$。</li>
+</ol>
+<blockquote>
+<p>GPT: 两者都有各自的使用场景，但在实际使用中，求欧拉函数值 ($\phi$) 更为常见。</p>
+</blockquote>
+<ol>
+<li>选择公钥 $E$，$E$ 与 $\phi$ 互质并且 $1 &lt; E  &lt; \phi$。</li>
+<li>求私钥 $D$，$D \times E \equiv 1$ (mod $\phi$)，即 D 为 E 的乘法逆元。</li>
+<li>这样得到公钥为 $(E, N)$，私钥为 $(D, N)$。</li>
+</ol>
+<p>一个使用小质数实现的简单的 RSA：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> num::BigInt;</span><br><span class="line"><span class="keyword">use</span> rand::seq::index::sample;</span><br><span class="line"><span class="keyword">use</span> rand::&#123;thread_rng, Rng&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> SMALL_PRIMES: [<span class="built_in">u64</span>; <span class="number">50</span>] = [</span><br><span class="line">    <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">17</span>, <span class="number">19</span>, <span class="number">23</span>, <span class="number">29</span>, <span class="number">31</span>, <span class="number">37</span>, <span class="number">41</span>, <span class="number">43</span>, <span class="number">47</span>, <span class="number">53</span>, <span class="number">59</span>, <span class="number">61</span>, <span class="number">67</span>, <span class="number">71</span>, <span class="number">73</span>, <span class="number">79</span>, <span class="number">83</span>, <span class="number">89</span>, <span class="number">97</span>,</span><br><span class="line">    <span class="number">101</span>, <span class="number">103</span>, <span class="number">107</span>, <span class="number">109</span>, <span class="number">113</span>, <span class="number">127</span>, <span class="number">131</span>, <span class="number">137</span>, <span class="number">139</span>, <span class="number">149</span>, <span class="number">151</span>, <span class="number">157</span>, <span class="number">163</span>, <span class="number">167</span>, <span class="number">173</span>, <span class="number">179</span>, <span class="number">181</span>, <span class="number">191</span>, <span class="number">193</span>,</span><br><span class="line">    <span class="number">197</span>, <span class="number">199</span>, <span class="number">211</span>, <span class="number">223</span>, <span class="number">227</span>, <span class="number">229</span>,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">KeyPair</span></span> &#123;</span><br><span class="line">    private_key: <span class="built_in">u64</span>,</span><br><span class="line">    public_key: <span class="built_in">u64</span>,</span><br><span class="line">    modulus: <span class="built_in">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> KeyPair &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">generate</span></span>() -&gt; <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> rng = thread_rng();</span><br><span class="line">        <span class="keyword">let</span> indices = sample(&amp;<span class="keyword">mut</span> rng, SMALL_PRIMES.len(), <span class="number">2</span>);</span><br><span class="line">        <span class="comment">// use crate rand to select two random prime numbers</span></span><br><span class="line">        <span class="keyword">let</span> p = SMALL_PRIMES[indices.index(<span class="number">0</span>)];</span><br><span class="line">        <span class="keyword">let</span> q = SMALL_PRIMES[indices.index(<span class="number">1</span>)];</span><br><span class="line">        <span class="keyword">let</span> modulus = p * q;</span><br><span class="line">        <span class="keyword">let</span> phi = (p - <span class="number">1</span>) * (q - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">let</span> public_key = <span class="keyword">loop</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> public_key = SMALL_PRIMES[thread_rng().gen_range(<span class="number">0</span>..SMALL_PRIMES.len())];</span><br><span class="line">            <span class="keyword">if</span> public_key &lt; phi &amp;&amp; gcd(public_key, phi) == <span class="number">1</span> &#123;</span><br><span class="line">                <span class="keyword">break</span> public_key;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> private_key = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (public_key * private_key) % phi != <span class="number">1</span> &#123;</span><br><span class="line">            private_key += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">Self</span> &#123;</span><br><span class="line">            private_key,</span><br><span class="line">            public_key,</span><br><span class="line">            modulus,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">encrypt</span></span>(&amp;<span class="keyword">self</span>, message: BigInt) -&gt; BigInt &#123;</span><br><span class="line">        message.pow(<span class="keyword">self</span>.public_key <span class="keyword">as</span> <span class="built_in">u32</span>) % <span class="keyword">self</span>.modulus</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">decrypt</span></span>(&amp;<span class="keyword">self</span>, encrypted_message: BigInt) -&gt; BigInt &#123;</span><br><span class="line">        encrypted_message.pow(<span class="keyword">self</span>.private_key <span class="keyword">as</span> <span class="built_in">u32</span>) % <span class="keyword">self</span>.modulus</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// getters</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_private_key</span></span>(&amp;<span class="keyword">self</span>) -&gt; (<span class="built_in">u64</span>, <span class="built_in">u64</span>) &#123;</span><br><span class="line">        (<span class="keyword">self</span>.private_key, <span class="keyword">self</span>.modulus)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_public_key</span></span>(&amp;<span class="keyword">self</span>) -&gt; (<span class="built_in">u64</span>, <span class="built_in">u64</span>) &#123;</span><br><span class="line">        (<span class="keyword">self</span>.public_key, <span class="keyword">self</span>.modulus)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_modulus</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.modulus</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">gcd</span></span>(p0: <span class="built_in">u64</span>, p1: <span class="built_in">u64</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> p0 = p0;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> p1 = p1;</span><br><span class="line">    <span class="keyword">while</span> p1 != <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> temp = p1;</span><br><span class="line">        p1 = p0 % p1;</span><br><span class="line">        p0 = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    p0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[cfg(test)]</span></span><br><span class="line"><span class="keyword">mod</span> tests &#123;</span><br><span class="line">    <span class="keyword">use</span> super::*;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#[test]</span></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">test_rsa</span></span>() &#123;</span><br><span class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0</span>..<span class="number">100</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> key_pair = KeyPair::generate();</span><br><span class="line">            <span class="keyword">let</span> message = BigInt::from(rand::thread_rng().gen_range(<span class="number">6</span>..key_pair.get_modulus()));</span><br><span class="line">            <span class="keyword">let</span> encrypted_message = key_pair.encrypt(message.clone());</span><br><span class="line">            <span class="keyword">let</span> decrypted_message = key_pair.decrypt(encrypted_message.clone());</span><br><span class="line">            <span class="built_in">assert_eq!</span>(decrypted_message, message);</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;public key: (&#123;&#125;, &#123;&#125;), private key: (&#123;&#125;, &#123;&#125;), message: &#123;&#125;, encrypted: &#123;&#125;, decrypted: &#123;&#125;&quot;</span>,</span><br><span class="line">                key_pair.get_public_key().<span class="number">0</span>, key_pair.get_public_key().<span class="number">1</span>,</span><br><span class="line">                key_pair.get_private_key().<span class="number">0</span>, key_pair.get_private_key().<span class="number">1</span>,</span><br><span class="line">                message,</span><br><span class="line">                encrypted_message,</span><br><span class="line">                decrypted_message</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="单向散列函数"><a href="#单向散列函数" class="headerlink" title="单向散列函数"></a>单向散列函数</h2><p>单向散列函数（也称为消息摘要函数、哈希函数、杂凑函数），用来保证消息的完整性（integrity），也称为一致性。</p>
+<p>输入的消息也称为原像（pre-image）。</p>
+<p>输出的散列值也称为消息摘要（message digest）或者指纹（fingerprint）。</p>
+<p>难以发现碰撞的性质称为抗碰撞性（collision resistance）。</p>
+<h3 id="算法选择"><a href="#算法选择" class="headerlink" title="算法选择"></a>算法选择</h3><p>MD5 是不安全的。</p>
+<p>SHA-1 不应该用于新用途。</p>
+<p>SHA-2 （SHA-256以上） 、SHA-3 是安全的，可以使用。</p>
+<h2 id="消息认证码"><a href="#消息认证码" class="headerlink" title="消息认证码"></a>消息认证码</h2><p>消息认证码（Message Authentication Code）是一种确认完整性并进行认证的技术。</p>
+<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><ul>
+<li>单向散列函数，例如 HMAC。</li>
+<li>分组密码，例如 AES-CMAC。</li>
+<li>其他，例如流密码和公钥密码。</li>
+</ul>
+<h2 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h2><p>使用公钥密码（比如 RSA、椭圆曲线）来实现。</p>
+<ul>
+<li>绝对不要对意思不清楚的消息进行签名，可能无意中解密了公钥加密的密文。</li>
+<li>依赖公钥基础设施，公钥必须属于真正的发送者，即使用证书来确认。</li>
+</ul>
+<h2 id="密钥交换"><a href="#密钥交换" class="headerlink" title="密钥交换"></a>密钥交换</h2><h3 id="Diffie-Hellman"><a href="#Diffie-Hellman" class="headerlink" title="Diffie-Hellman"></a>Diffie-Hellman</h3><p>一个使用小质数实现的简单的 Diffie-Hellman：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> num::BigInt;</span><br><span class="line"><span class="keyword">use</span> rand::thread_rng;</span><br><span class="line"><span class="keyword">use</span> rand::Rng;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> P_AND_G: [(<span class="built_in">u64</span>, <span class="built_in">u64</span>); <span class="number">20</span>] = [</span><br><span class="line">    (<span class="number">7</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">11</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">13</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">17</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">19</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">23</span>, <span class="number">5</span>),</span><br><span class="line">    (<span class="number">29</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">31</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">37</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">41</span>, <span class="number">6</span>),</span><br><span class="line">    (<span class="number">43</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">47</span>, <span class="number">5</span>),</span><br><span class="line">    (<span class="number">53</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">59</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">61</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">67</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">71</span>, <span class="number">7</span>),</span><br><span class="line">    (<span class="number">73</span>, <span class="number">5</span>),</span><br><span class="line">    (<span class="number">79</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">83</span>, <span class="number">2</span>),</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// prime P and generator G</span></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">PnG</span></span> &#123;</span><br><span class="line">    prime: <span class="built_in">u64</span>,</span><br><span class="line">    generator: <span class="built_in">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> PnG &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">generate</span></span>() -&gt; <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> (prime, generator) = P_AND_G[thread_rng().gen_range(<span class="number">0</span>..P_AND_G.len())];</span><br><span class="line">        <span class="keyword">Self</span> &#123; prime, generator &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_prime</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.prime</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_generator</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.generator</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">generate_random_number</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        <span class="comment">// generate a number in the range of 1 to prime - 2</span></span><br><span class="line">        thread_rng().gen_range(<span class="number">1</span>..<span class="keyword">self</span>.prime - <span class="number">2</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[cfg(test)]</span></span><br><span class="line"><span class="keyword">mod</span> tests &#123;</span><br><span class="line">    <span class="keyword">use</span> super::*;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#[test]</span></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">test_diffie_hellman</span></span>() &#123;</span><br><span class="line">        <span class="keyword">for</span> round <span class="keyword">in</span> <span class="number">0</span>..<span class="number">10</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> pg = PnG::generate();</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;&#123;round&#125;) Prime: &#123;&#125;, Generator: &#123;&#125;&quot;</span>,</span><br><span class="line">                pg.get_prime(),</span><br><span class="line">                pg.get_generator()</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">let</span> alice_number = pg.generate_random_number();</span><br><span class="line">            <span class="keyword">let</span> bob_number = pg.generate_random_number();</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;&#123;round&#125;) Alice number: &#123;&#125;, Bob number: &#123;&#125;&quot;</span>,</span><br><span class="line">                alice_number, bob_number</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">let</span> alice_partial_key =</span><br><span class="line">                BigInt::from(pg.get_generator()).pow(alice_number <span class="keyword">as</span> <span class="built_in">u32</span>) % pg.get_prime();</span><br><span class="line">            <span class="keyword">let</span> bob_partial_key =</span><br><span class="line">                BigInt::from(pg.get_generator()).pow(bob_number <span class="keyword">as</span> <span class="built_in">u32</span>) % pg.get_prime();</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;&#123;round&#125;) Alice partial key: &#123;&#125;, Bob partial key: &#123;&#125;&quot;</span>,</span><br><span class="line">                alice_partial_key, bob_partial_key</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">let</span> alice_full_key =</span><br><span class="line">                BigInt::from(bob_partial_key).pow(alice_number <span class="keyword">as</span> <span class="built_in">u32</span>) % pg.get_prime();</span><br><span class="line">            <span class="keyword">let</span> bob_full_key =</span><br><span class="line">                BigInt::from(alice_partial_key).pow(bob_number <span class="keyword">as</span> <span class="built_in">u32</span>) % pg.get_prime();</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;&#123;round&#125;) Alice full key: &#123;&#125;, Bob full key: &#123;&#125;&quot;</span>,</span><br><span class="line">                alice_full_key, bob_full_key</span><br><span class="line">            );</span><br><span class="line">            <span class="built_in">assert_eq!</span>(alice_full_key, bob_full_key);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="椭圆曲线密码"><a href="#椭圆曲线密码" class="headerlink" title="椭圆曲线密码"></a>椭圆曲线密码</h2><p>椭圆曲线密码是利用“椭圆曲线上的离散对数问题”的复杂度来实现的。</p>
+<script type="math/tex; mode=display">
+y^2 = x^3 + ax + b</script><p>使用了椭圆曲线的 schnorr 的一个简单实现：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> k256::&#123;NonZeroScalar, ProjectivePoint, PublicKey&#125;;</span><br><span class="line"><span class="keyword">use</span> rand::rngs::OsRng;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="comment">// 使用操作系统级别的 RNG</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> rng = OsRng;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Alice 拥有一个私钥 a，计算公钥 aG</span></span><br><span class="line">    <span class="comment">// 私钥 a</span></span><br><span class="line">    <span class="keyword">let</span> a = NonZeroScalar::random(&amp;<span class="keyword">mut</span> rng);</span><br><span class="line">    <span class="comment">// 公钥 aG</span></span><br><span class="line">    <span class="keyword">let</span> a_g = ProjectivePoint::from(PublicKey::from_secret_scalar(&amp;a));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 知道 G 和 aG，求 a，属于椭圆曲线上的离散对数问题，目前没有有效的解法</span></span><br><span class="line">    <span class="keyword">let</span> r = NonZeroScalar::random(&amp;<span class="keyword">mut</span> rng);</span><br><span class="line">    <span class="comment">// Alice 生成一个随机数 r，并计算 R = rG</span></span><br><span class="line">    <span class="keyword">let</span> r_g = ProjectivePoint::from(PublicKey::from_secret_scalar(&amp;r));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Bob 提供一个挑战 c</span></span><br><span class="line">    <span class="keyword">let</span> c = NonZeroScalar::random(&amp;<span class="keyword">mut</span> rng);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Alice 计算响应 z = r + a * c (mod q)</span></span><br><span class="line">    <span class="keyword">let</span> ac = a * c; <span class="comment">// 计算 a * c</span></span><br><span class="line">    <span class="keyword">let</span> z = r.add(&amp;ac);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="literal">Some</span>(z) = NonZeroScalar::new(z).into() <span class="keyword">else</span> &#123;</span><br><span class="line">        eprintln!(<span class="string">&quot;计算 z 为零。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Alice 将 z 发送给 Bob，Bob 验证 zG ?= R + c*PK</span></span><br><span class="line">    <span class="keyword">let</span> z_g = ProjectivePoint::from(PublicKey::from_secret_scalar(&amp;z));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算 c  * PK</span></span><br><span class="line">    <span class="keyword">let</span> c_pk = a_g * *c;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算 rG + c*PK</span></span><br><span class="line">    <span class="keyword">let</span> r_plus_cpk = r_g + c_pk;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 验证 zG ?= rG + c*PK</span></span><br><span class="line">    <span class="comment">// c * PK 与 a * c 的关系是？</span></span><br><span class="line">    <span class="comment">// 为什么这个证明是成立的</span></span><br><span class="line">    <span class="comment">// 为什么这个证明是不可伪造的</span></span><br><span class="line">    <span class="comment">// 回答:</span></span><br><span class="line">    <span class="comment">// c * PK = c * a * G = a * c * G = a * c * G = ac * G</span></span><br><span class="line">    <span class="comment">// PK = aG ?</span></span><br><span class="line">    <span class="keyword">if</span> z_g == r_plus_cpk &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;验证成功，Alice 证明了她拥有私钥.&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;验证失败.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与 GPT 的交谈：</span></span><br><span class="line"><span class="comment">// 为什么 Alice 要先生成一个随机数？</span></span><br><span class="line"><span class="comment">// 答：为了证明她拥有私钥，她需要一个随机数 r，然后计算 R = rG，然后计算 z = r + a * c (mod q)</span></span><br><span class="line"><span class="comment">// 可以让 Bob 先生成随机数并发送给 Alice 吗？（然后 Alice 再生成 r ，发送 rG）</span></span><br><span class="line"><span class="comment">// 答：可以，但是这样会暴露 Bob 的私钥，因为 Bob 会发送 c * PK，PK = aG，所以 Bob 的私钥就会暴露</span></span><br><span class="line"><span class="comment">// 不对啊，Bob 只需要发送 c，不会暴露私钥啊</span></span><br><span class="line"><span class="comment">// 答：对，Bob 只需要发送 c，不会暴露私钥，但是这样会暴露 Bob 的公钥，Bob 的公钥是 aG，这样会暴露 Bob 的身份</span></span><br><span class="line"><span class="comment">// 不对啊，aG 是 Alice 使用私钥 a 计算出来的公钥，怎么会是 Bob 的公钥呢？</span></span><br><span class="line"><span class="comment">// 答：对，我理解错了，Bob 只需要发送 c，不会暴露私钥，也不会暴露公钥，这样是可以的</span></span><br><span class="line"><span class="comment">// Bob 先发送随机数给 Alice 真的没问题吗？Alice 不会获得没有 a 但是证明她拥有 a 的超能力吗？</span></span><br><span class="line"><span class="comment">// 答：Alice 不会获得没有 a 但是证明她拥有 a 的超能力，因为 Alice 需要 a 来计算 z = r + a * c (mod q)，如果没有 a，Alice 就无法计算 z</span></span><br><span class="line"><span class="comment">// Alice 不能用假的 a&#x27; 来计算 z 吗？一直用假的 a&#x27;, 是否也能通过验证？</span></span><br><span class="line"><span class="comment">// 答：不能，因为 Bob 会用 a&#x27; 来计算 c * PK，然后验证 zG ?= R + c * PK，如果 a&#x27; 是错误的，那么 c * PK 也是错误的，验证就会失败</span></span><br><span class="line"><span class="comment">// PK 和 zG 都是用 a&#x27; 计算出来的，所以 Bob 永远都会验证成功，不管 Alice 用了什么 a&#x27;，验证都会成功，这样 Alice 是否就获得的超能力</span></span><br><span class="line"><span class="comment">// 答：不会，因为 Alice 无法计算出正确的 z，验证会失败</span></span><br><span class="line"><span class="comment">// z&#x27; = r + a&#x27; * c (mod q)，所以 z&#x27;G = R + c * a&#x27; * G 验证肯定成功吧？</span></span><br><span class="line"><span class="comment">// 答：不会，因为 c * a&#x27; * G != c * a * G，验证会失败</span></span><br><span class="line"><span class="comment">// 你好像没有理解，如果 Bob 实现发送了挑战 c，Alice 可以使用任何除了 a 之外的密钥替换 a（比如 a&#x27;)，这样整个流程只是证明了 Alice 拥有一个密钥（这个密钥并不一定是 a）</span></span><br><span class="line"><span class="comment">// 答：对，我理解错了，如果 Bob 先发送了挑战 c，Alice 可以使用任何除了 a 之外的密钥替换 a（比如 a&#x27;），这样整个流程只是证明了 Alice 拥有一个密钥（这个密钥并不一定是 a）</span></span><br><span class="line"><span class="comment">// 所以 Alice 即使没有任何密钥，她临时编造一个，在这种情况下，Bob 永远都无法验证 Alice 是否拥有私钥，这样 Alice 就获得了超能力</span></span><br><span class="line"><span class="comment">// 所以顺序不能调换，对吗？</span></span><br><span class="line"><span class="comment">// 答：对，顺序不能调换，Alice 必须先生成一个随机数 r，然后计算 R = rG，然后计算 z = r + a * c (mod q)，然后发送 z 给 Bob，Bob 验证 zG ?= R + c * PK</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/04/26/zkp-note-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Geng Teng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿腾的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/04/26/zkp-note-0/" class="post-title-link" itemprop="url">零知识证明笔记-0-目标与计划</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-04-26 11:39:19" itemprop="dateCreated datePublished" datetime="2024-04-26T11:39:19+08:00">2024-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-08-26 17:31:55" itemprop="dateModified" datetime="2024-08-26T17:31:55+08:00">2024-08-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>从今天开始，学习零知识证明相关知识，暂定 3 个月（到2024年7月26日完成）的学习目标为：</p>
+<ol>
+<li>完成零知识证明常见算法、实现的学习，至少能够知道它们解决的是什么问题，分别适用于什么业务场景。</li>
+<li>学会并熟练掌握使用至少一个流行的 Rust 零知识证明库。</li>
+<li>参与至少一个零知识证明的(开源?)项目，需要提交有质量的代码。</li>
+</ol>
+<hr>
+<h2 id="初步计划"><a href="#初步计划" class="headerlink" title="初步计划"></a>初步计划</h2><h3 id="V20240426"><a href="#V20240426" class="headerlink" title="V20240426"></a>V20240426</h3><ol>
+<li>第一个月: <a target="_blank" rel="noopener" href="https://learn.z2o-k7e.world">World of Z2O-K7E</a> 的学习；产出为“能够在朋友、同事甚至是小学生（如果我有幸能认识一个愿意听我讲的）面前把学到的哲学、原理、应用讲出来，讲清楚”。</li>
+<li>第二个月: 完成 <a target="_blank" rel="noopener" href="https://learn.z2o-k7e.world">World of Z2O-K7E</a> 的学习并开始学习 Rust 相关库，写 demo；学习产出参考上一个月，写 demo 的产出为能够全面反映该 Rust 库的各种功能的一个 repo。</li>
+<li>第三个月: 继续写 demo，看相关开源项目源码，参与项目；产出物为 项目地址 / commit / PR 记录等等。</li>
+</ol>
+<blockquote>
+<p>介于本人在该领域是完全的“零知识”，以上仅为初步计划，如果有任何修改（即使是放弃）都需要更新本文。</p>
+</blockquote>
+<h3 id="20240530"><a href="#20240530" class="headerlink" title="20240530"></a>20240530</h3><p>一个多月了，公司的事有点烦。实际上我话太少，并没有找人验证过我是否能证明我能讲出所有我学到的东西，目前学习进度并不快，只是能够把 RSA 和 schnorr 的流程完整复述出来（并用小质数作为例子介绍）。报了一个课，希望能学到我想学的东西，后面打算整理这个课的笔记了。继续加油！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2023/03/05/relation-algebra-division/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Geng Teng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿腾的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/05/relation-algebra-division/" class="post-title-link" itemprop="url">关系代数除法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-05 20:37:12" itemprop="dateCreated datePublished" datetime="2023-03-05T20:37:12+08:00">2023-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-08-26 17:31:55" itemprop="dateModified" datetime="2024-08-26T17:31:55+08:00">2024-08-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><ul>
+<li>$S$、$R$ 为关系模式，$s$、$r$ 为关系实例。</li>
+<li>要计算关系除法，需要满足 $S ⊆ R$。</li>
+<li>给定一个元组 $t$，令 $t[S]$ 代表元组 $t$ 在 $S$ 中属性上的投影；那么，$r ÷ s$ 是 $R-S$ 模式的一个关系。</li>
+<li>元组 $t$ 在 $r ÷ s$ 中的充要条件是<strong>满足以下两个</strong>：<ol>
+<li>$t$ 在 $Π_{R-S}(r)$ 中</li>
+<li>对于 $s$ 中的每个元组 $t_s$，在 $r$ 中存在一个元组 $t_r$ 且满足：<ul>
+<li>$t_r[S] = t_s[S]$</li>
+<li>$t_r[R-S] = t$</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>例子：</li>
+</ul>
+<p>$r$: </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+<th>A2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td><em>e</em></td>
+</tr>
+<tr>
+<td>a</td>
+<td><em>f</em></td>
+</tr>
+<tr>
+<td>b</td>
+<td>e</td>
+</tr>
+<tr>
+<td>b</td>
+<td>g</td>
+</tr>
+<tr>
+<td>c</td>
+<td><em>e</em></td>
+</tr>
+<tr>
+<td>c</td>
+<td><em>f</em></td>
+</tr>
+<tr>
+<td>d</td>
+<td>f</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>$s$:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>e</em></td>
+</tr>
+<tr>
+<td><em>f</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>$r ÷ s$:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+</tr>
+<tr>
+<td>c</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h1><p>关系代数除法可以使用其它关系代数运算替代：</p>
+<script type="math/tex; mode=display">
+r ÷ s = Π_{R-S}(r) - Π_{R-S}(Π_{R-S}(r) × s - Π_{R-S,S}(r))</script><p>用上一节的例子就是：</p>
+<script type="math/tex; mode=display">
+Π_{R-S}(r)</script><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+</tr>
+<tr>
+<td>b</td>
+</tr>
+<tr>
+<td>c</td>
+</tr>
+<tr>
+<td>d</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<script type="math/tex; mode=display">
+Π_{R-S}(r) × s</script><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+<th>A2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>e</td>
+</tr>
+<tr>
+<td>a</td>
+<td>f</td>
+</tr>
+<tr>
+<td>b</td>
+<td>e</td>
+</tr>
+<tr>
+<td>b</td>
+<td>f</td>
+</tr>
+<tr>
+<td>c</td>
+<td>e</td>
+</tr>
+<tr>
+<td>c</td>
+<td>f</td>
+</tr>
+<tr>
+<td>d</td>
+<td>e</td>
+</tr>
+<tr>
+<td>d</td>
+<td>f</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<script type="math/tex; mode=display">
+Π_{R-S,S}(r)</script><p>公式中是为了计算差（$-$）的时候两个操作数模式相同，对 $r$ 做了一下模式的颠倒，其实还是 $r$。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+<th>A2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>e</td>
+</tr>
+<tr>
+<td>a</td>
+<td>f</td>
+</tr>
+<tr>
+<td>b</td>
+<td>e</td>
+</tr>
+<tr>
+<td>b</td>
+<td>g</td>
+</tr>
+<tr>
+<td>c</td>
+<td>e</td>
+</tr>
+<tr>
+<td>c</td>
+<td>f</td>
+</tr>
+<tr>
+<td>d</td>
+<td>f</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<script type="math/tex; mode=display">
+Π_{R-S}(r) × s - Π_{R-S,S}(r)</script><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+<th>A2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>b</td>
+<td>f</td>
+</tr>
+<tr>
+<td>d</td>
+<td>e</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<script type="math/tex; mode=display">
+Π_{R-S}(Π_{R-S}(r) × s - Π_{R-S,S}(r))</script><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>b</td>
+</tr>
+<tr>
+<td>d</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<script type="math/tex; mode=display">
+Π_{R-S}(r) - Π_{R-S}(Π_{R-S}(r) × s - Π_{R-S,S}(r))</script><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+</tr>
+<tr>
+<td>c</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2022/08/13/sync-async-blocking-nonblocking/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Geng Teng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿腾的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/13/sync-async-blocking-nonblocking/" class="post-title-link" itemprop="url">同步与异步，阻塞与非阻塞</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-13 19:26:55" itemprop="dateCreated datePublished" datetime="2022-08-13T19:26:55+08:00">2022-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-08-26 17:31:55" itemprop="dateModified" datetime="2024-08-26T17:31:55+08:00">2024-08-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>想写这样一篇总结也是因为在互联网上看了太多乱七八糟的说法，往往让读者越看越糊涂。这些说法往往给我这样的感觉：</p>
+<ol>
+<li><strong>没有先讲清楚在形容什么</strong>：同步、异步、阻塞、非阻塞通常作为形容词使用，无论是用在日常语境，还是用在编程领域内部，如果你不知道这些形容词是放在什么名词之前就开始讲什么意思，甚至一段话中掺杂多个名词去形容而不说明，那就会给人不知所云的感觉。</li>
+<li><strong>概念与实现混为一谈</strong>：同步阻塞、异步非阻塞是非常常见的组合方式，所以在讲同步、异步的概念时，它们忍不住拿这些具体实现来讲概念，也就顶多能让读者理解这些固定搭配，难以活学活用（其实能不能做到前者都存疑，甚至作者自己真的懂吗？）。</li>
+<li><strong>不恰当的比喻</strong>：比喻的使用是为了帮助表达，本体和喻体之间当然是不同的事物（否则就不是比喻了），但是讲了个生动的比喻，却没有把本体与喻体之间的对应关系讲清楚，或者没有讲清楚这个比喻的边界，给话题引入了不必要的复杂性，起到了相反的作用。</li>
+</ol>
+<p>所以，我打算好好聊一下我对这个话题的理解，尽可能不要犯我认为别人犯过的这些错误，欢迎读者监督。</p>
+<h2 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h2><p>同步这个词在日常语境下与计算机是有着一些不同的。日常语境下，同步经常用在同时进行的事情上，比如“多个平台同步直播卖货”，“推动新时代四化同步发展”，当然它们之间是经过协调一致的，不是无组织无纪律各行其是的。</p>
+<p>而在编程领域，“同步”和“异步”通常用来是形容“任务”、“函数”等可执行对象的（以下统一称作“任务”）；当然也有用来形容“API”的，此时它们表示的是一种具体实现的风格，即“同步风格的API”、“异步风格的API”，它跟前者有关系也有区别。</p>
+<p>那它们究竟是什么意思呢？</p>
+<p>无论是同步还是异步，都一定是用来形容<strong>多个任务</strong>的，我们可以说这两个任务或者这三个函数是同步或者异步执行的，但是一个任务不存在同步或者异步。<strong>同步指的是多个任务一个一个执行，不存在时间重叠的情况，异步指的是多个任务不一个一个执行，可能存在时间重叠的情况。</strong></p>
+<blockquote>
+<p>有的说法硬要在讲清楚这个概念之前，先把这个任务假设成一个异步函数，再把它分成调用和获取结果两个步骤，开始谈什么消息，打比方讲什么先打了个电话订餐，又接了个电话通知，然后告诉你这叫异步，这是很容易造成误解的。即便要拆成俩，单个任务的调用和获取结果也一定是一前一后，不可能先获取结果再调用，也不可能同时进行，这两个步骤是同步的，不以具体实现为转移，它们只是可能跟另一个任务是异步的，拆成俩徒增复杂度，没有任何必要。所以干脆不要拆，也不要聊具体实现，我们说一个任务，它就是一个任务，就是执行一段时间拿到结果，不要拆开。比如“吃外卖”，就等于“下单-收到电话-取餐-吃”这整个过程，反正经过了一段时间，<strong>不要在意内部细节</strong>。</p>
+</blockquote>
+<p>那么，同步和异步应该怎么使用呢，比如；</p>
+<ol>
+<li>我先吃了个外卖，然后打了一会游戏，吃外卖和打游戏这两个任务就是同步的。</li>
+<li>我先吃了个外卖，然后打了一会游戏，又写了会代码，这三个任务也是同步的。</li>
+<li>在 2. 的基础上，我在吃外卖的过程中还听了一段时间的音乐，那么听音乐和吃外卖是异步的（不要管我什么时候开的音乐，什么时候关的音乐）。</li>
+<li>在 2. 的基础上，打游戏期间都是保证把音乐关掉了的，但是吃外卖和写代码期间都听了一会音乐，那么听音乐和玩游戏是同步的，和吃外卖、写代码是异步的。</li>
+</ol>
+<p>是不是很简单，只要按照那个定义去套就行了。但是有一点要注意，4. 里面的 “打游戏期间都是保证把音乐关掉了” 的 “保证” 二字是很关键的，它确保了听音乐和玩游戏之间的 “一个一个执行” 的条件，这需要我在玩游戏之前确保音乐是关掉的，又保证玩游戏期间没有突然去把音乐打开，如果你只是凭运气，只是偶然造成了 “玩游戏期间音乐是关掉的” 的结果，那么它仍然是异步的，因为异步的定义里说的是“可能存在时间重叠”，你没有确保完全排除这个可能，它们就是异步的。</p>
+<p>我们再回到日常语境下的“同步”，会发现它跟编程的“同步”是相通的。比如“多个平台同步直播卖货”，虽然整体上各平台是同时在直播一个流媒体源，看上去更符合异步的定义，但其实把“直播”拆分成“录制”、“拉流”、“转场”、“互动”、“上链接”等任务时，会发现它们之间还是存在一些比较严格的先后顺序的，比如你不可能在媒体源录制之前拉流，也不可能在某个重要互动之前就享受某些优惠。也就是说，日常语境下的同步，更多的是描述两件相关的大任务，它们的子任务只要存在一定程度的“保证”就可以说“同步”，并没有编程领域这么严格。</p>
+<h2 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h2><p>这确实是一对很难脱离具体实现讲的概念。</p>
+<p>不过相比同步与异步，阻塞与非阻塞更简单，是用来形容单个可执行对象（以下仍统一称作“任务”）的执行状态的。</p>
+<p>可能被形容的有线程、协程、某一段业务逻辑等等：</p>
+<ol>
+<li>我在某线程用 BIO 接口读一个文件，造成该线程无法继续运行，这就是线程阻塞了</li>
+<li>我在某协程内使用该语言/框架提供的 sleep 方法，造成协程无法继续运行，这就是协程阻塞了（所在线程并没有阻塞）</li>
+<li>我写了一段代码，反正调用 IO 或者 sleep 了，我也不知道运行在哪个线程上，哪个协程上，或者只是一个异步的 setTimeout， 反正就是在等，这就是业务逻辑阻塞了（可能线程和协程都没有被阻塞）</li>
+</ol>
+<p>但其实这样说有点扩大概念外延的意思，99.9% 的情况下，我们说阻塞指的都是线程。而非阻塞，通常指的也是某个任务不会造成线程阻塞。</p>
+<p>为什么线程阻塞是最常讨论的话题呢？因为：</p>
+<ol>
+<li><strong>线程的调度和空间占用，都是比较消耗系统资源的。</strong>一个 I/O 密集型业务（比如最常见的 Web 服务），如果会因为 I/O 阻塞线程，那么为了支持多个并发同时进行，就需要为每个独立的并发单独开一个线程。在并发较高时，就需要开大量的线程，占用大量 CPU 和内存资源，所以我们有了 C10K 问题。</li>
+<li><strong>这是一个已经被用各种方式花式解决了的问题了。</strong>Linux 上的 epoll、Windows 上的 IOCP、MacOS 上的 kqueue（先不要管它们是异步/同步、阻塞/非阻塞，总之 —&gt;），都提供了可以让调用者不必开一堆线程而只需要复用固定数量的线程即可支撑较高并发的接口。不管是 Nodejs，还是 Vert.X 的异步回调，Go 的有栈协程，Rust 的无栈协程，甭管它们封装成异步风格还是同步风格的API，是甜还是咸，都是建立在前者基础上的。简单说，目的只有一个：<strong>不阻塞调用者的线程，或者说线程复用</strong>。</li>
+</ol>
+<p>业务要你等3秒，网络数据包要等几百毫秒才能到，硬盘读写要有时间，这些都会造成业务逻辑的阻塞，如果使用 BIO 接口，则业务逻辑的阻塞也会导致线程的阻塞。而使用了上述的框架/语言，让你不用在这些时候阻塞自己的线程，被阻塞的就只有当前业务逻辑，线程可以去跑别的业务逻辑，实现了线程复用。</p>
+<h2 id="组合起来"><a href="#组合起来" class="headerlink" title="组合起来"></a>组合起来</h2><p>现在，单讲同步、异步、阻塞、非阻塞，应该没什么问题了，我们再聊聊那些常见的搭配。</p>
+<p>我们经常听说同步阻塞、异步非阻塞这种搭配方式，而如果按照前文的定义，这种搭配方式是很奇怪的——同步和异步是用来形容多个任务的，阻塞和非阻塞时是说单个任务的，这样组合在一起是在干嘛？</p>
+<p>一般来讲，它们是用来形容某种 API 的风格和实现的。</p>
+<p><strong>同步和异步是表示这种 API 的接口风格。</strong>比如常见的 Linux 的 BIO 接口、Go 的 IO 接口、Rust 里的 async 函数，这些都是<strong>同步风格</strong>的接口，<strong>先后调用这样的两个接口，它们默认是同步执行的</strong>，你要异步执行，需要另外开线程或者协程；Node.js、Vert.X  的绝大部分接口，都是<strong>异步风格</strong>的接口，<strong>先后调用这样的两个接口，它们默认是异步执行的</strong>，你要同步执行，需要把第二个接口写到前一个接口的回调函数里。</p>
+<p><strong>阻塞和非阻塞是表示这种 API 需要调用者配合使用的线程模型。</strong>比如 Linux 的 BIO 接口会阻塞调用者的线程，它就是阻塞的，而 Go 的 IO 接口、Rust 的 async 函数、Node.js 和 Vert.X 里的异步接口，都不会阻塞调用者的线程，它们就是非阻塞的。</p>
+<p>在没有协程的年代，同步风格的 BIO 接口就是会导致线程阻塞，它意味着心智负担小，开发方便，但是吃资源；而不会阻塞线程的 NIO/AIO 接口往往是异步风格（或者封装为异步风格），代码写起来心智负担重，性能好，比如 Node.js 和 Vert.X。所以经常有人拿同步代指阻塞，拿异步代指非阻塞，它们成为了同义词两两绑定在一起，即“同步阻塞”和“异步非阻塞”。</p>
+<p>而 Go 、Rust 等语言提供的协程，相当于是对“异步非阻塞”的一种高级封装，可以像写同步代码那样写不阻塞线程的代码，让你即拥有高性能，又没有很高的心智负担。但是也很少见他们讨论自己是同步还是异步，阻塞还是非阻塞，因为风格上确实是同步的，封装的实际上是异步常用的非阻塞接口，确实不会阻塞线程，但是协程是可能被阻塞。<strong>所以不要套概念，理解原理，理解同步具体指的是谁和谁，异步具体指的是谁和谁，阻塞和非阻塞指的具体是谁，搞清楚对象，套定义就可以了。</strong></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在写这篇文章的时候，我并没有查询很多资料，但自认为这算是一个可以简化问题，帮助理解的模型。</p>
+<p>希望能给读者一些启发，也欢迎批评指正。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2021/10/08/heap-sort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Geng Teng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿腾的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/08/heap-sort/" class="post-title-link" itemprop="url">堆排序</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-10-08 15:38:13" itemprop="dateCreated datePublished" datetime="2021-10-08T15:38:13+08:00">2021-10-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-08-26 17:31:55" itemprop="dateModified" datetime="2024-08-26T17:31:55+08:00">2024-08-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>使用数组结构表示堆结构，元素从索引 0 开始，则索引 <code>i</code> 位置：</p>
+<ul>
+<li>父节点索引为 $(i - 1) / 2$</li>
+<li>左孩子索引为 $2 \times i + 1$</li>
+<li>右孩子索引为 $2 \times i + 2$</li>
+</ul>
+<hr>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><ul>
+<li>Java 实现</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Heap</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Heap heap = <span class="keyword">new</span> Heap(<span class="number">1000</span>);</span><br><span class="line">        heap.push(-<span class="number">6</span>);</span><br><span class="line">        heap.push(<span class="number">3</span>);</span><br><span class="line">        heap.push(-<span class="number">1</span>);</span><br><span class="line">        heap.push(<span class="number">0</span>);</span><br><span class="line">        heap.push(<span class="number">9</span>);</span><br><span class="line">        heap.push(-<span class="number">4</span>);</span><br><span class="line">        heap.push(<span class="number">5</span>);</span><br><span class="line">        heap.push(<span class="number">7</span>);</span><br><span class="line">        heap.push(-<span class="number">2</span>);</span><br><span class="line">        heap.push(<span class="number">9</span>);</span><br><span class="line">        heap.push(<span class="number">13</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(heap);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (!heap.isEmpty()) &#123;</span><br><span class="line">            System.out.println(heap.pop());</span><br><span class="line">            System.out.println(heap);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span>[] data;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> limit;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> heapSize;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Heap</span><span class="params">(<span class="keyword">int</span> limit)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.limit = limit;</span><br><span class="line">        <span class="keyword">this</span>.data = <span class="keyword">new</span> <span class="keyword">int</span>[limit];</span><br><span class="line">        <span class="keyword">this</span>.heapSize = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (heapSize &gt;= limit) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;heapSize must not exceed limit&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.data[heapSize++] = value;</span><br><span class="line">        heapInsert(heapSize - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> heapSize == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        swap(--heapSize, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">int</span> result = <span class="keyword">this</span>.data[heapSize];</span><br><span class="line">        <span class="keyword">this</span>.data[heapSize] = <span class="number">0</span>;</span><br><span class="line">        heapify(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">heapInsert</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (index &gt; <span class="number">0</span> &amp;&amp; <span class="keyword">this</span>.data[index] &gt; <span class="keyword">this</span>.data[(index - <span class="number">1</span>) / <span class="number">2</span>]) &#123;</span><br><span class="line">            swap(index, (index - <span class="number">1</span>) / <span class="number">2</span>);</span><br><span class="line">            index = (index - <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (i != j) &#123;</span><br><span class="line">            <span class="keyword">this</span>.data[i] = <span class="keyword">this</span>.data[i] ^ <span class="keyword">this</span>.data[j];</span><br><span class="line">            <span class="keyword">this</span>.data[j] = <span class="keyword">this</span>.data[i] ^ <span class="keyword">this</span>.data[j];</span><br><span class="line">            <span class="keyword">this</span>.data[i] = <span class="keyword">this</span>.data[i] ^ <span class="keyword">this</span>.data[j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">heapify</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> leftIndex = <span class="number">2</span> * index + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (leftIndex &lt; heapSize) &#123;</span><br><span class="line">            <span class="keyword">int</span> rightIndex = leftIndex + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">int</span> greatestIndex = rightIndex &lt; heapSize &amp;&amp; <span class="keyword">this</span>.data[rightIndex] &gt; <span class="keyword">this</span>.data[leftIndex] ? rightIndex : leftIndex;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.data[greatestIndex] &lt;= <span class="keyword">this</span>.data[index]) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            swap(index, greatestIndex);</span><br><span class="line">            index = greatestIndex;</span><br><span class="line">            leftIndex = <span class="number">2</span> * index + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        StringBuilder b = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        b.append(<span class="string">&#x27;[&#x27;</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;heapSize; i++) &#123;</span><br><span class="line">            b.append(data[i]);</span><br><span class="line">            <span class="keyword">if</span> (i != heapSize - <span class="number">1</span>)</span><br><span class="line">                b.append(<span class="string">&quot;, &quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        b.append(<span class="string">&#x27;]&#x27;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> b.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[13, 9, 5, 3, 9, -4, -1, -6, -2, 0, 7]</span><br><span class="line">13</span><br><span class="line">[9, 9, 5, 3, 7, -4, -1, -6, -2, 0]</span><br><span class="line">9</span><br><span class="line">[9, 7, 5, 3, 0, -4, -1, -6, -2]</span><br><span class="line">9</span><br><span class="line">[7, 3, 5, -2, 0, -4, -1, -6]</span><br><span class="line">7</span><br><span class="line">[5, 3, -1, -2, 0, -4, -6]</span><br><span class="line">5</span><br><span class="line">[3, 0, -1, -2, -6, -4]</span><br><span class="line">3</span><br><span class="line">[0, -2, -1, -4, -6]</span><br><span class="line">0</span><br><span class="line">[-1, -2, -6, -4]</span><br><span class="line">-1</span><br><span class="line">[-2, -4, -6]</span><br><span class="line">-2</span><br><span class="line">[-4, -6]</span><br><span class="line">-4</span><br><span class="line">[-6]</span><br><span class="line">-6</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Rust 实现</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Heap</span></span>&lt;T&gt;(<span class="built_in">Vec</span>&lt;T&gt;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Ord</span>&gt; Heap&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">new</span></span>() -&gt; <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">Self</span>(<span class="built_in">Vec</span>::new())</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">push</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>, value: T) &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="number">0</span>.push(value);</span><br><span class="line">        <span class="keyword">self</span>.heap_insert();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">pop</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) -&gt; <span class="built_in">Option</span>&lt;T&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">self</span>.<span class="number">0</span>.is_empty() &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> last = <span class="keyword">self</span>.<span class="number">0</span>.len() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">self</span>.<span class="number">0</span>.swap(<span class="number">0</span>, last);</span><br><span class="line">        <span class="keyword">let</span> result = <span class="keyword">self</span>.<span class="number">0</span>.pop();</span><br><span class="line">        <span class="keyword">self</span>.heapify();</span><br><span class="line">        result</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">heapify</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> len = <span class="keyword">self</span>.<span class="number">0</span>.len();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> index = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> left = index * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> left &lt; len &#123;</span><br><span class="line">            <span class="keyword">let</span> right = left + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">let</span> greatest = <span class="keyword">if</span> right &lt; len &amp;&amp; <span class="keyword">self</span>.<span class="number">0</span>[left] &lt; <span class="keyword">self</span>.<span class="number">0</span>[right] &#123;</span><br><span class="line">                right</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                left</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">self</span>.<span class="number">0</span>[greatest] &lt;= <span class="keyword">self</span>.<span class="number">0</span>[index] &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">self</span>.<span class="number">0</span>.swap(index, greatest);</span><br><span class="line">            index = greatest;</span><br><span class="line">            left = index * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">heap_insert</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">self</span>.<span class="number">0</span>.is_empty() &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> index = <span class="keyword">self</span>.<span class="number">0</span>.len() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> index == <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> parent = (index - <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">self</span>.<span class="number">0</span>[parent] &lt; <span class="keyword">self</span>.<span class="number">0</span>[index] &#123;</span><br><span class="line">            <span class="keyword">self</span>.<span class="number">0</span>.swap(index, parent);</span><br><span class="line">            index = parent;</span><br><span class="line">            <span class="keyword">if</span> index == <span class="number">0</span> &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            parent = (index - <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Ord</span>&gt; <span class="built_in">Iterator</span> <span class="keyword">for</span> Heap&lt;T&gt; &#123;</span><br><span class="line">    <span class="class"><span class="keyword">type</span> <span class="title">Item</span></span> = T;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">next</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) -&gt; <span class="built_in">Option</span>&lt;Self::Item&gt; &#123;</span><br><span class="line">        <span class="keyword">self</span>.pop()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[test]</span></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">test_heap</span></span>() &#123;</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0</span>..<span class="number">1000</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> array: [<span class="built_in">u8</span>; <span class="number">32</span>] = rand::random();</span><br><span class="line">        <span class="keyword">let</span> sorted = &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="keyword">mut</span> s = array.clone();</span><br><span class="line">            s.sort_by(|a, b| b.cmp(a));</span><br><span class="line">            s</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> heap = Heap::new();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> a <span class="keyword">in</span> array &#123;</span><br><span class="line">            heap.push(a);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> heap_sorted: <span class="built_in">Vec</span>&lt;<span class="built_in">u8</span>&gt; = heap.collect();</span><br><span class="line"></span><br><span class="line">        <span class="built_in">assert_eq!</span>(heap_sorted, sorted);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2021/09/26/redis-practices/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Geng Teng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿腾的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/26/redis-practices/" class="post-title-link" itemprop="url">Redis 学习笔记（实践）[WIP]</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-26 11:22:51" itemprop="dateCreated datePublished" datetime="2021-09-26T11:22:51+08:00">2021-09-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-08-26 17:31:55" itemprop="dateModified" datetime="2024-08-26T17:31:55+08:00">2024-08-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-降低-String-内存开销"><a href="#1-降低-String-内存开销" class="headerlink" title="1. 降低 String 内存开销"></a>1. 降低 String 内存开销</h2><hr>
+<h2 id="2-统计"><a href="#2-统计" class="headerlink" title="2. 统计"></a>2. 统计</h2><hr>
+<h2 id="3-GEO"><a href="#3-GEO" class="headerlink" title="3. GEO"></a>3. GEO</h2><hr>
+<h2 id="4-时间序列数据"><a href="#4-时间序列数据" class="headerlink" title="4. 时间序列数据"></a>4. 时间序列数据</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Geng Teng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengteng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengteng" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:me@gteng.org" title="E-Mail → mailto:me@gteng.org"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Geng Teng</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

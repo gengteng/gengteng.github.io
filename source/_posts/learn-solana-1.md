@@ -36,3 +36,5 @@ This section discusses the differences between the two major blockchains, Solana
 - **Ethereum**: Boasts the largest decentralized application (DApp) ecosystem and a vast user and developer community, offering strong network effects and a higher degree of decentralization.
 
 Through this comparison, it is clear that each platform has its strengths and challenges. Ethereum's widespread adoption and mature ecosystem provide stability and trust, while Solana's high performance and low costs offer advantages for applications requiring these features.
+
+> **Course address**: https://www.hackquest.io/

@@ -15,7 +15,7 @@ mathjax: true
 2. 两个角色，证明者（prover）、验证者（verifier），是双方的。写代码的时候要时刻关注写的到底是哪部分，是证明者的代码，还是验证者的代码。
 
 $$
-Prover  \rArr\pi\rArr Verifier
+Prover  \rArr \pi \rArr Verifier
 $$
 
 **Prover Code**: 需要关注，有没有产生一个有效的证明，产生这个证明的时候有没有泄漏不该泄漏的信息。

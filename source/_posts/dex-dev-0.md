@@ -5,7 +5,7 @@ tags: ['solana', 'web3', 'dex', 'amm']
 mathjax: true
 ---
 
-Raydium 是一个 Solana 平台上的自动做市商（AMM）.为了给 DEX 项目引入流动性池、对接 Raydium 的交换协议，对 raydium 恒定乘积交换合约的源码进行深入学习，这也是 Raydium 上最新的标准 AMM。
+Raydium 是一个 Solana 平台上的 DEX，提供了各种代币的流动性池，为用户提供流动性挖矿、购买代币的功能。为了给 DEX 项目引入流动性池、对接 Raydium 的交换协议，对 raydium 恒定乘积交换合约的源码进行深入学习，这也是 Raydium 上最新的标准 AMM。
 
 > Repository: https://github.com/raydium-io/raydium-cp-swap
 
@@ -264,6 +264,74 @@ pub fn swap_base_input(
     amount_in: u64,          // 输入资产
     minimum_amount_out: u64  // 最小输出资产，由调用者按照当前价格及滑点计算得出
 ) -> Result<()>;
+
+#[derive(Accounts)]
+pub struct Swap<'info> {
+    // 交换者
+    pub payer: Signer<'info>,
+
+    // 流动性池的金库和流动性 token mint 的权限账户
+    /// CHECK: pool vault and lp mint authority
+    #[account(
+        seeds = [
+            crate::AUTH_SEED.as_bytes(),
+        ],
+        bump,
+    )]
+    pub authority: UncheckedAccount<'info>,
+
+    /// 用于读取协议费用
+    #[account(address = pool_state.load()?.amm_config)]
+    pub amm_config: Box<Account<'info, AmmConfig>>,
+
+    /// 流动性池数据账户
+    #[account(mut)]
+    pub pool_state: AccountLoader<'info, PoolState>,
+
+    /// 用户购买使用的 token ATA，即输入 token 的 ATA
+    #[account(mut)]
+    pub input_token_account: Box<InterfaceAccount<'info, TokenAccount>>,
+
+    /// 用户希望购买到的 token ATA，即输出 token 的 ATA
+    #[account(mut)]
+    pub output_token_account: Box<InterfaceAccount<'info, TokenAccount>>,
+
+    /// 接收用户购买使用的 token 的金库
+    #[account(
+        mut,
+        constraint = input_vault.key() == pool_state.load()?.token_0_vault || input_vault.key() == pool_state.load()?.token_1_vault
+    )]
+    pub input_vault: Box<InterfaceAccount<'info, TokenAccount>>,
+
+    /// 输出用户希望购买到的 token 的金库
+    #[account(
+        mut,
+        constraint = output_vault.key() == pool_state.load()?.token_0_vault || output_vault.key() == pool_state.load()?.token_1_vault
+    )]
+    pub output_vault: Box<InterfaceAccount<'info, TokenAccount>>,
+
+    /// 输入 token 的程序（可能是 2022）
+    pub input_token_program: Interface<'info, TokenInterface>,
+
+    /// 输出 token 的程序（可能是 2022）
+    pub output_token_program: Interface<'info, TokenInterface>,
+
+    /// 输入 token 的铸币厂
+    #[account(
+        address = input_vault.mint
+    )]
+    pub input_token_mint: Box<InterfaceAccount<'info, Mint>>,
+
+    /// 输出 token 的铸币厂
+    #[account(
+        address = output_vault.mint
+    )]
+    pub output_token_mint: Box<InterfaceAccount<'info, Mint>>,
+
+    /// 记录价格的数据账户，用于计算 TWAP 价格 
+    #[account(mut, address = pool_state.load()?.observation_key)]
+    pub observation_state: AccountLoader<'info, ObservationState>,
+}
 ```
 
 基于输入的资产交换流程如下：

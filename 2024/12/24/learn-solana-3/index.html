@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gteng.org","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="5. 权益证明共识机制5.1 描述这个机制是用来：  快速确认由 PoH 生成器生成的当前序列。 投票选出下一个 PoH 生成器。 惩罚不当行为的验证者。  这个算法依赖于所有参与节点在规定超时时间内最终接收到的消息。 5.2 术语 押金(bonds): 验证者在验证交易时的承诺作为抵押的代币。 惩罚机制(slashing): 为解决无利害关系问题提出的方案，当不同的分支被发布时，当前分支可以销毁">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Solana &#x2F; Anchor 学习笔记 - Solana 白皮书（二）">
+<meta property="og:url" content="https://gteng.org/2024/12/24/learn-solana-3/index.html">
+<meta property="og:site_name" content="一口笔记">
+<meta property="og:description" content="5. 权益证明共识机制5.1 描述这个机制是用来：  快速确认由 PoH 生成器生成的当前序列。 投票选出下一个 PoH 生成器。 惩罚不当行为的验证者。  这个算法依赖于所有参与节点在规定超时时间内最终接收到的消息。 5.2 术语 押金(bonds): 验证者在验证交易时的承诺作为抵押的代币。 惩罚机制(slashing): 为解决无利害关系问题提出的方案，当不同的分支被发布时，当前分支可以销毁">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-24T07:24:41.000Z">
+<meta property="article:modified_time" content="2025-01-24T08:48:32.269Z">
+<meta property="article:author" content="Thomasg">
+<meta property="article:tag" content="solana">
+<meta property="article:tag" content="web3">
+<meta property="article:tag" content="white paper">
+<meta property="article:tag" content="PoH">
+<meta property="article:tag" content="PoS">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gteng.org/2024/12/24/learn-solana-3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Solana / Anchor 学习笔记 - Solana 白皮书（二） | 一口笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一口笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">常期望安定，还期望即兴。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/12/24/learn-solana-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Solana / Anchor 学习笔记 - Solana 白皮书（二）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-12-24 15:24:41" itemprop="dateCreated datePublished" datetime="2024-12-24T15:24:41+08:00">2024-12-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="5-权益证明共识机制"><a href="#5-权益证明共识机制" class="headerlink" title="5. 权益证明共识机制"></a>5. 权益证明共识机制</h2><h3 id="5-1-描述"><a href="#5-1-描述" class="headerlink" title="5.1 描述"></a>5.1 描述</h3><p>这个机制是用来：</p>
+<ol>
+<li>快速确认由 PoH 生成器生成的当前序列。</li>
+<li>投票选出下一个 PoH 生成器。</li>
+<li>惩罚不当行为的验证者。</li>
+</ol>
+<p>这个算法依赖于所有参与节点在规定超时时间内最终接收到的消息。</p>
+<h3 id="5-2-术语"><a href="#5-2-术语" class="headerlink" title="5.2 术语"></a>5.2 术语</h3><ul>
+<li>押金(bonds): 验证者在验证交易时的承诺作为抵押的代币。</li>
+<li>惩罚机制(slashing): 为解决<strong>无利害关系问题</strong>提出的方案，当不同的分支被发布时，当前分支可以销毁验证者的押金。</li>
+<li>超级多数(super majority): 由押金加权之后，验证者的总票数达到三分之二。这意味着发起攻击的经济成本等同于代币市值的三分之一。</li>
+</ul>
+<blockquote>
+<p>无利害关系问题(Nothing at Stake Problem): 在权益证明系统中，验证者不需要消耗物理资源（如电力），而是依赖于其押金（Stake）。因此，如果网络分叉，验证者可以选择在多个分支上投票，因为这样不会有额外成本。他们会试图最大化收益，而不关心网络的最终一致性。</p>
+</blockquote>
+<h3 id="5-3-质押"><a href="#5-3-质押" class="headerlink" title="5.3 质押"></a>5.3 质押</h3><p>用户将代币转账到一个自己名下的质押账户，这笔押金在赎回之前需要保持不动。</p>
+<p>质押账户有锁定期，锁定期结束才能赎回。</p>
+<p>超级多数确认了质押交易之后，质押才有效。</p>
+<h3 id="5-4-投票"><a href="#5-4-投票" class="headerlink" title="5.4 投票"></a>5.4 投票</h3><ol>
+<li>PoH 生成器会在预定义好的周期内发布一个自身状态的签名。</li>
+<li>每个质押的身份需要发布一份状态的签名，作为投票。</li>
+<li>投票只有同意票，没有反对票。</li>
+<li>如果在超时时间内，绝对多数达成了共识，这个分支就会被认为是合法的。</li>
+</ol>
+<h3 id="5-5-解质押"><a href="#5-5-解质押" class="headerlink" title="5.5 解质押"></a>5.5 解质押</h3><p>如果用户未能按时参与投票，质押的币会被标记为“过期”，旨在强制参与者保持活跃，否则将失去投票资格。</p>
+<p>N 作为投票失效的次数阈值，会随着过期投票的数量增加而增长，N 的动态调整也可以为网络的自愈能力提供支持，减少对投票延迟的影响。</p>
+<h3 id="5-6-选举"><a href="#5-6-选举" class="headerlink" title="5.6 选举"></a>5.6 选举</h3><ol>
+<li>检测到 PoH 生成器故障时，新 PoH 生成器选举就会发生。</li>
+<li>拥有最高投票权重、更高的公钥地址的验证者会被选为新的 PoH 生成器。</li>
+<li>需要超级多数确认，如果在完成确认前新的生成器故障，就重新选择下一个新的 PoH 生成器。</li>
+<li>切换选票时，投票的验证者需要在一个更高的 PoH 序列计数器上投票，否则会触发惩罚。</li>
+<li>会选择一个次级生成器，用于主生成器故障时快速切换。</li>
+</ol>
+<h3 id="5-7-选举触发条件"><a href="#5-7-选举触发条件" class="headerlink" title="5.7 选举触发条件"></a>5.7 选举触发条件</h3><h4 id="5-7-1-分叉的-Proof-of-History-生成器"><a href="#5-7-1-分叉的-Proof-of-History-生成器" class="headerlink" title="5.7.1 分叉的 Proof of History 生成器"></a>5.7.1 分叉的 Proof of History 生成器</h4><ol>
+<li>只有当 PoH 生成器的标识被攻破时，才可能发生分叉。</li>
+<li>分叉的检测依据是同一个 PoH 标识发布了两个不同的历史记录。</li>
+</ol>
+<h4 id="5-7-2-运行时异常"><a href="#5-7-2-运行时异常" class="headerlink" title="5.7.2 运行时异常"></a>5.7.2 运行时异常</h4><ol>
+<li>Bug、硬件故障、人为错误可能导致生成器生成无效状态，并发布与本地验证者不一致的签名。</li>
+<li>验证者将通过 Gossip 协议发布正确的签名，这一事件将触发新的选举。</li>
+<li>接收无效状态的验证者将收到惩罚。</li>
+</ol>
+<h4 id="5-7-3-网络超时"><a href="#5-7-3-网络超时" class="headerlink" title="5.7.3 网络超时"></a>5.7.3 网络超时</h4><h3 id="5-8-惩罚"><a href="#5-8-惩罚" class="headerlink" title="5.8 惩罚"></a>5.8 惩罚</h3><ol>
+<li>恶意投票：对两个不同的序列投票，受质押削减惩罚。</li>
+<li>非恶意的竞选序列冲突，投票会被撤销，不会惩罚。</li>
+<li>对 PoH 生成器的无效哈希进行投票，受质押削减惩罚。</li>
+</ol>
+<h3 id="5-9-次级选举"><a href="#5-9-次级选举" class="headerlink" title="5.9 次级选举"></a>5.9 次级选举</h3><ol>
+<li>次级选举是在主序列上被提出的。</li>
+<li>在超时时间内通过绝对多数投票，次级生成器就当选了。</li>
+<li>主生成器通过在序列中插入指示交接的消息，来实现软交接。</li>
+<li>如果主生成器发生故障，已当选的次生成器会被作为第一备选。</li>
+</ol>
+<h3 id="5-10-可用性"><a href="#5-10-可用性" class="headerlink" title="5.10 可用性"></a>5.10 可用性</h3><ol>
+<li>CAP 中 Solana 选择 A 可用性。</li>
+<li>最终一致性：在合理的人类时间范围内保持一定程度的一致性。</li>
+<li>利用 PoH（Proof of History）机制提供了时间的客观测量，结合 PoS 投票记录，可以动态地取消不可用验证者的质押，调整网络的活性和一致性需求。</li>
+<li>在合理的时间内，随着不可用验证者被逐步取消质押，网络可以逐步恢复到满足 2/3 共识的状态，从而达成一致性。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/solana/" rel="tag"># solana</a>
+              <a href="/tags/web3/" rel="tag"># web3</a>
+              <a href="/tags/white-paper/" rel="tag"># white paper</a>
+              <a href="/tags/PoH/" rel="tag"># PoH</a>
+              <a href="/tags/PoS/" rel="tag"># PoS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/12/23/learn-solana-2/" rel="prev" title="Solana / Anchor 学习笔记 - Solana 白皮书（一）">
+      <i class="fa fa-chevron-left"></i> Solana / Anchor 学习笔记 - Solana 白皮书（一）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/12/26/dex-dev-0/" rel="next" title="DEX 开发笔记 - Raydium 恒定乘积交换合约源码阅读">
+      DEX 开发笔记 - Raydium 恒定乘积交换合约源码阅读 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  
+  <div class="comments">
+  <script src="https://utteranc.es/client.js" repo="gengteng/gengteng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script>
+  </div>
+  
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%9D%83%E7%9B%8A%E8%AF%81%E6%98%8E%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">5. 权益证明共识机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">5.1 描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E6%9C%AF%E8%AF%AD"><span class="nav-number">1.2.</span> <span class="nav-text">5.2 术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-%E8%B4%A8%E6%8A%BC"><span class="nav-number">1.3.</span> <span class="nav-text">5.3 质押</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-%E6%8A%95%E7%A5%A8"><span class="nav-number">1.4.</span> <span class="nav-text">5.4 投票</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-%E8%A7%A3%E8%B4%A8%E6%8A%BC"><span class="nav-number">1.5.</span> <span class="nav-text">5.5 解质押</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-6-%E9%80%89%E4%B8%BE"><span class="nav-number">1.6.</span> <span class="nav-text">5.6 选举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-7-%E9%80%89%E4%B8%BE%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.7.</span> <span class="nav-text">5.7 选举触发条件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-7-1-%E5%88%86%E5%8F%89%E7%9A%84-Proof-of-History-%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-number">1.7.1.</span> <span class="nav-text">5.7.1 分叉的 Proof of History 生成器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-7-2-%E8%BF%90%E8%A1%8C%E6%97%B6%E5%BC%82%E5%B8%B8"><span class="nav-number">1.7.2.</span> <span class="nav-text">5.7.2 运行时异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-7-3-%E7%BD%91%E7%BB%9C%E8%B6%85%E6%97%B6"><span class="nav-number">1.7.3.</span> <span class="nav-text">5.7.3 网络超时</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-8-%E6%83%A9%E7%BD%9A"><span class="nav-number">1.8.</span> <span class="nav-text">5.8 惩罚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-9-%E6%AC%A1%E7%BA%A7%E9%80%89%E4%B8%BE"><span class="nav-number">1.9.</span> <span class="nav-text">5.9 次级选举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-10-%E5%8F%AF%E7%94%A8%E6%80%A7"><span class="nav-number">1.10.</span> <span class="nav-text">5.10 可用性</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Thomasg</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengteng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengteng" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:me@gteng.org" title="E-Mail → mailto:me@gteng.org"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Thomasg</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

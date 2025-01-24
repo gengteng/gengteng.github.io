@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gteng.org","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="归并排序 算法时间复杂度： $O(NlogN)$ 相比冒泡、选择等时间复杂度为 $O(N^2)$ 的排序算法，没有浪费比较行为； 插入排序时即便使用二分查找插入位置，也需要将插入位置后的元素依次向右移动，每次插入复杂度不是 $O(1)$。  递归方法 Java 实现  12345678910111213141516171819202122232425262728293031323334353637">
+<meta property="og:type" content="article">
+<meta property="og:title" content="归并排序及应用">
+<meta property="og:url" content="https://gteng.org/2021/09/11/merge-sort/index.html">
+<meta property="og:site_name" content="一口笔记">
+<meta property="og:description" content="归并排序 算法时间复杂度： $O(NlogN)$ 相比冒泡、选择等时间复杂度为 $O(N^2)$ 的排序算法，没有浪费比较行为； 插入排序时即便使用二分查找插入位置，也需要将插入位置后的元素依次向右移动，每次插入复杂度不是 $O(1)$。  递归方法 Java 实现  12345678910111213141516171819202122232425262728293031323334353637">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-09-11T16:05:51.000Z">
+<meta property="article:modified_time" content="2025-01-24T08:48:32.269Z">
+<meta property="article:author" content="Thomasg">
+<meta property="article:tag" content="algorithm">
+<meta property="article:tag" content="sort">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gteng.org/2021/09/11/merge-sort/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>归并排序及应用 | 一口笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一口笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">常期望安定，还期望即兴。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2021/09/11/merge-sort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          归并排序及应用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-12 00:05:51" itemprop="dateCreated datePublished" datetime="2021-09-12T00:05:51+08:00">2021-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><ul>
+<li>算法时间复杂度： $O(NlogN)$</li>
+<li>相比冒泡、选择等时间复杂度为 $O(N^2)$ 的排序算法，没有浪费比较行为；</li>
+<li>插入排序时即便使用二分查找插入位置，也需要将插入位置后的元素依次向右移动，每次插入复杂度不是 $O(1)$。</li>
+</ul>
+<h3 id="递归方法"><a href="#递归方法" class="headerlink" title="递归方法"></a>递归方法</h3><ul>
+<li>Java 实现</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MergeSort</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Integer[] data = &#123;<span class="number">12</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">9</span>, <span class="number">3</span>&#125;;</span><br><span class="line">        System.out.println(Arrays.toString(data));</span><br><span class="line">        mergeSort(data);</span><br><span class="line">        System.out.println(Arrays.toString(data));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &lt;T extends Comparable&gt; <span class="function"><span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(T[] array)</span> </span>&#123;</span><br><span class="line">        T[] help = (T[]) <span class="keyword">new</span> Comparable[array.length];</span><br><span class="line">        doMergeSort(array, help, <span class="number">0</span>, array.length);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &lt;T extends Comparable&gt; <span class="function"><span class="keyword">void</span> <span class="title">doMergeSort</span><span class="params">(T[] array, T[] help, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (start == end - <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> mid = start + ((end - start) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        doMergeSort(array, help, start, mid);</span><br><span class="line">        doMergeSort(array, help, mid, end);</span><br><span class="line">        mergeSorted(array, help, start, mid, end);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &lt;T extends Comparable&gt; <span class="function"><span class="keyword">void</span> <span class="title">mergeSorted</span><span class="params">(T[] array, T[] help, <span class="keyword">int</span> start, <span class="keyword">int</span> mid, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> h = start;</span><br><span class="line">        <span class="keyword">int</span> i = start;</span><br><span class="line">        <span class="keyword">int</span> j = mid;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (i &lt; mid &amp;&amp; j &lt; end) &#123;</span><br><span class="line">            <span class="keyword">if</span> (array[i].compareTo(array[j]) &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                help[h++] = array[i++];</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                help[h++] = array[j++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (i &lt; mid) &#123;</span><br><span class="line">            help[h++] = array[i++];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (j &lt; end) &#123;</span><br><span class="line">            help[h++] = array[j++];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">assert</span> h == end;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> n = start; n &lt; end; n++) &#123;</span><br><span class="line">            array[n] = help[n];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[12, 3, 2, 6, 4, 8, 6, 0, 9, 3]</span><br><span class="line">[0, 2, 3, 3, 4, 6, 6, 8, 9, 12]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Rust 实现</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[test]</span></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">test_merge_sort</span></span>() &#123;</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0</span>..<span class="number">100</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> array0: [<span class="built_in">u8</span>; <span class="number">32</span>] = rand::random();</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> array1 = array0.clone();</span><br><span class="line">        array0.merge_sort();</span><br><span class="line">        array1.sort();</span><br><span class="line">        <span class="built_in">assert_eq!</span>(array0, array1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">MergeSort</span></span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">merge_sort</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Ord</span> + <span class="built_in">Clone</span>&gt; MergeSort <span class="keyword">for</span> [T] &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">merge_sort</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> len = <span class="keyword">self</span>.len();</span><br><span class="line">        <span class="keyword">if</span> len == <span class="number">0</span> || len == <span class="number">1</span> &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> mid = len &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">self</span>[..mid].merge_sort();</span><br><span class="line">        <span class="keyword">self</span>[mid..].merge_sort();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> j = mid;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> vec = <span class="built_in">Vec</span>::with_capacity(len);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> i &lt; mid &amp;&amp; j &lt; len &#123;</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">self</span>[i] &lt;= <span class="keyword">self</span>[j] &#123;</span><br><span class="line">                vec.push(<span class="keyword">self</span>[i].clone());</span><br><span class="line">                i += <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                vec.push(<span class="keyword">self</span>[j].clone());</span><br><span class="line">                j += <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> i &lt; mid &#123;</span><br><span class="line">            vec.push(<span class="keyword">self</span>[i].clone());</span><br><span class="line">            i += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> j &lt; len &#123;</span><br><span class="line">            vec.push(<span class="keyword">self</span>[j].clone());</span><br><span class="line">            j += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">self</span>.clone_from_slice(&amp;vec);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="非递归方法"><a href="#非递归方法" class="headerlink" title="非递归方法"></a>非递归方法</h3><ul>
+<li>Java 实现</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T extends Comparable&lt;T&gt;&gt; <span class="function"><span class="keyword">void</span> <span class="title">mergeSortLoop</span><span class="params">(T[] array)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (array == <span class="keyword">null</span> || array.length &lt; <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Comparable[] help = (T[]) <span class="keyword">new</span> Comparable[array.length];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> mergeSize = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (mergeSize &lt; array.length) &#123;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (left &lt; array.length) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = left + mergeSize;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (mid &gt;= array.length) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> right = Math.min(mid + mergeSize, array.length);</span><br><span class="line">            mergeSorted(array, help, left, mid, right);</span><br><span class="line">            left = right;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mergeSize &gt;= array.length &gt;&gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mergeSize &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Rust 实现</li>
+</ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[test]</span></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">test_loop_merge_sort</span></span>() &#123;</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0</span>..<span class="number">100</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> array0: [<span class="built_in">u8</span>; <span class="number">32</span>] = rand::random();</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> array1 = array0.clone();</span><br><span class="line">        array0.loop_merge_sort();</span><br><span class="line">        array1.sort();</span><br><span class="line">        <span class="built_in">assert_eq!</span>(array0, array1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Ord</span> + <span class="built_in">Clone</span>&gt; MergeSort <span class="keyword">for</span> [T] &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">merge_sort</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">loop_merge_sort</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> len = <span class="keyword">self</span>.len();</span><br><span class="line">        <span class="keyword">if</span> len &lt; <span class="number">2</span> &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> merge_size: <span class="built_in">usize</span> = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> merge_size &lt; len &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="keyword">mut</span> left = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> left &lt; len &#123;</span><br><span class="line">                <span class="keyword">let</span> mid = left + merge_size;</span><br><span class="line">                <span class="keyword">if</span> mid &gt;= len &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">let</span> right = (mid + merge_size).min(len);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// merge sorted</span></span><br><span class="line">                <span class="keyword">let</span> <span class="keyword">mut</span> vec = <span class="built_in">Vec</span>::with_capacity(right - left);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">let</span> <span class="keyword">mut</span> i = left;</span><br><span class="line">                <span class="keyword">let</span> <span class="keyword">mut</span> j = mid;</span><br><span class="line">                <span class="keyword">while</span> i &lt; mid &amp;&amp; j &lt; right &#123;</span><br><span class="line">                    <span class="keyword">if</span> <span class="keyword">self</span>[i] &lt;= <span class="keyword">self</span>[j] &#123;</span><br><span class="line">                        vec.push(<span class="keyword">self</span>[i].clone());</span><br><span class="line">                        i += <span class="number">1</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        vec.push(<span class="keyword">self</span>[j].clone());</span><br><span class="line">                        j += <span class="number">1</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">while</span> i &lt; mid &#123;</span><br><span class="line">                    vec.push(<span class="keyword">self</span>[i].clone());</span><br><span class="line">                    i += <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">while</span> j &lt; right &#123;</span><br><span class="line">                    vec.push(<span class="keyword">self</span>[j].clone());</span><br><span class="line">                    j += <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                (&amp;<span class="keyword">mut</span> <span class="keyword">self</span>[left..right]).clone_from_slice(&amp;vec);</span><br><span class="line"></span><br><span class="line">                left = right;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> merge_size &gt; len &gt;&gt; <span class="number">1</span> &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            merge_size &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></h2><h2 id="求数组的小和"><a href="#求数组的小和" class="headerlink" title="求数组的小和"></a>求数组的小和</h2><p>在一个数组中，一个数左边比它小的数的总和，叫数的小和，所有数的小和加起来叫数组小和。求数组小和。</p>
+<blockquote>
+<p>例子：<code>[1, 3, 4, 2, 5]</code></p>
+<p><code>1</code> 左边比自己小的数：没有<br><code>3</code> 左边比自己小的数：<code>1</code><br><code>4</code> 左边比自己小的数：<code>1</code> <code>3</code><br><code>2</code> 左边比自己小的数：<code>1</code><br><code>5</code> 左边比自己小的数：<code>1</code> <code>3</code> <code>4</code> <code>2</code>  </p>
+<p>所以，数组的小和为 $1 + 1 + 3 + 1 + 1 + 3 + 4 + 2 = 16$</p>
+</blockquote>
+<ul>
+<li>Java 实现</li>
+</ul>
+<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SmallSum</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(smallSum(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">5</span>&#125;) + <span class="string">&quot; == &quot;</span> + getSmallSumSimple(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">5</span>&#125;));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getSmallSumSimple</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> smallSum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.length; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (array[j] &lt; array[i]) &#123;</span><br><span class="line">                    smallSum += array[j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> smallSum;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">smallSum</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] help = <span class="keyword">new</span> <span class="keyword">int</span>[array.length];</span><br><span class="line">        <span class="keyword">return</span> doMergeSmallSum(array, help, <span class="number">0</span>, help.length);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">doMergeSmallSum</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span>[] help, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (end - start &lt; <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> mid = start + ((end - start) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">int</span> left = doMergeSmallSum(array, help, start, mid);</span><br><span class="line">        <span class="keyword">int</span> right = doMergeSmallSum(array, help, mid, end);</span><br><span class="line">        <span class="keyword">return</span> left + right + doMerge(array, help, start, mid, end);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">doMerge</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span>[] help, <span class="keyword">int</span> start, <span class="keyword">int</span> mid, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = start;</span><br><span class="line">        <span class="keyword">int</span> j = mid;</span><br><span class="line">        <span class="keyword">int</span> k = start;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (i &lt; mid &amp;&amp; j &lt; end) &#123;</span><br><span class="line">            <span class="keyword">if</span> (array[i] &lt; array[j]) &#123;</span><br><span class="line">                <span class="keyword">int</span> t = array[i++];</span><br><span class="line">                help[k++] = t;</span><br><span class="line">                sum += t * (end - j);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                help[k++] = array[j++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (i &lt; mid) &#123;</span><br><span class="line">            help[k++] = array[i++];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (j &lt; end) &#123;</span><br><span class="line">            help[k++] = array[j++];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (k = start; k &lt; end; k++) &#123;</span><br><span class="line">            array[k] = help[k];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></h2><h2 id="求数组中的降序对"><a href="#求数组中的降序对" class="headerlink" title="求数组中的降序对"></a>求数组中的降序对</h2><blockquote>
+<p>例如：<code>[3, 1, 7, 0, 2]</code> 中的降序对有 <code>(3, 1)</code>、<code>(3, 0)</code>、<code>(3, 2)</code>、<code>(1, 0)</code>、<code>(7, 0)</code>、<code>(7, 2)</code>。</p>
+</blockquote>
+<p>即求数组中每个数右边有多少个数比它小，就有多少个降序对。</p>
+<ul>
+<li>Rust 实现</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[test]</span></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">test_get_descending_pairs</span></span>() &#123;</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0</span>..<span class="number">100</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> array0: [<span class="built_in">u8</span>; <span class="number">32</span>] = rand::random();</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> array1 = array0.clone();</span><br><span class="line">        <span class="keyword">let</span> set0 = array0.get_descending_pairs();</span><br><span class="line">        <span class="keyword">let</span> set1 = array1.get_descending_pairs_simple();</span><br><span class="line">        <span class="built_in">assert_eq!</span>(set0, set1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">DescendingPair</span></span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">get_descending_pairs</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) -&gt; HashSet&lt;(T, T)&gt;;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">get_descending_pairs_simple</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) -&gt; HashSet&lt;(T, T)&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Ord</span> + <span class="built_in">Clone</span> + Hash&gt; DescendingPair&lt;T&gt; <span class="keyword">for</span> [T] &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">get_descending_pairs</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) -&gt; HashSet&lt;(T, T)&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> set = HashSet::new();</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">self</span>.len() &lt; <span class="number">2</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> set;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> mid = <span class="keyword">self</span>.len() &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> left = <span class="keyword">self</span>[..mid].get_descending_pairs();</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> right = <span class="keyword">self</span>[mid..].get_descending_pairs();</span><br><span class="line">        set.extend(left.drain());</span><br><span class="line">        set.extend(right.drain());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> help = <span class="built_in">Vec</span>::with_capacity(<span class="keyword">self</span>.len());</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> j = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> k = mid;</span><br><span class="line">        <span class="keyword">let</span> len = <span class="keyword">self</span>.len();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> j &lt; mid &amp;&amp; k &lt; len &#123;</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">self</span>[j] &gt; <span class="keyword">self</span>[k] &#123;</span><br><span class="line">                <span class="keyword">let</span> <span class="keyword">mut</span> temp = <span class="keyword">self</span>[k..]</span><br><span class="line">                    .iter()</span><br><span class="line">                    .map(|v| (<span class="keyword">self</span>[j].clone(), v.clone()))</span><br><span class="line">                    .collect::&lt;HashSet&lt;_&gt;&gt;();</span><br><span class="line">                set.extend(temp.drain());</span><br><span class="line"></span><br><span class="line">                help.push(<span class="keyword">self</span>[j].clone());</span><br><span class="line">                j += <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                help.push(<span class="keyword">self</span>[k].clone());</span><br><span class="line">                k += <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        help.extend_from_slice(&amp;<span class="keyword">self</span>[j..mid]);</span><br><span class="line">        help.extend_from_slice(&amp;<span class="keyword">self</span>[k..]);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">assert_eq!</span>(help.len(), <span class="keyword">self</span>.len());</span><br><span class="line">        <span class="keyword">self</span>.clone_from_slice(&amp;help);</span><br><span class="line"></span><br><span class="line">        set</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">get_descending_pairs_simple</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) -&gt; HashSet&lt;(T, T)&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> set = HashSet::new();</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..<span class="keyword">self</span>.len() &#123;</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="number">0</span>..i &#123;</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">self</span>[j] &gt; <span class="keyword">self</span>[i] &#123;</span><br><span class="line">                    set.insert((<span class="keyword">self</span>[j].clone(), <span class="keyword">self</span>[i].clone()));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        set</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+              <a href="/tags/sort/" rel="tag"># sort</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/06/recursive-time-complexity-formula/" rel="prev" title="递归算法时间复杂度公式">
+      <i class="fa fa-chevron-left"></i> 递归算法时间复杂度公式
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/09/13/quick-sort/" rel="next" title="快速排序">
+      快速排序 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  
+  <div class="comments">
+  <script src="https://utteranc.es/client.js" repo="gengteng/gengteng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script>
+  </div>
+  
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="nav-number">1.</span> <span class="nav-text">归并排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">递归方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E9%80%92%E5%BD%92%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">非递归方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+#[test]
+fn test_loop_merge_sort() &amp;#123;
+    for _ in 0..100 &amp;#123;
+        let mut array0: [u8; 32] &#x3D; rand::random();
+        let mut array1 &#x3D; array0.clone();
+        array0.loop_merge_sort();
+        array1.sort();
+        assert_eq!(array0, array1);
+    &amp;#125;
+&amp;#125;
+
+impl&lt;T: Ord + Clone&gt; MergeSort for [T] &amp;#123;
+    fn merge_sort(&amp;mut self) &amp;#123;
+        &#x2F;&#x2F;...
+    &amp;#125;
+
+    fn loop_merge_sort(&amp;mut self) &amp;#123;
+        let len &#x3D; self.len();
+        if len &lt; 2 &amp;#123;
+            return;
+        &amp;#125;
+
+        let mut merge_size: usize &#x3D; 1;
+        while merge_size &lt; len &amp;#123;
+            let mut left &#x3D; 0;
+
+            while left &lt; len &amp;#123;
+                let mid &#x3D; left + merge_size;
+                if mid &gt;&#x3D; len &amp;#123;
+                    break;
+                &amp;#125;
+
+                let right &#x3D; (mid + merge_size).min(len);
+
+                &#x2F;&#x2F; merge sorted
+                let mut vec &#x3D; Vec::with_capacity(right - left);
+
+                let mut i &#x3D; left;
+                let mut j &#x3D; mid;
+                while i &lt; mid &amp;&amp; j &lt; right &amp;#123;
+                    if self[i] &lt;&#x3D; self[j] &amp;#123;
+                        vec.push(self[i].clone());
+                        i +&#x3D; 1;
+                    &amp;#125; else &amp;#123;
+                        vec.push(self[j].clone());
+                        j +&#x3D; 1;
+                    &amp;#125;
+                &amp;#125;
+
+                while i &lt; mid &amp;#123;
+                    vec.push(self[i].clone());
+                    i +&#x3D; 1;
+                &amp;#125;
+
+                while j &lt; right &amp;#123;
+                    vec.push(self[j].clone());
+                    j +&#x3D; 1;
+                &amp;#125;
+
+                (&amp;mut self[left..right]).clone_from_slice(&amp;vec);
+
+                left &#x3D; right;
+            &amp;#125;
+
+            if merge_size &gt; len &gt;&gt; 1 &amp;#123;
+                break;
+            &amp;#125;
+
+            merge_size &lt;&lt;&#x3D; 1;
+        &amp;#125;
+    &amp;#125;
+&amp;#125;
+</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B1%82%E6%95%B0%E7%BB%84%E7%9A%84%E5%B0%8F%E5%92%8C"><span class="nav-number">3.</span> <span class="nav-text">求数组的小和</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-1"><span class="nav-number">4.</span> <span class="nav-text">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+public class SmallSum &amp;#123;
+    public static void main(String[] args) &amp;#123;
+        System.out.println(smallSum(new int[]&amp;#123;1, 3, 4, 2, 5&amp;#125;) + &quot; &#x3D;&#x3D; &quot; + getSmallSumSimple(new int[]&amp;#123;1, 3, 4, 2, 5&amp;#125;));
+    &amp;#125;
+
+    static int getSmallSumSimple(int[] array) &amp;#123;
+        int smallSum &#x3D; 0;
+        for (int i &#x3D; 0; i &lt; array.length; ++i) &amp;#123;
+            for (int j &#x3D; 0; j &lt; i; ++j) &amp;#123;
+                if (array[j] &lt; array[i]) &amp;#123;
+                    smallSum +&#x3D; array[j];
+                &amp;#125;
+            &amp;#125;
+        &amp;#125;
+        return smallSum;
+    &amp;#125;
+
+    static int smallSum(int[] array) &amp;#123;
+        int[] help &#x3D; new int[array.length];
+        return doMergeSmallSum(array, help, 0, help.length);
+    &amp;#125;
+
+    static int doMergeSmallSum(int[] array, int[] help, int start, int end) &amp;#123;
+        if (end - start &lt; 2) &amp;#123;
+            return 0;
+        &amp;#125;
+
+        int mid &#x3D; start + ((end - start) &gt;&gt; 1);
+        int left &#x3D; doMergeSmallSum(array, help, start, mid);
+        int right &#x3D; doMergeSmallSum(array, help, mid, end);
+        return left + right + doMerge(array, help, start, mid, end);
+    &amp;#125;
+
+    static int doMerge(int[] array, int[] help, int start, int mid, int end) &amp;#123;
+        int i &#x3D; start;
+        int j &#x3D; mid;
+        int k &#x3D; start;
+        int sum &#x3D; 0;
+
+        while (i &lt; mid &amp;&amp; j &lt; end) &amp;#123;
+            if (array[i] &lt; array[j]) &amp;#123;
+                int t &#x3D; array[i++];
+                help[k++] &#x3D; t;
+                sum +&#x3D; t * (end - j);
+            &amp;#125; else &amp;#123;
+                help[k++] &#x3D; array[j++];
+            &amp;#125;
+        &amp;#125;
+
+        while (i &lt; mid) &amp;#123;
+            help[k++] &#x3D; array[i++];
+        &amp;#125;
+
+        while (j &lt; end) &amp;#123;
+            help[k++] &#x3D; array[j++];
+        &amp;#125;
+
+        for (k &#x3D; start; k &lt; end; k++) &amp;#123;
+            array[k] &#x3D; help[k];
+        &amp;#125;
+
+        return sum;
+    &amp;#125;
+&amp;#125;
+</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B1%82%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%99%8D%E5%BA%8F%E5%AF%B9"><span class="nav-number">5.</span> <span class="nav-text">求数组中的降序对</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Thomasg</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengteng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengteng" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:me@gteng.org" title="E-Mail → mailto:me@gteng.org"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Thomasg</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

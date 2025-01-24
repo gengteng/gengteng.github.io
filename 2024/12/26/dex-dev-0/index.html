@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gteng.org","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Raydium 是一个 Solana 平台上的 DEX，提供了各种代币的流动性池，为用户提供流动性挖矿、购买代币的功能。为了给 DEX 项目引入流动性池、对接 Raydium 的交换协议，对 raydium 恒定乘积交换合约的源码进行深入学习，这也是 Raydium 上最新的标准 AMM。  Repository: https:&#x2F;&#x2F;github.com&#x2F;raydium-io&#x2F;raydium-cp-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DEX 开发笔记 - Raydium 恒定乘积交换合约源码阅读">
+<meta property="og:url" content="https://gteng.org/2024/12/26/dex-dev-0/index.html">
+<meta property="og:site_name" content="一口笔记">
+<meta property="og:description" content="Raydium 是一个 Solana 平台上的 DEX，提供了各种代币的流动性池，为用户提供流动性挖矿、购买代币的功能。为了给 DEX 项目引入流动性池、对接 Raydium 的交换协议，对 raydium 恒定乘积交换合约的源码进行深入学习，这也是 Raydium 上最新的标准 AMM。  Repository: https:&#x2F;&#x2F;github.com&#x2F;raydium-io&#x2F;raydium-cp-">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-26T12:30:56.000Z">
+<meta property="article:modified_time" content="2025-01-24T08:48:32.265Z">
+<meta property="article:author" content="Thomasg">
+<meta property="article:tag" content="solana">
+<meta property="article:tag" content="web3">
+<meta property="article:tag" content="dex">
+<meta property="article:tag" content="amm">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gteng.org/2024/12/26/dex-dev-0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>DEX 开发笔记 - Raydium 恒定乘积交换合约源码阅读 | 一口笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一口笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">常期望安定，还期望即兴。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/12/26/dex-dev-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DEX 开发笔记 - Raydium 恒定乘积交换合约源码阅读
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-12-26 20:30:56" itemprop="dateCreated datePublished" datetime="2024-12-26T20:30:56+08:00">2024-12-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Raydium 是一个 Solana 平台上的 DEX，提供了各种代币的流动性池，为用户提供流动性挖矿、购买代币的功能。为了给 DEX 项目引入流动性池、对接 Raydium 的交换协议，对 raydium 恒定乘积交换合约的源码进行深入学习，这也是 Raydium 上最新的标准 AMM。</p>
+<blockquote>
+<p>Repository: <a target="_blank" rel="noopener" href="https://github.com/raydium-io/raydium-cp-swap">https://github.com/raydium-io/raydium-cp-swap</a></p>
+</blockquote>
+<h2 id="流动性池状态及创建时的基本流程"><a href="#流动性池状态及创建时的基本流程" class="headerlink" title="流动性池状态及创建时的基本流程"></a>流动性池状态及创建时的基本流程</h2><p>流动性池状态定义如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[account(zero_copy(unsafe))]</span></span><br><span class="line"><span class="meta">#[repr(packed)]</span></span><br><span class="line"><span class="meta">#[derive(Default, Debug)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">PoolState</span></span> &#123;</span><br><span class="line">    <span class="comment">/// 使用的配置，主要包括各种费率，控制标志，拥有者 / 受益者 等信息</span></span><br><span class="line">    <span class="keyword">pub</span> amm_config: Pubkey,</span><br><span class="line">    <span class="comment">/// 流动性池创建者</span></span><br><span class="line">    <span class="keyword">pub</span> pool_creator: Pubkey,</span><br><span class="line">    <span class="comment">/// Token A 的金库，用来存储流动性 Token 及收益</span></span><br><span class="line">    <span class="keyword">pub</span> token_0_vault: Pubkey,</span><br><span class="line">    <span class="comment">/// Token B 的金库，用来存储流动性 Token 及收益</span></span><br><span class="line">    <span class="keyword">pub</span> token_1_vault: Pubkey,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 流动性池 token 会在存入 A 或 B 时发放</span></span><br><span class="line">    <span class="comment">/// 流动性池 token 可以被提取为对应的 A 或 B</span></span><br><span class="line">    <span class="keyword">pub</span> lp_mint: Pubkey,</span><br><span class="line">    <span class="comment">/// A 的铸币厂</span></span><br><span class="line">    <span class="keyword">pub</span> token_0_mint: Pubkey,</span><br><span class="line">    <span class="comment">/// B 的铸币厂</span></span><br><span class="line">    <span class="keyword">pub</span> token_1_mint: Pubkey,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A 使用的 Token 程序，比如旧版本或者 2022</span></span><br><span class="line">    <span class="keyword">pub</span> token_0_program: Pubkey,</span><br><span class="line">    <span class="comment">/// B 使用的 Token 程序</span></span><br><span class="line">    <span class="keyword">pub</span> token_1_program: Pubkey,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// TWAP 计价账户的地址</span></span><br><span class="line">    <span class="keyword">pub</span> observation_key: Pubkey,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 用于 PDA 签名时使用的 bump</span></span><br><span class="line">    <span class="keyword">pub</span> auth_bump: <span class="built_in">u8</span>,</span><br><span class="line">    <span class="comment">/// Bitwise representation of the state of the pool</span></span><br><span class="line">    <span class="comment">/// bit0, 1: disable deposit(vaule is 1), 0: normal</span></span><br><span class="line">    <span class="comment">/// bit1, 1: disable withdraw(vaule is 2), 0: normal</span></span><br><span class="line">    <span class="comment">/// bit2, 1: disable swap(vaule is 4), 0: normal</span></span><br><span class="line">    <span class="keyword">pub</span> status: <span class="built_in">u8</span>,</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> lp_mint_decimals: <span class="built_in">u8</span>,</span><br><span class="line">    <span class="comment">/// mint0 and mint1 decimals</span></span><br><span class="line">    <span class="keyword">pub</span> mint_0_decimals: <span class="built_in">u8</span>,</span><br><span class="line">    <span class="keyword">pub</span> mint_1_decimals: <span class="built_in">u8</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// True circulating supply without burns and lock ups</span></span><br><span class="line">    <span class="keyword">pub</span> lp_supply: <span class="built_in">u64</span>,</span><br><span class="line">    <span class="comment">/// 金库中欠流动性提供者的 A 和 B 的数额.</span></span><br><span class="line">    <span class="keyword">pub</span> protocol_fees_token_0: <span class="built_in">u64</span>,</span><br><span class="line">    <span class="keyword">pub</span> protocol_fees_token_1: <span class="built_in">u64</span>,</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> fund_fees_token_0: <span class="built_in">u64</span>,</span><br><span class="line">    <span class="keyword">pub</span> fund_fees_token_1: <span class="built_in">u64</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// The timestamp allowed for swap in the pool.</span></span><br><span class="line">    <span class="keyword">pub</span> open_time: <span class="built_in">u64</span>,</span><br><span class="line">    <span class="comment">/// recent epoch</span></span><br><span class="line">    <span class="keyword">pub</span> recent_epoch: <span class="built_in">u64</span>,</span><br><span class="line">    <span class="comment">/// padding for future updates</span></span><br><span class="line">    <span class="keyword">pub</span> padding: [<span class="built_in">u64</span>; <span class="number">31</span>],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>初始化流动性池的指令函数签名如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">initialize</span></span>(</span><br><span class="line">    ctx: Context&lt;Initialize&gt;, <span class="comment">// 上下文</span></span><br><span class="line">    init_amount_0: <span class="built_in">u64</span>,       <span class="comment">// A 资产初始数额</span></span><br><span class="line">    init_amount_1: <span class="built_in">u64</span>,       <span class="comment">// B 资产初始数额</span></span><br><span class="line">    <span class="keyword">mut</span> open_time: <span class="built_in">u64</span>,       <span class="comment">// 开始交易时间</span></span><br><span class="line">) -&gt; <span class="built_in">Result</span>&lt;()&gt;;</span><br></pre></td></tr></table></figure>
+<p>初始化流动性池账户定义如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Accounts)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Initialize</span></span>&lt;<span class="symbol">&#x27;info</span>&gt; &#123;</span><br><span class="line">    <span class="comment">/// Address paying to create the pool. Can be anyone</span></span><br><span class="line">    <span class="meta">#[account(mut)]</span></span><br><span class="line">    <span class="keyword">pub</span> creator: Signer&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Which config the pool belongs to.</span></span><br><span class="line">    <span class="keyword">pub</span> amm_config: <span class="built_in">Box</span>&lt;Account&lt;<span class="symbol">&#x27;info</span>, AmmConfig&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// CHECK: pool vault and lp mint authority</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        seeds = [</span></span><br><span class="line"><span class="meta">            crate::AUTH_SEED.as_bytes(),</span></span><br><span class="line"><span class="meta">        ]</span>,</span><br><span class="line">        bump,</span><br><span class="line">    )]</span><br><span class="line">    <span class="keyword">pub</span> authority: UncheckedAccount&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// CHECK: Initialize an account to store the pool state</span></span><br><span class="line">    <span class="comment">/// PDA account:</span></span><br><span class="line">    <span class="comment">/// seeds = [</span></span><br><span class="line">    <span class="comment">///     POOL_SEED.as_bytes(),</span></span><br><span class="line">    <span class="comment">///     amm_config.key().as_ref(),</span></span><br><span class="line">    <span class="comment">///     token_0_mint.key().as_ref(),</span></span><br><span class="line">    <span class="comment">///     token_1_mint.key().as_ref(),</span></span><br><span class="line">    <span class="comment">/// ],</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// Or random account: must be signed by cli</span></span><br><span class="line">    <span class="meta">#[account(mut)]</span></span><br><span class="line">    <span class="keyword">pub</span> pool_state: UncheckedAccount&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Token_0 mint, the key must smaller then token_1 mint.</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        constraint = token_0_mint.key() &lt; token_1_mint.key(),</span></span><br><span class="line"><span class="meta">        mint::token_program = token_0_program,</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> token_0_mint: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, Mint&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Token_1 mint, the key must grater then token_0 mint.</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mint::token_program = token_1_program,</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> token_1_mint: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, Mint&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// pool lp mint</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        init,</span></span><br><span class="line"><span class="meta">        seeds = [</span></span><br><span class="line"><span class="meta">            POOL_LP_MINT_SEED.as_bytes(),</span></span><br><span class="line"><span class="meta">            pool_state.key().as_ref(),</span></span><br><span class="line"><span class="meta">        ]</span>,</span><br><span class="line">        bump,</span><br><span class="line">        mint::decimals = <span class="number">9</span>,</span><br><span class="line">        mint::authority = authority,</span><br><span class="line">        payer = creator,</span><br><span class="line">        mint::token_program = token_program,</span><br><span class="line">    )]</span><br><span class="line">    <span class="keyword">pub</span> lp_mint: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, Mint&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// payer token0 account</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        token::mint = token_0_mint,</span></span><br><span class="line"><span class="meta">        token::authority = creator,</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> creator_token_0: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// creator token1 account</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        token::mint = token_1_mint,</span></span><br><span class="line"><span class="meta">        token::authority = creator,</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> creator_token_1: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// creator lp token account</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        init,</span></span><br><span class="line"><span class="meta">        associated_token::mint = lp_mint,</span></span><br><span class="line"><span class="meta">        associated_token::authority = creator,</span></span><br><span class="line"><span class="meta">        payer = creator,</span></span><br><span class="line"><span class="meta">        token::token_program = token_program,</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> creator_lp_token: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// CHECK: Token_0 vault for the pool, create by contract</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        seeds = [</span></span><br><span class="line"><span class="meta">            POOL_VAULT_SEED.as_bytes(),</span></span><br><span class="line"><span class="meta">            pool_state.key().as_ref(),</span></span><br><span class="line"><span class="meta">            token_0_mint.key().as_ref()</span></span><br><span class="line"><span class="meta">        ]</span>,</span><br><span class="line">        bump,</span><br><span class="line">    )]</span><br><span class="line">    <span class="keyword">pub</span> token_0_vault: UncheckedAccount&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// CHECK: Token_1 vault for the pool, create by contract</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        seeds = [</span></span><br><span class="line"><span class="meta">            POOL_VAULT_SEED.as_bytes(),</span></span><br><span class="line"><span class="meta">            pool_state.key().as_ref(),</span></span><br><span class="line"><span class="meta">            token_1_mint.key().as_ref()</span></span><br><span class="line"><span class="meta">        ]</span>,</span><br><span class="line">        bump,</span><br><span class="line">    )]</span><br><span class="line">    <span class="keyword">pub</span> token_1_vault: UncheckedAccount&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// create pool fee account</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        address= crate::create_pool_fee_reveiver::id(),</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> create_pool_fee: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// an account to store oracle observations</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        init,</span></span><br><span class="line"><span class="meta">        seeds = [</span></span><br><span class="line"><span class="meta">            OBSERVATION_SEED.as_bytes(),</span></span><br><span class="line"><span class="meta">            pool_state.key().as_ref(),</span></span><br><span class="line"><span class="meta">        ]</span>,</span><br><span class="line">        bump,</span><br><span class="line">        payer = creator,</span><br><span class="line">        space = ObservationState::LEN</span><br><span class="line">    )]</span><br><span class="line">    <span class="keyword">pub</span> observation_state: AccountLoader&lt;<span class="symbol">&#x27;info</span>, ObservationState&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Program to create mint account and mint tokens</span></span><br><span class="line">    <span class="keyword">pub</span> token_program: Program&lt;<span class="symbol">&#x27;info</span>, Token&gt;,</span><br><span class="line">    <span class="comment">/// Spl token program or token program 2022</span></span><br><span class="line">    <span class="keyword">pub</span> token_0_program: Interface&lt;<span class="symbol">&#x27;info</span>, TokenInterface&gt;,</span><br><span class="line">    <span class="comment">/// Spl token program or token program 2022</span></span><br><span class="line">    <span class="keyword">pub</span> token_1_program: Interface&lt;<span class="symbol">&#x27;info</span>, TokenInterface&gt;,</span><br><span class="line">    <span class="comment">/// Program to create an ATA for receiving position NFT</span></span><br><span class="line">    <span class="keyword">pub</span> associated_token_program: Program&lt;<span class="symbol">&#x27;info</span>, AssociatedToken&gt;,</span><br><span class="line">    <span class="comment">/// To create a new program account</span></span><br><span class="line">    <span class="keyword">pub</span> system_program: Program&lt;<span class="symbol">&#x27;info</span>, System&gt;,</span><br><span class="line">    <span class="comment">/// Sysvar for program account</span></span><br><span class="line">    <span class="keyword">pub</span> rent: Sysvar&lt;<span class="symbol">&#x27;info</span>, Rent&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>初始化流动性池流程如下：</p>
+<ol>
+<li>判断两种资产的 Mint 账户是否合法，判断 AMM 配置中是否关闭创建 Pool。</li>
+<li>设定开始交易时间。</li>
+<li>创建两种资产的金库。</li>
+<li>创建 PoolState 数据账户。</li>
+<li>创建 ObservationState 数据账户。</li>
+<li>将两种初始资产从创建者账户转账到金库账户。</li>
+<li>判断两个金库账户的数额是否合法（实际上只要大于 0 就合法）。</li>
+<li>计算流动性值: $liquidity = \sqrt(amount0 * amount1)$。</li>
+<li>固定锁定 100 个流动性值: <code>let lock_lp_amount = 100</code></li>
+<li>发放 <code>liquidity - lock_lp_amount</code> 个 LP token 给创建者。</li>
+<li>从创建者账户里收取创建费（lamports）到一个专门存放创建费的账户中（地址硬编码在合约里）。</li>
+<li>初始化流动性池数据的各个字段。</li>
+</ol>
+<h2 id="资产交换"><a href="#资产交换" class="headerlink" title="资产交换"></a>资产交换</h2><p>资产交换分为两类：</p>
+<ol>
+<li>基于输入资产: 输入资产额度固定，一部分会作为手续费，一部分作为购买资金输入。</li>
+<li>基于输出资产: 输出资产额度固定，需要额外购买一部分输出资产作为手续费，其他作为购买到的资产输出。</li>
+</ol>
+<h3 id="基于输入资产"><a href="#基于输入资产" class="headerlink" title="基于输入资产"></a>基于输入资产</h3><p>指令函数签名：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">swap_base_input</span></span>(</span><br><span class="line">    ctx: Context&lt;Swap&gt;,      <span class="comment">// 上下文</span></span><br><span class="line">    amount_in: <span class="built_in">u64</span>,          <span class="comment">// 输入资产</span></span><br><span class="line">    minimum_amount_out: <span class="built_in">u64</span>  <span class="comment">// 最小输出资产，由调用者按照当前价格及滑点计算得出</span></span><br><span class="line">) -&gt; <span class="built_in">Result</span>&lt;()&gt;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Accounts)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Swap</span></span>&lt;<span class="symbol">&#x27;info</span>&gt; &#123;</span><br><span class="line">    <span class="comment">// 交换者</span></span><br><span class="line">    <span class="keyword">pub</span> payer: Signer&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 流动性池的金库和流动性 token mint 的权限账户</span></span><br><span class="line">    <span class="comment">/// CHECK: pool vault and lp mint authority</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        seeds = [</span></span><br><span class="line"><span class="meta">            crate::AUTH_SEED.as_bytes(),</span></span><br><span class="line"><span class="meta">        ]</span>,</span><br><span class="line">        bump,</span><br><span class="line">    )]</span><br><span class="line">    <span class="keyword">pub</span> authority: UncheckedAccount&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 用于读取协议费用</span></span><br><span class="line">    <span class="meta">#[account(address = pool_state.load()?.amm_config)]</span></span><br><span class="line">    <span class="keyword">pub</span> amm_config: <span class="built_in">Box</span>&lt;Account&lt;<span class="symbol">&#x27;info</span>, AmmConfig&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 流动性池数据账户</span></span><br><span class="line">    <span class="meta">#[account(mut)]</span></span><br><span class="line">    <span class="keyword">pub</span> pool_state: AccountLoader&lt;<span class="symbol">&#x27;info</span>, PoolState&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 用户购买使用的 token ATA，即输入 token 的 ATA</span></span><br><span class="line">    <span class="meta">#[account(mut)]</span></span><br><span class="line">    <span class="keyword">pub</span> input_token_account: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 用户希望购买到的 token ATA，即输出 token 的 ATA</span></span><br><span class="line">    <span class="meta">#[account(mut)]</span></span><br><span class="line">    <span class="keyword">pub</span> output_token_account: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 接收用户购买使用的 token 的金库</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        constraint = input_vault.key() == pool_state.load()?.token_0_vault || input_vault.key() == pool_state.load()?.token_1_vault</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> input_vault: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 输出用户希望购买到的 token 的金库</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        constraint = output_vault.key() == pool_state.load()?.token_0_vault || output_vault.key() == pool_state.load()?.token_1_vault</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> output_vault: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 输入 token 的程序（可能是 2022）</span></span><br><span class="line">    <span class="keyword">pub</span> input_token_program: Interface&lt;<span class="symbol">&#x27;info</span>, TokenInterface&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 输出 token 的程序（可能是 2022）</span></span><br><span class="line">    <span class="keyword">pub</span> output_token_program: Interface&lt;<span class="symbol">&#x27;info</span>, TokenInterface&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 输入 token 的铸币厂</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        address = input_vault.mint</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> input_token_mint: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, Mint&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 输出 token 的铸币厂</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        address = output_vault.mint</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> output_token_mint: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, Mint&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 记录价格的数据账户，用于计算 TWAP 价格 </span></span><br><span class="line">    <span class="meta">#[account(mut, address = pool_state.load()?.observation_key)]</span></span><br><span class="line">    <span class="keyword">pub</span> observation_state: AccountLoader&lt;<span class="symbol">&#x27;info</span>, ObservationState&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基于输入的资产交换流程如下：</p>
+<ol>
+<li>检查时间、状态等是否允许交换。</li>
+<li>计算转账（应该指的是向金库中转账）费用，从总的输入费用中减去这部分，将剩余部分 <code>actual_amount_in</code> 作为实际购买资金。</li>
+<li>计算两个金库扣除协议费用和资金费用之后剩余的部分，即实际上提供流动性的两种资金。</li>
+<li>按照上一步计算得到了两种资金，计算两种资金置换另一种的价格，$A / B$ 和 $B / A$，同时转换为 <code>u128</code> 左移 32 位使用定点数来保存精度。</li>
+<li>将第 3 步得到的两种资金额度相乘，得到恒定乘积 $A * B$。</li>
+<li>计算交换结果，包括各种额度、费用。</li>
+<li>将上一步得到的计算结果中的交换后的的源资产额度减去交易费用，再乘以这个结果中交换后的目标资产额度，得到交换后的恒定乘积 $A’ * B’$。</li>
+<li>验证第 6 步计算结果中交换的源资产额度是否等于 <code>actual_amount_in</code>。</li>
+<li>检查第 6 步计算结果中交换得到的目标资产额度减去转账费用之后，是否仍然大于 0 ；同时检查，是否大于等于 <code>minimum_amount_out</code>，如果不满足表示超过滑点限制。</li>
+<li>更新流动性池状态的协议费用及资金费用，用于记录金库中非流动性的部分的额度。</li>
+<li>发送一个 <code>SwapEvent</code> 事件。（为什么？怎么利用？）</li>
+<li>验证交换后的恒定乘积大于等于交换前的恒定乘积，即 $A’ <em> B’ \geq A </em> B$。</li>
+<li>根据计算后的结果，将相应额度的输入资产从用户账户转账到金库账户，将相应额度的输出资产从金库账户转账到用户账户。</li>
+<li>更新观测状态（<code>ObservationState</code>）的值。</li>
+</ol>
+<h3 id="基于输出资产"><a href="#基于输出资产" class="headerlink" title="基于输出资产"></a>基于输出资产</h3><p>TODO</p>
+<h3 id="观测状态-TWAP-计价器"><a href="#观测状态-TWAP-计价器" class="headerlink" title="观测状态 / TWAP 计价器"></a>观测状态 / TWAP 计价器</h3><p>观测值及观测状态结构定义如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[zero_copy(unsafe)]</span></span><br><span class="line"><span class="meta">#[repr(packed)]</span></span><br><span class="line"><span class="meta">#[derive(Default, Debug)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Observation</span></span> &#123;</span><br><span class="line">    <span class="comment">/// The block timestamp of the observation</span></span><br><span class="line">    <span class="keyword">pub</span> block_timestamp: <span class="built_in">u64</span>,</span><br><span class="line">    <span class="comment">/// the cumulative of token0 price during the duration time, Q32.32, the remaining 64 bit for overflow</span></span><br><span class="line">    <span class="keyword">pub</span> cumulative_token_0_price_x32: <span class="built_in">u128</span>,</span><br><span class="line">    <span class="comment">/// the cumulative of token1 price during the duration time, Q32.32, the remaining 64 bit for overflow</span></span><br><span class="line">    <span class="keyword">pub</span> cumulative_token_1_price_x32: <span class="built_in">u128</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[account(zero_copy(unsafe))]</span></span><br><span class="line"><span class="meta">#[repr(packed)]</span></span><br><span class="line"><span class="meta">#[cfg_attr(feature = <span class="meta-string">&quot;client&quot;</span>, derive(Debug))]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">ObservationState</span></span> &#123;</span><br><span class="line">    <span class="comment">/// Whether the ObservationState is initialized</span></span><br><span class="line">    <span class="keyword">pub</span> initialized: <span class="built_in">bool</span>,</span><br><span class="line">    <span class="comment">/// the most-recently updated index of the observations array</span></span><br><span class="line">    <span class="keyword">pub</span> observation_index: <span class="built_in">u16</span>,</span><br><span class="line">    <span class="keyword">pub</span> pool_id: Pubkey,</span><br><span class="line">    <span class="comment">/// 固定长度的环形缓冲区，用于循环写入观测记录</span></span><br><span class="line">    <span class="keyword">pub</span> observations: [Observation; OBSERVATION_NUM], <span class="comment">// OBSERVATION_NUM == 100</span></span><br><span class="line">    <span class="comment">/// padding for feature update</span></span><br><span class="line">    <span class="keyword">pub</span> padding: [<span class="built_in">u64</span>; <span class="number">4</span>],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中最重要的函数是更新：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">update</span></span>(</span><br><span class="line">    &amp;<span class="keyword">mut</span> <span class="keyword">self</span>,</span><br><span class="line">    block_timestamp: <span class="built_in">u64</span>,</span><br><span class="line">    token_0_price_x32: <span class="built_in">u128</span>,</span><br><span class="line">    token_1_price_x32: <span class="built_in">u128</span>,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>该函数将一个 Oracle 观测值写入到当前状态中，并将当前索引自增一模 <code>OBSERVATION_NUM</code>，即循环写入。</li>
+<li>该函数一秒钟最多执行一次。</li>
+<li>将两种资产的当前价格与跟上一个记录的时间差值相乘，即: $Price * \Delta T$。</li>
+<li>然后将上一步求出的两个结果与上一个记录的两个值累加起来 (<code>wrapping_add</code>)，作为新记录的两个值。</li>
+<li>更新索引。</li>
+</ol>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>TWAP ，即时间加权平均价格(Time Weighted Average Price)；用来平滑价格波动，减少大宗交易对市场价格的冲击。</p>
+<p>计算公式为：</p>
+<script type="math/tex; mode=display">
+\text{TWAP} = \frac{\sum_{i=1}^{n} \left( P_i \times \Delta t_i \right)}{\sum_{i=1}^{n} \Delta t_i}</script><p>即某个特定时间内的 <strong>TWAP</strong> 为：每小段时间乘以当时的价格求和，除以总时间。</p>
+<h3 id="设计理由（猜测）"><a href="#设计理由（猜测）" class="headerlink" title="设计理由（猜测）"></a>设计理由（猜测）</h3><p>我能想到的另外一种方案是：</p>
+<ol>
+<li>观测状态中的每个观测记录，只记录 $Price * \Delta T$ 和时间戳即可。</li>
+<li>当要求某段时间的 TWAP 时，将这段时间的所有记录累加，除以总时长即可，时间复杂度 $O(n)$。</li>
+<li>这样看起来好像可以避免 <code>wrapping_add</code>，源码中不断累加更可能遇到这种情况。</li>
+</ol>
+<p>而源码在计算某段时间的 TWAP 时，只需要将最后一个记录的值和第一个记录的值的差除以总时间即可，即这种方案时间复杂度只有 $O(1)$ 。而且实际上 <code>wrapping_add</code> 得到的累加值在相减的时候仍然可以得到正确的结果，只要在这段时间内没有溢出两次就行了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/solana/" rel="tag"># solana</a>
+              <a href="/tags/web3/" rel="tag"># web3</a>
+              <a href="/tags/dex/" rel="tag"># dex</a>
+              <a href="/tags/amm/" rel="tag"># amm</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/12/24/learn-solana-3/" rel="prev" title="Solana / Anchor 学习笔记 - Solana 白皮书（二）">
+      <i class="fa fa-chevron-left"></i> Solana / Anchor 学习笔记 - Solana 白皮书（二）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  
+  <div class="comments">
+  <script src="https://utteranc.es/client.js" repo="gengteng/gengteng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script>
+  </div>
+  
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E5%8A%A8%E6%80%A7%E6%B1%A0%E7%8A%B6%E6%80%81%E5%8F%8A%E5%88%9B%E5%BB%BA%E6%97%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">流动性池状态及创建时的基本流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E4%BA%A7%E4%BA%A4%E6%8D%A2"><span class="nav-number">2.</span> <span class="nav-text">资产交换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E8%BE%93%E5%85%A5%E8%B5%84%E4%BA%A7"><span class="nav-number">2.1.</span> <span class="nav-text">基于输入资产</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E8%BE%93%E5%87%BA%E8%B5%84%E4%BA%A7"><span class="nav-number">2.2.</span> <span class="nav-text">基于输出资产</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%82%E6%B5%8B%E7%8A%B6%E6%80%81-TWAP-%E8%AE%A1%E4%BB%B7%E5%99%A8"><span class="nav-number">2.3.</span> <span class="nav-text">观测状态 &#x2F; TWAP 计价器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.4.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E7%90%86%E7%94%B1%EF%BC%88%E7%8C%9C%E6%B5%8B%EF%BC%89"><span class="nav-number">2.5.</span> <span class="nav-text">设计理由（猜测）</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Thomasg</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengteng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengteng" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:me@gteng.org" title="E-Mail → mailto:me@gteng.org"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Thomasg</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

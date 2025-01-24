@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gteng.org","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="一口笔记">
+<meta property="og:url" content="https://gteng.org/index.html">
+<meta property="og:site_name" content="一口笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Thomasg">
+<meta property="article:tag" content="Rust,Java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gteng.org/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>一口笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一口笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">常期望安定，还期望即兴。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/12/26/dex-dev-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/12/26/dex-dev-0/" class="post-title-link" itemprop="url">DEX 开发笔记 - Raydium 恒定乘积交换合约源码阅读</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-12-26 20:30:56" itemprop="dateCreated datePublished" datetime="2024-12-26T20:30:56+08:00">2024-12-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Raydium 是一个 Solana 平台上的 DEX，提供了各种代币的流动性池，为用户提供流动性挖矿、购买代币的功能。为了给 DEX 项目引入流动性池、对接 Raydium 的交换协议，对 raydium 恒定乘积交换合约的源码进行深入学习，这也是 Raydium 上最新的标准 AMM。</p>
+<blockquote>
+<p>Repository: <a target="_blank" rel="noopener" href="https://github.com/raydium-io/raydium-cp-swap">https://github.com/raydium-io/raydium-cp-swap</a></p>
+</blockquote>
+<h2 id="流动性池状态及创建时的基本流程"><a href="#流动性池状态及创建时的基本流程" class="headerlink" title="流动性池状态及创建时的基本流程"></a>流动性池状态及创建时的基本流程</h2><p>流动性池状态定义如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[account(zero_copy(unsafe))]</span></span><br><span class="line"><span class="meta">#[repr(packed)]</span></span><br><span class="line"><span class="meta">#[derive(Default, Debug)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">PoolState</span></span> &#123;</span><br><span class="line">    <span class="comment">/// 使用的配置，主要包括各种费率，控制标志，拥有者 / 受益者 等信息</span></span><br><span class="line">    <span class="keyword">pub</span> amm_config: Pubkey,</span><br><span class="line">    <span class="comment">/// 流动性池创建者</span></span><br><span class="line">    <span class="keyword">pub</span> pool_creator: Pubkey,</span><br><span class="line">    <span class="comment">/// Token A 的金库，用来存储流动性 Token 及收益</span></span><br><span class="line">    <span class="keyword">pub</span> token_0_vault: Pubkey,</span><br><span class="line">    <span class="comment">/// Token B 的金库，用来存储流动性 Token 及收益</span></span><br><span class="line">    <span class="keyword">pub</span> token_1_vault: Pubkey,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 流动性池 token 会在存入 A 或 B 时发放</span></span><br><span class="line">    <span class="comment">/// 流动性池 token 可以被提取为对应的 A 或 B</span></span><br><span class="line">    <span class="keyword">pub</span> lp_mint: Pubkey,</span><br><span class="line">    <span class="comment">/// A 的铸币厂</span></span><br><span class="line">    <span class="keyword">pub</span> token_0_mint: Pubkey,</span><br><span class="line">    <span class="comment">/// B 的铸币厂</span></span><br><span class="line">    <span class="keyword">pub</span> token_1_mint: Pubkey,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A 使用的 Token 程序，比如旧版本或者 2022</span></span><br><span class="line">    <span class="keyword">pub</span> token_0_program: Pubkey,</span><br><span class="line">    <span class="comment">/// B 使用的 Token 程序</span></span><br><span class="line">    <span class="keyword">pub</span> token_1_program: Pubkey,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// TWAP 计价账户的地址</span></span><br><span class="line">    <span class="keyword">pub</span> observation_key: Pubkey,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 用于 PDA 签名时使用的 bump</span></span><br><span class="line">    <span class="keyword">pub</span> auth_bump: <span class="built_in">u8</span>,</span><br><span class="line">    <span class="comment">/// Bitwise representation of the state of the pool</span></span><br><span class="line">    <span class="comment">/// bit0, 1: disable deposit(vaule is 1), 0: normal</span></span><br><span class="line">    <span class="comment">/// bit1, 1: disable withdraw(vaule is 2), 0: normal</span></span><br><span class="line">    <span class="comment">/// bit2, 1: disable swap(vaule is 4), 0: normal</span></span><br><span class="line">    <span class="keyword">pub</span> status: <span class="built_in">u8</span>,</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> lp_mint_decimals: <span class="built_in">u8</span>,</span><br><span class="line">    <span class="comment">/// mint0 and mint1 decimals</span></span><br><span class="line">    <span class="keyword">pub</span> mint_0_decimals: <span class="built_in">u8</span>,</span><br><span class="line">    <span class="keyword">pub</span> mint_1_decimals: <span class="built_in">u8</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// True circulating supply without burns and lock ups</span></span><br><span class="line">    <span class="keyword">pub</span> lp_supply: <span class="built_in">u64</span>,</span><br><span class="line">    <span class="comment">/// 金库中欠流动性提供者的 A 和 B 的数额.</span></span><br><span class="line">    <span class="keyword">pub</span> protocol_fees_token_0: <span class="built_in">u64</span>,</span><br><span class="line">    <span class="keyword">pub</span> protocol_fees_token_1: <span class="built_in">u64</span>,</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> fund_fees_token_0: <span class="built_in">u64</span>,</span><br><span class="line">    <span class="keyword">pub</span> fund_fees_token_1: <span class="built_in">u64</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// The timestamp allowed for swap in the pool.</span></span><br><span class="line">    <span class="keyword">pub</span> open_time: <span class="built_in">u64</span>,</span><br><span class="line">    <span class="comment">/// recent epoch</span></span><br><span class="line">    <span class="keyword">pub</span> recent_epoch: <span class="built_in">u64</span>,</span><br><span class="line">    <span class="comment">/// padding for future updates</span></span><br><span class="line">    <span class="keyword">pub</span> padding: [<span class="built_in">u64</span>; <span class="number">31</span>],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>初始化流动性池的指令函数签名如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">initialize</span></span>(</span><br><span class="line">    ctx: Context&lt;Initialize&gt;, <span class="comment">// 上下文</span></span><br><span class="line">    init_amount_0: <span class="built_in">u64</span>,       <span class="comment">// A 资产初始数额</span></span><br><span class="line">    init_amount_1: <span class="built_in">u64</span>,       <span class="comment">// B 资产初始数额</span></span><br><span class="line">    <span class="keyword">mut</span> open_time: <span class="built_in">u64</span>,       <span class="comment">// 开始交易时间</span></span><br><span class="line">) -&gt; <span class="built_in">Result</span>&lt;()&gt;;</span><br></pre></td></tr></table></figure>
+<p>初始化流动性池账户定义如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Accounts)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Initialize</span></span>&lt;<span class="symbol">&#x27;info</span>&gt; &#123;</span><br><span class="line">    <span class="comment">/// Address paying to create the pool. Can be anyone</span></span><br><span class="line">    <span class="meta">#[account(mut)]</span></span><br><span class="line">    <span class="keyword">pub</span> creator: Signer&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Which config the pool belongs to.</span></span><br><span class="line">    <span class="keyword">pub</span> amm_config: <span class="built_in">Box</span>&lt;Account&lt;<span class="symbol">&#x27;info</span>, AmmConfig&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// CHECK: pool vault and lp mint authority</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        seeds = [</span></span><br><span class="line"><span class="meta">            crate::AUTH_SEED.as_bytes(),</span></span><br><span class="line"><span class="meta">        ]</span>,</span><br><span class="line">        bump,</span><br><span class="line">    )]</span><br><span class="line">    <span class="keyword">pub</span> authority: UncheckedAccount&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// CHECK: Initialize an account to store the pool state</span></span><br><span class="line">    <span class="comment">/// PDA account:</span></span><br><span class="line">    <span class="comment">/// seeds = [</span></span><br><span class="line">    <span class="comment">///     POOL_SEED.as_bytes(),</span></span><br><span class="line">    <span class="comment">///     amm_config.key().as_ref(),</span></span><br><span class="line">    <span class="comment">///     token_0_mint.key().as_ref(),</span></span><br><span class="line">    <span class="comment">///     token_1_mint.key().as_ref(),</span></span><br><span class="line">    <span class="comment">/// ],</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// Or random account: must be signed by cli</span></span><br><span class="line">    <span class="meta">#[account(mut)]</span></span><br><span class="line">    <span class="keyword">pub</span> pool_state: UncheckedAccount&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Token_0 mint, the key must smaller then token_1 mint.</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        constraint = token_0_mint.key() &lt; token_1_mint.key(),</span></span><br><span class="line"><span class="meta">        mint::token_program = token_0_program,</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> token_0_mint: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, Mint&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Token_1 mint, the key must grater then token_0 mint.</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mint::token_program = token_1_program,</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> token_1_mint: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, Mint&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// pool lp mint</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        init,</span></span><br><span class="line"><span class="meta">        seeds = [</span></span><br><span class="line"><span class="meta">            POOL_LP_MINT_SEED.as_bytes(),</span></span><br><span class="line"><span class="meta">            pool_state.key().as_ref(),</span></span><br><span class="line"><span class="meta">        ]</span>,</span><br><span class="line">        bump,</span><br><span class="line">        mint::decimals = <span class="number">9</span>,</span><br><span class="line">        mint::authority = authority,</span><br><span class="line">        payer = creator,</span><br><span class="line">        mint::token_program = token_program,</span><br><span class="line">    )]</span><br><span class="line">    <span class="keyword">pub</span> lp_mint: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, Mint&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// payer token0 account</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        token::mint = token_0_mint,</span></span><br><span class="line"><span class="meta">        token::authority = creator,</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> creator_token_0: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// creator token1 account</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        token::mint = token_1_mint,</span></span><br><span class="line"><span class="meta">        token::authority = creator,</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> creator_token_1: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// creator lp token account</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        init,</span></span><br><span class="line"><span class="meta">        associated_token::mint = lp_mint,</span></span><br><span class="line"><span class="meta">        associated_token::authority = creator,</span></span><br><span class="line"><span class="meta">        payer = creator,</span></span><br><span class="line"><span class="meta">        token::token_program = token_program,</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> creator_lp_token: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// CHECK: Token_0 vault for the pool, create by contract</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        seeds = [</span></span><br><span class="line"><span class="meta">            POOL_VAULT_SEED.as_bytes(),</span></span><br><span class="line"><span class="meta">            pool_state.key().as_ref(),</span></span><br><span class="line"><span class="meta">            token_0_mint.key().as_ref()</span></span><br><span class="line"><span class="meta">        ]</span>,</span><br><span class="line">        bump,</span><br><span class="line">    )]</span><br><span class="line">    <span class="keyword">pub</span> token_0_vault: UncheckedAccount&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// CHECK: Token_1 vault for the pool, create by contract</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        seeds = [</span></span><br><span class="line"><span class="meta">            POOL_VAULT_SEED.as_bytes(),</span></span><br><span class="line"><span class="meta">            pool_state.key().as_ref(),</span></span><br><span class="line"><span class="meta">            token_1_mint.key().as_ref()</span></span><br><span class="line"><span class="meta">        ]</span>,</span><br><span class="line">        bump,</span><br><span class="line">    )]</span><br><span class="line">    <span class="keyword">pub</span> token_1_vault: UncheckedAccount&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// create pool fee account</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        address= crate::create_pool_fee_reveiver::id(),</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> create_pool_fee: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// an account to store oracle observations</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        init,</span></span><br><span class="line"><span class="meta">        seeds = [</span></span><br><span class="line"><span class="meta">            OBSERVATION_SEED.as_bytes(),</span></span><br><span class="line"><span class="meta">            pool_state.key().as_ref(),</span></span><br><span class="line"><span class="meta">        ]</span>,</span><br><span class="line">        bump,</span><br><span class="line">        payer = creator,</span><br><span class="line">        space = ObservationState::LEN</span><br><span class="line">    )]</span><br><span class="line">    <span class="keyword">pub</span> observation_state: AccountLoader&lt;<span class="symbol">&#x27;info</span>, ObservationState&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Program to create mint account and mint tokens</span></span><br><span class="line">    <span class="keyword">pub</span> token_program: Program&lt;<span class="symbol">&#x27;info</span>, Token&gt;,</span><br><span class="line">    <span class="comment">/// Spl token program or token program 2022</span></span><br><span class="line">    <span class="keyword">pub</span> token_0_program: Interface&lt;<span class="symbol">&#x27;info</span>, TokenInterface&gt;,</span><br><span class="line">    <span class="comment">/// Spl token program or token program 2022</span></span><br><span class="line">    <span class="keyword">pub</span> token_1_program: Interface&lt;<span class="symbol">&#x27;info</span>, TokenInterface&gt;,</span><br><span class="line">    <span class="comment">/// Program to create an ATA for receiving position NFT</span></span><br><span class="line">    <span class="keyword">pub</span> associated_token_program: Program&lt;<span class="symbol">&#x27;info</span>, AssociatedToken&gt;,</span><br><span class="line">    <span class="comment">/// To create a new program account</span></span><br><span class="line">    <span class="keyword">pub</span> system_program: Program&lt;<span class="symbol">&#x27;info</span>, System&gt;,</span><br><span class="line">    <span class="comment">/// Sysvar for program account</span></span><br><span class="line">    <span class="keyword">pub</span> rent: Sysvar&lt;<span class="symbol">&#x27;info</span>, Rent&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>初始化流动性池流程如下：</p>
+<ol>
+<li>判断两种资产的 Mint 账户是否合法，判断 AMM 配置中是否关闭创建 Pool。</li>
+<li>设定开始交易时间。</li>
+<li>创建两种资产的金库。</li>
+<li>创建 PoolState 数据账户。</li>
+<li>创建 ObservationState 数据账户。</li>
+<li>将两种初始资产从创建者账户转账到金库账户。</li>
+<li>判断两个金库账户的数额是否合法（实际上只要大于 0 就合法）。</li>
+<li>计算流动性值: $liquidity = \sqrt(amount0 * amount1)$。</li>
+<li>固定锁定 100 个流动性值: <code>let lock_lp_amount = 100</code></li>
+<li>发放 <code>liquidity - lock_lp_amount</code> 个 LP token 给创建者。</li>
+<li>从创建者账户里收取创建费（lamports）到一个专门存放创建费的账户中（地址硬编码在合约里）。</li>
+<li>初始化流动性池数据的各个字段。</li>
+</ol>
+<h2 id="资产交换"><a href="#资产交换" class="headerlink" title="资产交换"></a>资产交换</h2><p>资产交换分为两类：</p>
+<ol>
+<li>基于输入资产: 输入资产额度固定，一部分会作为手续费，一部分作为购买资金输入。</li>
+<li>基于输出资产: 输出资产额度固定，需要额外购买一部分输出资产作为手续费，其他作为购买到的资产输出。</li>
+</ol>
+<h3 id="基于输入资产"><a href="#基于输入资产" class="headerlink" title="基于输入资产"></a>基于输入资产</h3><p>指令函数签名：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">swap_base_input</span></span>(</span><br><span class="line">    ctx: Context&lt;Swap&gt;,      <span class="comment">// 上下文</span></span><br><span class="line">    amount_in: <span class="built_in">u64</span>,          <span class="comment">// 输入资产</span></span><br><span class="line">    minimum_amount_out: <span class="built_in">u64</span>  <span class="comment">// 最小输出资产，由调用者按照当前价格及滑点计算得出</span></span><br><span class="line">) -&gt; <span class="built_in">Result</span>&lt;()&gt;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Accounts)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Swap</span></span>&lt;<span class="symbol">&#x27;info</span>&gt; &#123;</span><br><span class="line">    <span class="comment">// 交换者</span></span><br><span class="line">    <span class="keyword">pub</span> payer: Signer&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 流动性池的金库和流动性 token mint 的权限账户</span></span><br><span class="line">    <span class="comment">/// CHECK: pool vault and lp mint authority</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        seeds = [</span></span><br><span class="line"><span class="meta">            crate::AUTH_SEED.as_bytes(),</span></span><br><span class="line"><span class="meta">        ]</span>,</span><br><span class="line">        bump,</span><br><span class="line">    )]</span><br><span class="line">    <span class="keyword">pub</span> authority: UncheckedAccount&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 用于读取协议费用</span></span><br><span class="line">    <span class="meta">#[account(address = pool_state.load()?.amm_config)]</span></span><br><span class="line">    <span class="keyword">pub</span> amm_config: <span class="built_in">Box</span>&lt;Account&lt;<span class="symbol">&#x27;info</span>, AmmConfig&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 流动性池数据账户</span></span><br><span class="line">    <span class="meta">#[account(mut)]</span></span><br><span class="line">    <span class="keyword">pub</span> pool_state: AccountLoader&lt;<span class="symbol">&#x27;info</span>, PoolState&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 用户购买使用的 token ATA，即输入 token 的 ATA</span></span><br><span class="line">    <span class="meta">#[account(mut)]</span></span><br><span class="line">    <span class="keyword">pub</span> input_token_account: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 用户希望购买到的 token ATA，即输出 token 的 ATA</span></span><br><span class="line">    <span class="meta">#[account(mut)]</span></span><br><span class="line">    <span class="keyword">pub</span> output_token_account: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 接收用户购买使用的 token 的金库</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        constraint = input_vault.key() == pool_state.load()?.token_0_vault || input_vault.key() == pool_state.load()?.token_1_vault</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> input_vault: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 输出用户希望购买到的 token 的金库</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        mut,</span></span><br><span class="line"><span class="meta">        constraint = output_vault.key() == pool_state.load()?.token_0_vault || output_vault.key() == pool_state.load()?.token_1_vault</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> output_vault: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, TokenAccount&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 输入 token 的程序（可能是 2022）</span></span><br><span class="line">    <span class="keyword">pub</span> input_token_program: Interface&lt;<span class="symbol">&#x27;info</span>, TokenInterface&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 输出 token 的程序（可能是 2022）</span></span><br><span class="line">    <span class="keyword">pub</span> output_token_program: Interface&lt;<span class="symbol">&#x27;info</span>, TokenInterface&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 输入 token 的铸币厂</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        address = input_vault.mint</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> input_token_mint: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, Mint&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 输出 token 的铸币厂</span></span><br><span class="line">    <span class="meta">#[account(</span></span><br><span class="line"><span class="meta">        address = output_vault.mint</span></span><br><span class="line"><span class="meta">    )]</span></span><br><span class="line">    <span class="keyword">pub</span> output_token_mint: <span class="built_in">Box</span>&lt;InterfaceAccount&lt;<span class="symbol">&#x27;info</span>, Mint&gt;&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 记录价格的数据账户，用于计算 TWAP 价格 </span></span><br><span class="line">    <span class="meta">#[account(mut, address = pool_state.load()?.observation_key)]</span></span><br><span class="line">    <span class="keyword">pub</span> observation_state: AccountLoader&lt;<span class="symbol">&#x27;info</span>, ObservationState&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基于输入的资产交换流程如下：</p>
+<ol>
+<li>检查时间、状态等是否允许交换。</li>
+<li>计算转账（应该指的是向金库中转账）费用，从总的输入费用中减去这部分，将剩余部分 <code>actual_amount_in</code> 作为实际购买资金。</li>
+<li>计算两个金库扣除协议费用和资金费用之后剩余的部分，即实际上提供流动性的两种资金。</li>
+<li>按照上一步计算得到了两种资金，计算两种资金置换另一种的价格，$A / B$ 和 $B / A$，同时转换为 <code>u128</code> 左移 32 位使用定点数来保存精度。</li>
+<li>将第 3 步得到的两种资金额度相乘，得到恒定乘积 $A * B$。</li>
+<li>计算交换结果，包括各种额度、费用。</li>
+<li>将上一步得到的计算结果中的交换后的的源资产额度减去交易费用，再乘以这个结果中交换后的目标资产额度，得到交换后的恒定乘积 $A’ * B’$。</li>
+<li>验证第 6 步计算结果中交换的源资产额度是否等于 <code>actual_amount_in</code>。</li>
+<li>检查第 6 步计算结果中交换得到的目标资产额度减去转账费用之后，是否仍然大于 0 ；同时检查，是否大于等于 <code>minimum_amount_out</code>，如果不满足表示超过滑点限制。</li>
+<li>更新流动性池状态的协议费用及资金费用，用于记录金库中非流动性的部分的额度。</li>
+<li>发送一个 <code>SwapEvent</code> 事件。（为什么？怎么利用？）</li>
+<li>验证交换后的恒定乘积大于等于交换前的恒定乘积，即 $A’ <em> B’ \geq A </em> B$。</li>
+<li>根据计算后的结果，将相应额度的输入资产从用户账户转账到金库账户，将相应额度的输出资产从金库账户转账到用户账户。</li>
+<li>更新观测状态（<code>ObservationState</code>）的值。</li>
+</ol>
+<h3 id="基于输出资产"><a href="#基于输出资产" class="headerlink" title="基于输出资产"></a>基于输出资产</h3><p>TODO</p>
+<h3 id="观测状态-TWAP-计价器"><a href="#观测状态-TWAP-计价器" class="headerlink" title="观测状态 / TWAP 计价器"></a>观测状态 / TWAP 计价器</h3><p>观测值及观测状态结构定义如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[zero_copy(unsafe)]</span></span><br><span class="line"><span class="meta">#[repr(packed)]</span></span><br><span class="line"><span class="meta">#[derive(Default, Debug)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Observation</span></span> &#123;</span><br><span class="line">    <span class="comment">/// The block timestamp of the observation</span></span><br><span class="line">    <span class="keyword">pub</span> block_timestamp: <span class="built_in">u64</span>,</span><br><span class="line">    <span class="comment">/// the cumulative of token0 price during the duration time, Q32.32, the remaining 64 bit for overflow</span></span><br><span class="line">    <span class="keyword">pub</span> cumulative_token_0_price_x32: <span class="built_in">u128</span>,</span><br><span class="line">    <span class="comment">/// the cumulative of token1 price during the duration time, Q32.32, the remaining 64 bit for overflow</span></span><br><span class="line">    <span class="keyword">pub</span> cumulative_token_1_price_x32: <span class="built_in">u128</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[account(zero_copy(unsafe))]</span></span><br><span class="line"><span class="meta">#[repr(packed)]</span></span><br><span class="line"><span class="meta">#[cfg_attr(feature = <span class="meta-string">&quot;client&quot;</span>, derive(Debug))]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">ObservationState</span></span> &#123;</span><br><span class="line">    <span class="comment">/// Whether the ObservationState is initialized</span></span><br><span class="line">    <span class="keyword">pub</span> initialized: <span class="built_in">bool</span>,</span><br><span class="line">    <span class="comment">/// the most-recently updated index of the observations array</span></span><br><span class="line">    <span class="keyword">pub</span> observation_index: <span class="built_in">u16</span>,</span><br><span class="line">    <span class="keyword">pub</span> pool_id: Pubkey,</span><br><span class="line">    <span class="comment">/// 固定长度的环形缓冲区，用于循环写入观测记录</span></span><br><span class="line">    <span class="keyword">pub</span> observations: [Observation; OBSERVATION_NUM], <span class="comment">// OBSERVATION_NUM == 100</span></span><br><span class="line">    <span class="comment">/// padding for feature update</span></span><br><span class="line">    <span class="keyword">pub</span> padding: [<span class="built_in">u64</span>; <span class="number">4</span>],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中最重要的函数是更新：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">update</span></span>(</span><br><span class="line">    &amp;<span class="keyword">mut</span> <span class="keyword">self</span>,</span><br><span class="line">    block_timestamp: <span class="built_in">u64</span>,</span><br><span class="line">    token_0_price_x32: <span class="built_in">u128</span>,</span><br><span class="line">    token_1_price_x32: <span class="built_in">u128</span>,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>该函数将一个 Oracle 观测值写入到当前状态中，并将当前索引自增一模 <code>OBSERVATION_NUM</code>，即循环写入。</li>
+<li>该函数一秒钟最多执行一次。</li>
+<li>将两种资产的当前价格与跟上一个记录的时间差值相乘，即: $Price * \Delta T$。</li>
+<li>然后将上一步求出的两个结果与上一个记录的两个值累加起来 (<code>wrapping_add</code>)，作为新记录的两个值。</li>
+<li>更新索引。</li>
+</ol>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>TWAP ，即时间加权平均价格(Time Weighted Average Price)；用来平滑价格波动，减少大宗交易对市场价格的冲击。</p>
+<p>计算公式为：</p>
+<script type="math/tex; mode=display">
+\text{TWAP} = \frac{\sum_{i=1}^{n} \left( P_i \times \Delta t_i \right)}{\sum_{i=1}^{n} \Delta t_i}</script><p>即某个特定时间内的 <strong>TWAP</strong> 为：每小段时间乘以当时的价格求和，除以总时间。</p>
+<h3 id="设计理由（猜测）"><a href="#设计理由（猜测）" class="headerlink" title="设计理由（猜测）"></a>设计理由（猜测）</h3><p>我能想到的另外一种方案是：</p>
+<ol>
+<li>观测状态中的每个观测记录，只记录 $Price * \Delta T$ 和时间戳即可。</li>
+<li>当要求某段时间的 TWAP 时，将这段时间的所有记录累加，除以总时长即可，时间复杂度 $O(n)$。</li>
+<li>这样看起来好像可以避免 <code>wrapping_add</code>，源码中不断累加更可能遇到这种情况。</li>
+</ol>
+<p>而源码在计算某段时间的 TWAP 时，只需要将最后一个记录的值和第一个记录的值的差除以总时间即可，即这种方案时间复杂度只有 $O(1)$ 。而且实际上 <code>wrapping_add</code> 得到的累加值在相减的时候仍然可以得到正确的结果，只要在这段时间内没有溢出两次就行了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/12/24/learn-solana-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/12/24/learn-solana-3/" class="post-title-link" itemprop="url">Solana / Anchor 学习笔记 - Solana 白皮书（二）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-12-24 15:24:41" itemprop="dateCreated datePublished" datetime="2024-12-24T15:24:41+08:00">2024-12-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="5-权益证明共识机制"><a href="#5-权益证明共识机制" class="headerlink" title="5. 权益证明共识机制"></a>5. 权益证明共识机制</h2><h3 id="5-1-描述"><a href="#5-1-描述" class="headerlink" title="5.1 描述"></a>5.1 描述</h3><p>这个机制是用来：</p>
+<ol>
+<li>快速确认由 PoH 生成器生成的当前序列。</li>
+<li>投票选出下一个 PoH 生成器。</li>
+<li>惩罚不当行为的验证者。</li>
+</ol>
+<p>这个算法依赖于所有参与节点在规定超时时间内最终接收到的消息。</p>
+<h3 id="5-2-术语"><a href="#5-2-术语" class="headerlink" title="5.2 术语"></a>5.2 术语</h3><ul>
+<li>押金(bonds): 验证者在验证交易时的承诺作为抵押的代币。</li>
+<li>惩罚机制(slashing): 为解决<strong>无利害关系问题</strong>提出的方案，当不同的分支被发布时，当前分支可以销毁验证者的押金。</li>
+<li>超级多数(super majority): 由押金加权之后，验证者的总票数达到三分之二。这意味着发起攻击的经济成本等同于代币市值的三分之一。</li>
+</ul>
+<blockquote>
+<p>无利害关系问题(Nothing at Stake Problem): 在权益证明系统中，验证者不需要消耗物理资源（如电力），而是依赖于其押金（Stake）。因此，如果网络分叉，验证者可以选择在多个分支上投票，因为这样不会有额外成本。他们会试图最大化收益，而不关心网络的最终一致性。</p>
+</blockquote>
+<h3 id="5-3-质押"><a href="#5-3-质押" class="headerlink" title="5.3 质押"></a>5.3 质押</h3><p>用户将代币转账到一个自己名下的质押账户，这笔押金在赎回之前需要保持不动。</p>
+<p>质押账户有锁定期，锁定期结束才能赎回。</p>
+<p>超级多数确认了质押交易之后，质押才有效。</p>
+<h3 id="5-4-投票"><a href="#5-4-投票" class="headerlink" title="5.4 投票"></a>5.4 投票</h3><ol>
+<li>PoH 生成器会在预定义好的周期内发布一个自身状态的签名。</li>
+<li>每个质押的身份需要发布一份状态的签名，作为投票。</li>
+<li>投票只有同意票，没有反对票。</li>
+<li>如果在超时时间内，绝对多数达成了共识，这个分支就会被认为是合法的。</li>
+</ol>
+<h3 id="5-5-解质押"><a href="#5-5-解质押" class="headerlink" title="5.5 解质押"></a>5.5 解质押</h3><p>如果用户未能按时参与投票，质押的币会被标记为“过期”，旨在强制参与者保持活跃，否则将失去投票资格。</p>
+<p>N 作为投票失效的次数阈值，会随着过期投票的数量增加而增长，N 的动态调整也可以为网络的自愈能力提供支持，减少对投票延迟的影响。</p>
+<h3 id="5-6-选举"><a href="#5-6-选举" class="headerlink" title="5.6 选举"></a>5.6 选举</h3><ol>
+<li>检测到 PoH 生成器故障时，新 PoH 生成器选举就会发生。</li>
+<li>拥有最高投票权重、更高的公钥地址的验证者会被选为新的 PoH 生成器。</li>
+<li>需要超级多数确认，如果在完成确认前新的生成器故障，就重新选择下一个新的 PoH 生成器。</li>
+<li>切换选票时，投票的验证者需要在一个更高的 PoH 序列计数器上投票，否则会触发惩罚。</li>
+<li>会选择一个次级生成器，用于主生成器故障时快速切换。</li>
+</ol>
+<h3 id="5-7-选举触发条件"><a href="#5-7-选举触发条件" class="headerlink" title="5.7 选举触发条件"></a>5.7 选举触发条件</h3><h4 id="5-7-1-分叉的-Proof-of-History-生成器"><a href="#5-7-1-分叉的-Proof-of-History-生成器" class="headerlink" title="5.7.1 分叉的 Proof of History 生成器"></a>5.7.1 分叉的 Proof of History 生成器</h4><ol>
+<li>只有当 PoH 生成器的标识被攻破时，才可能发生分叉。</li>
+<li>分叉的检测依据是同一个 PoH 标识发布了两个不同的历史记录。</li>
+</ol>
+<h4 id="5-7-2-运行时异常"><a href="#5-7-2-运行时异常" class="headerlink" title="5.7.2 运行时异常"></a>5.7.2 运行时异常</h4><ol>
+<li>Bug、硬件故障、人为错误可能导致生成器生成无效状态，并发布与本地验证者不一致的签名。</li>
+<li>验证者将通过 Gossip 协议发布正确的签名，这一事件将触发新的选举。</li>
+<li>接收无效状态的验证者将收到惩罚。</li>
+</ol>
+<h4 id="5-7-3-网络超时"><a href="#5-7-3-网络超时" class="headerlink" title="5.7.3 网络超时"></a>5.7.3 网络超时</h4><h3 id="5-8-惩罚"><a href="#5-8-惩罚" class="headerlink" title="5.8 惩罚"></a>5.8 惩罚</h3><ol>
+<li>恶意投票：对两个不同的序列投票，受质押削减惩罚。</li>
+<li>非恶意的竞选序列冲突，投票会被撤销，不会惩罚。</li>
+<li>对 PoH 生成器的无效哈希进行投票，受质押削减惩罚。</li>
+</ol>
+<h3 id="5-9-次级选举"><a href="#5-9-次级选举" class="headerlink" title="5.9 次级选举"></a>5.9 次级选举</h3><ol>
+<li>次级选举是在主序列上被提出的。</li>
+<li>在超时时间内通过绝对多数投票，次级生成器就当选了。</li>
+<li>主生成器通过在序列中插入指示交接的消息，来实现软交接。</li>
+<li>如果主生成器发生故障，已当选的次生成器会被作为第一备选。</li>
+</ol>
+<h3 id="5-10-可用性"><a href="#5-10-可用性" class="headerlink" title="5.10 可用性"></a>5.10 可用性</h3><ol>
+<li>CAP 中 Solana 选择 A 可用性。</li>
+<li>最终一致性：在合理的人类时间范围内保持一定程度的一致性。</li>
+<li>利用 PoH（Proof of History）机制提供了时间的客观测量，结合 PoS 投票记录，可以动态地取消不可用验证者的质押，调整网络的活性和一致性需求。</li>
+<li>在合理的时间内，随着不可用验证者被逐步取消质押，网络可以逐步恢复到满足 2/3 共识的状态，从而达成一致性。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/12/23/learn-solana-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/12/23/learn-solana-2/" class="post-title-link" itemprop="url">Solana / Anchor 学习笔记 - Solana 白皮书（一）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-12-23 15:38:35" itemprop="dateCreated datePublished" datetime="2024-12-23T15:38:35+08:00">2024-12-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>PoH (Proof of History) 是⼀种⽤于验证事件之间的顺序和时间流逝的证明。<br>PoH is a proof for verifying order and passage of time between events.</p>
+</blockquote>
+<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>区块链本质上是一个容错复制状态机。</p>
+<p>使用 PoH，网络中的节点可以不依靠其他信任机制验证账本记录的时间流逝。</p>
+<ul>
+<li>问题</li>
+</ul>
+<ol>
+<li>PoH 如何生成可验证的时间间隔。2. PoH 如何生成可验证的事件执行时间。</li>
+</ol>
+<h2 id="2-提纲"><a href="#2-提纲" class="headerlink" title="2. 提纲"></a>2. 提纲</h2><h2 id="3-网络设计"><a href="#3-网络设计" class="headerlink" title="3. 网络设计"></a>3. 网络设计</h2><ol>
+<li>某个节点被选举为领导者（Leader），负责生成历史证明序列（提供网络全局读取一致性以及可验证的时间流逝）。</li>
+<li>领导者搜集用户消息并排序。</li>
+<li>领导者对内存中的交易进行处理，并将交易和签名发送到验证复制节点（Verifier）。</li>
+<li>验证复制节点在其状态副本上执行相同的交易，并发布处理的状态签名，作为交易确认及共识算法投票。</li>
+</ol>
+<p><img src="TransactionFlowThroughoutTheNetwork.png" alt="整体网络的交易流向"></p>
+<blockquote>
+<p>Leader 选举是基于 PoS 实现的。</p>
+</blockquote>
+<h2 id="4-历史证明"><a href="#4-历史证明" class="headerlink" title="4. 历史证明"></a>4. 历史证明</h2><ol>
+<li>历史证明是一个计算序列。</li>
+<li>依赖一个加密的安全函数，无法通过输入预测输出，必须完全执行函数才能生成输出。</li>
+<li>函数在单个核心上按顺序执行，上一步的输出作为下一步输入，定期记录当前输出及执行的次数。</li>
+<li>外部计算机可以通过检查其中的每个序列段来重新计算并验证输出。</li>
+</ol>
+<ul>
+<li>问题</li>
+</ul>
+<p>原文有 <code>Data can be timestamped into this sequence by appending the data (or a hash of some data) into the state of the function.</code> 这句话里的 <code>timestamped</code> 应该不是传统意义的时间戳的意思，而是某种反映执行顺序(和次数？)的更本质的标记。也就说，这种机制提供了“时间戳“的实现。</p>
+<h3 id="4-1-说明"><a href="#4-1-说明" class="headerlink" title="4.1 说明"></a>4.1 说明</h3><p><img src="PoHSequence0.png" alt="PoH序列"></p>
+<p>只需要每隔一段时间发布哈希和索引的子集，即：</p>
+<p><img src="PoHSequence1.png" alt="PoH序列"></p>
+<p>只要选择的哈希函数是<strong>抗冲突</strong>的、<strong>不可预测结果的</strong>，产生的序列就只能由一个计算机线程按<strong>顺序计算</strong>得到。也就是，如果不从起始值开始计算 N 次，就无法获得索引 N 处的哈希值。</p>
+<p><strong>哈希的抗冲突、不可预测性和顺序计算，使得我们能够确定，某段序列的产生过程中发生了时间的流逝。</strong></p>
+<p><img src="PoHSequence2.png" alt="历史证明序列"></p>
+<h3 id="4-2-事件时间戳"><a href="#4-2-事件时间戳" class="headerlink" title="4.2 事件时间戳"></a>4.2 事件时间戳</h3><p>将数据或数据的哈希通过“组合函数”插入到这个序列中参与计算，则这些附加的数据就拥有了时间顺序。</p>
+<p><img src="PoHSequence3.png" alt="带数据的历史证明序列"></p>
+<h3 id="4-3-验证"><a href="#4-3-验证" class="headerlink" title="4.3 验证"></a>4.3 验证</h3><p>可以利用多核，同时验证一个序列的多段。N 个核就可以同时验证 N 段。产生一段序列的预期时间如果是 <code>T</code>，验证时使用的核数是 <code>C</code>，则验证这段序列需要的时间只有 <code>T / C</code>。</p>
+<h3 id="4-4-横向扩容"><a href="#4-4-横向扩容" class="headerlink" title="4.4 横向扩容"></a>4.4 横向扩容</h3><p>两个 PoH 生成节点互相观察对方最近一次的状态，加入自己下一步哈希的数据，实现多个 PoH 链的混合 / 同步。</p>
+<p>通过定期同步生成器，每个生成器都可以处理一部分外部流量，整个系统就可以处理更多事件。</p>
+<ul>
+<li>问题</li>
+</ul>
+<ol>
+<li>混合的意义是什么，不混合仍然可以横向扩展多个 PoH 链。是为了保证系统整体的一致性，提高防篡改性？</li>
+</ol>
+<h3 id="4-5-一致性"><a href="#4-5-一致性" class="headerlink" title="4.5 一致性"></a>4.5 一致性</h3><p>为了防止恶意重排序攻击，客户端在创建事件时，需要获取最近的哈希，把该事件挂到某个 PoH 链上，即为事件打上 PoH 的时间戳。</p>
+<p>为了防止恶意 PoH 生成器篡改客户端提交的事件关联的哈希，客户端可以提交数据和关联哈希的签名，而不仅仅是数据的签名。</p>
+<p><img src="PoHSequence4.png" alt="客户端提交数据和最近哈希签名到PoH链"></p>
+<p>验证时只需验证两点：</p>
+<ol>
+<li>签名是否正确。</li>
+<li>关联的哈希在 PoH 链上是否在当前的事件前面。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(Signature, PublicKey, hash30a, event3 data) &#x3D; Event3</span><br><span class="line"></span><br><span class="line">Verify(Signature, PublicKey, Event3)</span><br><span class="line"></span><br><span class="line">Lookup(hash30a, PoHSequence)</span><br></pre></td></tr></table></figure>
+<h3 id="4-6-开销"><a href="#4-6-开销" class="headerlink" title="4.6 开销"></a>4.6 开销</h3><p>每秒 4000 个哈希产生 160KB 额外数据。</p>
+<p>这些数据，使用 4000 核的 GPU 需要 0.25-0.75 毫秒进行验证。</p>
+<h3 id="4-7-攻击"><a href="#4-7-攻击" class="headerlink" title="4.7 攻击"></a>4.7 攻击</h3><h4 id="4-7-1-逆序"><a href="#4-7-1-逆序" class="headerlink" title="4.7.1 逆序"></a>4.7.1 逆序</h4><p>恶意攻击者需要从第二个事件开始伪造，但是这个延迟已经足够让其他正常节点对于初始序列达成共识。</p>
+<h4 id="4-7-2-速度"><a href="#4-7-2-速度" class="headerlink" title="4.7.2 速度"></a>4.7.2 速度</h4><p>使用多个 PoH 生成器可以增强抗攻击性。</p>
+<p>一个生成器有高带宽，用来接收并混合事件，另一个高速低带宽，定期与高带宽链同步混合，它会生成辅助序列，让攻击者逆序更难。</p>
+<h4 id="4-7-3-长程攻击"><a href="#4-7-3-长程攻击" class="headerlink" title="4.7.3 长程攻击"></a>4.7.3 长程攻击</h4><ul>
+<li>PoH 提供了时间上的不可篡改性。</li>
+<li>PoRep 提供了存储数据的真实性证明。</li>
+<li>两者结合提供了对伪造账本的防御能力。</li>
+</ul>
+<p>攻击者不仅需要耗费巨大的时间成本来伪造时间戳，还需要在存储上符合 PoRep 的要求。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/12/23/learn-solana-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/12/23/learn-solana-1/" class="post-title-link" itemprop="url">Solana / Anchor 学习笔记 - PDA 派生</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-12-23 08:46:41" itemprop="dateCreated datePublished" datetime="2024-12-23T08:46:41+08:00">2024-12-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Pubkey"><a href="#Pubkey" class="headerlink" title="Pubkey"></a><code>Pubkey</code></h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Pubkey</span></span>(<span class="keyword">pub</span>(<span class="keyword">crate</span>) [<span class="built_in">u8</span>; <span class="number">32</span>]);</span><br></pre></td></tr></table></figure>
+<h2 id="find-program-address"><a href="#find-program-address" class="headerlink" title="find_program_address"></a><code>find_program_address</code></h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">find_program_address</span></span>(seeds: &amp;[&amp;[<span class="built_in">u8</span>]], program_id: &amp;Pubkey) -&gt; (Pubkey, <span class="built_in">u8</span>) &#123;</span><br><span class="line">    Self::try_find_program_address(seeds, program_id)</span><br><span class="line">        .unwrap_or_else(|| <span class="built_in">panic!</span>(<span class="string">&quot;Unable to find a viable program address bump seed&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="try-find-program-address"><a href="#try-find-program-address" class="headerlink" title="try_find_program_address"></a><code>try_find_program_address</code></h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">try_find_program_address</span></span>(seeds: &amp;[&amp;[<span class="built_in">u8</span>]], program_id: &amp;Pubkey) -&gt; <span class="built_in">Option</span>&lt;(Pubkey, <span class="built_in">u8</span>)&gt; &#123;</span><br><span class="line">    <span class="comment">// Perform the calculation inline, calling this from within a program is</span></span><br><span class="line">    <span class="comment">// not supported</span></span><br><span class="line">    <span class="meta">#[cfg(not(target_os = <span class="meta-string">&quot;solana&quot;</span>))]</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> bump_seed = [std::<span class="built_in">u8</span>::MAX]; <span class="comment">// 从 std::u8::MAX 开始尝试</span></span><br><span class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0</span>..std::<span class="built_in">u8</span>::MAX &#123;</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">let</span> <span class="keyword">mut</span> seeds_with_bump = seeds.to_vec();</span><br><span class="line">                seeds_with_bump.push(&amp;bump_seed); <span class="comment">// 将 bump 作为种子的最后一部分</span></span><br><span class="line">                <span class="keyword">match</span> Self::create_program_address(&amp;seeds_with_bump, program_id) &#123;</span><br><span class="line">                    <span class="literal">Ok</span>(address) =&gt; <span class="keyword">return</span> <span class="literal">Some</span>((address, bump_seed[<span class="number">0</span>])),</span><br><span class="line">                    <span class="literal">Err</span>(PubkeyError::InvalidSeeds) =&gt; (),</span><br><span class="line">                    _ =&gt; <span class="keyword">break</span>,</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            bump_seed[<span class="number">0</span>] -= <span class="number">1</span>; <span class="comment">// 尝试失败了就减 1 再尝试</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="literal">None</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Call via a system call to perform the calculation</span></span><br><span class="line">    <span class="meta">#[cfg(target_os = <span class="meta-string">&quot;solana&quot;</span>)]</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="create-program-address"><a href="#create-program-address" class="headerlink" title="create_program_address"></a><code>create_program_address</code></h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">create_program_address</span></span>(</span><br><span class="line">    seeds: &amp;[&amp;[<span class="built_in">u8</span>]],</span><br><span class="line">    program_id: &amp;Pubkey,</span><br><span class="line">) -&gt; <span class="built_in">Result</span>&lt;Pubkey, PubkeyError&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> seeds.len() &gt; MAX_SEEDS &#123; <span class="comment">// 种子最多有 16 个</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">Err</span>(PubkeyError::MaxSeedLengthExceeded);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> seed <span class="keyword">in</span> seeds.iter() &#123;</span><br><span class="line">        <span class="keyword">if</span> seed.len() &gt; MAX_SEED_LEN &#123; <span class="comment">// 每个种子最长 32</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">Err</span>(PubkeyError::MaxSeedLengthExceeded);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Perform the calculation inline, calling this from within a program is</span></span><br><span class="line">    <span class="comment">// not supported</span></span><br><span class="line">    <span class="meta">#[cfg(not(target_os = <span class="meta-string">&quot;solana&quot;</span>))]</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> hasher = crate::hash::Hasher::default(); <span class="comment">// 就是一个 Sha256</span></span><br><span class="line">        <span class="keyword">for</span> seed <span class="keyword">in</span> seeds.iter() &#123;</span><br><span class="line">            hasher.hash(seed);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// PDA_MARKER 是一个 21 字节长的字符串</span></span><br><span class="line">        <span class="comment">// const PDA_MARKER: &amp;[u8; 21] = b&quot;ProgramDerivedAddress&quot;;</span></span><br><span class="line">        hasher.hashv(&amp;[program_id.as_ref(), PDA_MARKER]);</span><br><span class="line">        <span class="keyword">let</span> hash = hasher.result();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> bytes_are_curve_point(hash) &#123; <span class="comment">// PDA 账户需要确保不在爱德华曲线上</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">Err</span>(PubkeyError::InvalidSeeds);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="literal">Ok</span>(Pubkey::from(hash.to_bytes()))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Call via a system call to perform the calculation</span></span><br><span class="line">    <span class="meta">#[cfg(target_os = <span class="meta-string">&quot;solana&quot;</span>)]</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> bytes = [<span class="number">0</span>; <span class="number">32</span>];</span><br><span class="line">        <span class="keyword">let</span> result = <span class="keyword">unsafe</span> &#123;</span><br><span class="line">            crate::syscalls::sol_create_program_address(</span><br><span class="line">                seeds <span class="keyword">as</span> *<span class="keyword">const</span> _ <span class="keyword">as</span> *<span class="keyword">const</span> <span class="built_in">u8</span>,</span><br><span class="line">                seeds.len() <span class="keyword">as</span> <span class="built_in">u64</span>,</span><br><span class="line">                program_id <span class="keyword">as</span> *<span class="keyword">const</span> _ <span class="keyword">as</span> *<span class="keyword">const</span> <span class="built_in">u8</span>,</span><br><span class="line">                &amp;<span class="keyword">mut</span> bytes <span class="keyword">as</span> *<span class="keyword">mut</span> _ <span class="keyword">as</span> *<span class="keyword">mut</span> <span class="built_in">u8</span>,</span><br><span class="line">            )</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">match</span> result &#123;</span><br><span class="line">            crate::entrypoint::SUCCESS =&gt; <span class="literal">Ok</span>(Pubkey::from(bytes)),</span><br><span class="line">            _ =&gt; <span class="literal">Err</span>(result.into()),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="bytes-are-curve-point"><a href="#bytes-are-curve-point" class="headerlink" title="bytes_are_curve_point"></a><code>bytes_are_curve_point</code></h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">bytes_are_curve_point</span></span>&lt;T: <span class="built_in">AsRef</span>&lt;[<span class="built_in">u8</span>]&gt;&gt;(_bytes: T) -&gt; <span class="built_in">bool</span> &#123;</span><br><span class="line">    <span class="meta">#[cfg(not(target_os = <span class="meta-string">&quot;solana&quot;</span>))]</span></span><br><span class="line">    &#123;</span><br><span class="line">        curve25519_dalek::edwards::CompressedEdwardsY::from_slice(_bytes.as_ref())</span><br><span class="line">            .decompress()</span><br><span class="line">            .is_some()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#[cfg(target_os = <span class="meta-string">&quot;solana&quot;</span>)]</span></span><br><span class="line">    <span class="built_in">unimplemented!</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h3><ol>
+<li>从 <code>[std::u8::MAX]</code> (即 <code>[255]</code>) 开始作为 bump 尝试，值依次递减至 0，bump 就是最后一个种子。</li>
+<li>检查种子数是否不超过 16 (包含 bump，也就是用户能输入的只有 15 个)，所有种子长度不超过 32.</li>
+<li>使用所有种子依次输入 Sha256 进行哈希，然后将 <code>program_id</code> 及一个 21 字节的常量 <code>PDA_MARKER</code> (<code>b&quot;ProgramDerivedAddress&quot;</code>) 输入进行哈希。</li>
+<li>计算哈希结果并判断是否在 Curve25519 上，如果不在，表示是合法的 PDA 地址，否则 bump 自减 1 从第二步开始重试。</li>
+<li>如果从 <code>[255]</code> 到 <code>[0]</code> 都找不到，则返回 None / 报错。</li>
+</ol>
+<blockquote>
+<p>Curve25519 是一种特定的爱德华曲线，它设计用于实现高效、安全的 Diffie-Hellman 密钥交换。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/12/06/learn-solana-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/12/06/learn-solana-0/" class="post-title-link" itemprop="url">Solana / Anchor 学习笔记 - 账户</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-12-06 14:32:26" itemprop="dateCreated datePublished" datetime="2024-12-06T14:32:26+08:00">2024-12-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="AccountInfo"><a href="#AccountInfo" class="headerlink" title="AccountInfo"></a>AccountInfo</h2><blockquote>
+<p><code>solana_program::account_info::AccountInfo</code></p>
+</blockquote>
+<p>账户信息（AccountInfo），合约中对于账户基本信息的引用（余额和数据可变）。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Account information</span></span><br><span class="line"><span class="meta">#[derive(Clone)]</span></span><br><span class="line"><span class="meta">#[repr(C)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">AccountInfo</span></span>&lt;<span class="symbol">&#x27;a</span>&gt; &#123;</span><br><span class="line">    <span class="comment">/// Public key of the account</span></span><br><span class="line">    <span class="keyword">pub</span> key: &amp;<span class="symbol">&#x27;a</span> Pubkey,</span><br><span class="line">    <span class="comment">/// The lamports in the account.  Modifiable by programs.</span></span><br><span class="line">    <span class="keyword">pub</span> lamports: Rc&lt;RefCell&lt;&amp;<span class="symbol">&#x27;a</span> <span class="keyword">mut</span> <span class="built_in">u64</span>&gt;&gt;,</span><br><span class="line">    <span class="comment">/// The data held in this account.  Modifiable by programs.</span></span><br><span class="line">    <span class="keyword">pub</span> data: Rc&lt;RefCell&lt;&amp;<span class="symbol">&#x27;a</span> <span class="keyword">mut</span> [<span class="built_in">u8</span>]&gt;&gt;,</span><br><span class="line">    <span class="comment">/// Program that owns this account</span></span><br><span class="line">    <span class="keyword">pub</span> owner: &amp;<span class="symbol">&#x27;a</span> Pubkey,</span><br><span class="line">    <span class="comment">/// The epoch at which this account will next owe rent</span></span><br><span class="line">    <span class="keyword">pub</span> rent_epoch: Epoch,</span><br><span class="line">    <span class="comment">/// Was the transaction signed by this account&#x27;s public key?</span></span><br><span class="line">    <span class="keyword">pub</span> is_signer: <span class="built_in">bool</span>,</span><br><span class="line">    <span class="comment">/// Is the account writable?</span></span><br><span class="line">    <span class="keyword">pub</span> is_writable: <span class="built_in">bool</span>,</span><br><span class="line">    <span class="comment">/// This account&#x27;s data contains a loaded program (and is now read-only)</span></span><br><span class="line">    <span class="keyword">pub</span> executable: <span class="built_in">bool</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Account"><a href="#Account" class="headerlink" title="Account"></a>Account</h2><blockquote>
+<p><code>anchor_lang::accounts::account::Account</code></p>
+</blockquote>
+<p>账户（Account），对 <code>AccountInfo</code> 的包装，并能够自动反序列化 <code>T</code>。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Clone)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Account</span></span>&lt;<span class="symbol">&#x27;info</span>, T: AccountSerialize + AccountDeserialize + <span class="built_in">Clone</span>&gt; &#123;</span><br><span class="line">    account: T,</span><br><span class="line">    info: &amp;<span class="symbol">&#x27;info</span> AccountInfo&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h3><ol>
+<li>检查 <code>T::owner()</code> 是否等于 <code>info.owner</code>，这就要求 <code>T: Owner</code>。通常使用 <code>#[account]</code> 宏来自动为 <code>T</code> 实现 <code>Owner</code>，并使用 <code>crate::ID()</code> 也就是合约地址作为它的 owner。</li>
+<li>此外，它还会保证 <code>!(Account.info.owner == SystemProgram &amp;&amp; Account.info.lamports() == 0)</code>，即账户所有者不是系统程序（必须是非系统合约），并且账户的 SOL 余额不能为 0。</li>
+</ol>
+<h2 id="AccountLoader"><a href="#AccountLoader" class="headerlink" title="AccountLoader"></a>AccountLoader</h2><blockquote>
+<p><code>anchor_lang::accounts::account_loader::AccountLoader</code></p>
+</blockquote>
+<p>账户加载器，用于按需零拷贝反序列化的提取器，类型 <code>T</code> 需要实现 <code>ZeroCopy</code>。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Clone)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">AccountLoader</span></span>&lt;<span class="symbol">&#x27;info</span>, T: ZeroCopy + Owner&gt; &#123;</span><br><span class="line">    acc_info: &amp;<span class="symbol">&#x27;info</span> AccountInfo&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line">    phantom: PhantomData&lt;&amp;<span class="symbol">&#x27;info</span> T&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="基本功能-1"><a href="#基本功能-1" class="headerlink" title="基本功能"></a>基本功能</h3><p><code>load_init</code>: 在初始化时（只能）运行一次，得到一个 <code>RefMut&lt;T&gt;</code>，可读写。<br><code>load</code>: 加载只读引用 <code>Ref&lt;T&gt;</code>。<br><code>load_mut</code>: 加载读写引用 <code>RefMut&lt;T&gt;</code>。</p>
+<h2 id="InterfaceAccount"><a href="#InterfaceAccount" class="headerlink" title="InterfaceAccount"></a>InterfaceAccount</h2><blockquote>
+<p><code>anchor_lang::accounts::interface_account::InterfaceAccount</code></p>
+</blockquote>
+<p>接口账户，用来支持 <code>T: Owners</code> 的情况。即有多个程序拥有这种类型的账户数据，引入时是为了支持 token-2022 <a target="_blank" rel="noopener" href="https://github.com/coral-xyz/anchor/pull/2386">#2386</a>。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Clone)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">InterfaceAccount</span></span>&lt;<span class="symbol">&#x27;info</span>, T: AccountSerialize + AccountDeserialize + <span class="built_in">Clone</span>&gt; &#123;</span><br><span class="line">    account: Account&lt;<span class="symbol">&#x27;info</span>, T&gt;,</span><br><span class="line">    <span class="comment">// The owner here is used to make sure that changes aren&#x27;t incorrectly propagated</span></span><br><span class="line">    <span class="comment">// to an account with a modified owner</span></span><br><span class="line">    owner: Pubkey,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="基本功能-2"><a href="#基本功能-2" class="headerlink" title="基本功能"></a>基本功能</h2><ol>
+<li>检查所有者，即 <code>T::owners().contains(InterfaceAccount.info.owner)</code>。</li>
+<li>同 <code>Account</code> 的第二项。</li>
+</ol>
+<h2 id="Interface"><a href="#Interface" class="headerlink" title="Interface"></a>Interface</h2><blockquote>
+<p><code>anchor_lang::accounts::interface::Interface</code></p>
+</blockquote>
+<p>接口，用来表示实现了某种接口的程序中的某一个。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Clone)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Interface</span></span>&lt;<span class="symbol">&#x27;info</span>, T&gt;(Program&lt;<span class="symbol">&#x27;info</span>, T&gt;);</span><br></pre></td></tr></table></figure>
+<p>TODO: 例子。</p>
+<h2 id="Program"><a href="#Program" class="headerlink" title="Program"></a>Program</h2><blockquote>
+<p><code>anchor_lang::accounts::program::Program</code></p>
+</blockquote>
+<p>程序，表示一个程序/合约。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Clone)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Program</span></span>&lt;<span class="symbol">&#x27;info</span>, T&gt; &#123;</span><br><span class="line">    info: &amp;<span class="symbol">&#x27;info</span> AccountInfo&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line">    _phantom: PhantomData&lt;T&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Signer"><a href="#Signer" class="headerlink" title="Signer"></a>Signer</h2><blockquote>
+<p><code>anchor_lang::accounts::signer::Signer</code></p>
+</blockquote>
+<p>签名者，检查 <code>Signer.info.is_signer == true</code>。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug, Clone)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Signer</span></span>&lt;<span class="symbol">&#x27;info</span>&gt; &#123;</span><br><span class="line">    info: &amp;<span class="symbol">&#x27;info</span> AccountInfo&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="SystemAccount"><a href="#SystemAccount" class="headerlink" title="SystemAccount"></a>SystemAccount</h2><blockquote>
+<p><code>anchor_lang::accounts::system_account::SystemAccount</code></p>
+</blockquote>
+<p>系统账户，检查账户的拥有者是不是系统程序（即 <code>SystemAccount.info.owner == SystemProgram</code>）。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug, Clone)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">SystemAccount</span></span>&lt;<span class="symbol">&#x27;info</span>&gt; &#123;</span><br><span class="line">    info: &amp;<span class="symbol">&#x27;info</span> AccountInfo&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Sysvar"><a href="#Sysvar" class="headerlink" title="Sysvar"></a>Sysvar</h2><blockquote>
+<p><code>anchor_lang::accounts::sysvar::Sysvar</code></p>
+</blockquote>
+<p>系统变量，检查账户是否是系统变量。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Sysvar</span></span>&lt;<span class="symbol">&#x27;info</span>, T: solana_program::sysvar::Sysvar&gt; &#123;</span><br><span class="line">    info: &amp;<span class="symbol">&#x27;info</span> AccountInfo&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line">    account: T,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>TODO: 写一篇 post 单独介绍实现了 <code>solana_program::sysvar::Sysvar</code> 的类型。</p>
+<h2 id="UncheckedAccount"><a href="#UncheckedAccount" class="headerlink" title="UncheckedAccount"></a>UncheckedAccount</h2><p>强调<strong>不做任何检查</strong>的账户，需要手动在合约指令中做检查。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug, Clone)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">UncheckedAccount</span></span>&lt;<span class="symbol">&#x27;info</span>&gt;(&amp;<span class="symbol">&#x27;info</span> AccountInfo&lt;<span class="symbol">&#x27;info</span>&gt;);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/11/07/learn-index-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/11/07/learn-index-0/" class="post-title-link" itemprop="url">常见索引结构-0</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-11-07 11:20:45" itemprop="dateCreated datePublished" datetime="2024-11-07T11:20:45+08:00">2024-11-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>以下是各种索引算法的简要对比表，包括其原理、性能优势、适用场景和缺点。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>索引算法</th>
+<th>原理介绍</th>
+<th>为什么性能高</th>
+<th>适用场景</th>
+<th>缺点/性能差的场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>B+ 树</strong></td>
+<td>B+ 树是一种平衡多叉树，数据仅存储在叶节点，所有叶节点按顺序连接，适合范围查询和顺序访问。</td>
+<td>结构层次分明，叶节点通过链表相连，实现快速范围查找和顺序遍历。</td>
+<td>适用于数据库索引、大量顺序读取或范围查询的场景。</td>
+<td>高维数据或频繁更新的场景性能较差。插入、删除操作复杂，维护成本高。</td>
+</tr>
+<tr>
+<td><strong>倒排索引</strong></td>
+<td>建立词项到文档的映射关系，将每个词项关联到出现该词的文档列表，通常用于全文搜索。</td>
+<td>通过直接访问词项位置，可快速找到包含该词的所有文档。</td>
+<td>适用于文本搜索、日志检索等全文检索场景。</td>
+<td>对于非文本数据无效，处理频繁更新的文档集时性能较差，占用内存大。</td>
+</tr>
+<tr>
+<td><strong>HNSW</strong></td>
+<td>HNSW 基于分层的小世界图结构，通过近似最近邻的方法实现高效向量检索。</td>
+<td>通过多层图索引和邻居节点搜索，实现快速的近似最近邻查找。</td>
+<td>适用于向量相似度检索、推荐系统、图像搜索等高维向量场景。</td>
+<td>构建和维护图的成本较高，尤其是频繁更新和插入向量的情况下。对高精度要求场景不适合。</td>
+</tr>
+<tr>
+<td><strong>跳表（Skip List）</strong></td>
+<td>通过多级链表实现快速搜索，每级链表跳过部分节点，提高查找速度。</td>
+<td>基于多级链表，可在 O(log n) 时间内查找目标节点。</td>
+<td>适用于键值存储、顺序查询需求的场景，作为简单替代结构。</td>
+<td>在超大数据集或高频率更新的场景下不够高效，性能会下降。</td>
+</tr>
+<tr>
+<td><strong>LSM 树</strong></td>
+<td>LSM 树通过分层排序和合并，将数据写入磁盘前缓存在内存，适合高写入量的场景。</td>
+<td>数据批量写入减少随机写的开销，分层合并提升读取效率。</td>
+<td>适合写密集型的键值数据库，如 RocksDB、LevelDB。</td>
+<td>读性能可能较差，特别是大量读操作时，需通过多层合并查询。</td>
+</tr>
+<tr>
+<td><strong>Trie 树</strong></td>
+<td>用树结构保存字符串的前缀，每个节点代表一个字符，用于高效的前缀匹配。</td>
+<td>可以快速定位字符串的前缀路径，适合匹配和自动补全。</td>
+<td>适用于自动补全、前缀匹配等需要快速定位前缀的场景。</td>
+<td>占用内存较大，无法很好地处理非字符串数据，不适合范围查询。</td>
+</tr>
+<tr>
+<td><strong>Annoy</strong></td>
+<td>使用多棵随机 KD 树构建索引，用于近似最近邻查询，查询时从多棵树中查找相似点。</td>
+<td>随机生成多棵树，提高查找相似度的效率，查询速度快。</td>
+<td>适用于低维度、高性能要求的向量检索，推荐系统等。</td>
+<td>处理高维数据时性能较差，存储空间需求大。更新不便。</td>
+</tr>
+<tr>
+<td><strong>LSH（Locality-Sensitive Hashing）</strong></td>
+<td>将相似数据哈希到相同的桶中，快速找到相似数据的近似最近邻索引方法。</td>
+<td>通过哈希实现分桶，减少相似数据查询范围，查询速度快。</td>
+<td>适用于低维向量的相似性搜索，处理文本等场景。</td>
+<td>高维度数据上效率低，近似度精度差，占用较多内存。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="简要总结"><a href="#简要总结" class="headerlink" title="简要总结"></a>简要总结</h3><ul>
+<li><strong>B+ 树</strong> 和 <strong>倒排索引</strong> 是经典的数据库和全文搜索引擎中常用的索引结构，适合关系型数据和文本数据的检索。</li>
+<li><strong>HNSW</strong> 和 <strong>Annoy</strong> 是面向高维向量的近似最近邻索引结构，常用于推荐系统、语义搜索等场景。</li>
+<li><strong>LSM 树</strong> 适合写密集的场景，如键值数据库。</li>
+<li><strong>Trie 树</strong> 和 <strong>跳表</strong> 更适合简单的键值存储和字符串匹配，但不适合复杂的数据查询和高维向量检索。</li>
+<li><strong>LSH</strong> 在维度较低的数据上表现较好，但对高维数据表现有限。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/05/30/zkp-note-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/30/zkp-note-2/" class="post-title-link" itemprop="url">零知识证明笔记-2-PLONK概述笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-05-30 16:05:41" itemprop="dateCreated datePublished" datetime="2024-05-30T16:05:41+08:00">2024-05-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Why-ZKP"><a href="#Why-ZKP" class="headerlink" title="Why ZKP?"></a>Why ZKP?</h1><p>零知识证明 Zero-knowledge Proofs</p>
+<p>其中的 Proof($\pi$)  必须是个有用的：$Theorem / Statement / Proposition$</p>
+<ol>
+<li>不要把 Proof 这个词忘掉，到底证明了什么？</li>
+<li>两个角色，证明者（prover）、验证者（verifier），是双方的。写代码的时候要时刻关注写的到底是哪部分，是证明者的代码，还是验证者的代码。</li>
+</ol>
+<script type="math/tex; mode=display">
+Prover  \rArr \pi \rArr Verifier</script><p><strong>Prover Code</strong>: 需要关注，有没有产生一个有效的证明，产生这个证明的时候有没有泄漏不该泄漏的信息。<br><strong>Verifier Code</strong>：关注，这个证明是不是有效的。</p>
+<blockquote>
+<p>写代码的时候容易忘掉。<br>这是一个 Two-party interaction</p>
+</blockquote>
+<ol>
+<li>关注以下三个性质：</li>
+</ol>
+<ul>
+<li><strong>完备性（Completeness）</strong>：诚实的证明者（honest prover）一定能成功证明。</li>
+<li><strong>可靠性（Soundness）</strong>：恶意的证明者（malicious prover）一定通不过验证。<strong>很难测试，需要非常认真、仔细、深入的考虑这个问题：如何保证 verifier 不会被欺骗。</strong></li>
+<li><strong>零知识（Zero-knowledge）</strong>：恶意的验证者（malicious verifier）无法获得有用的知识。</li>
+</ul>
+<blockquote>
+<p>关注 Meta Theorems (Completeness and Soundness)的证明<br>如何保证我们写的 babyplonk 是 sound 的。</p>
+</blockquote>
+<ul>
+<li>Prover 和 Verifier 之间有大量的交互。Verifier 会发送大量的 challenge 给 Prover。challenge 越多，Proof Size 就越大。</li>
+<li>交互过程中的步骤顺序不能调换。</li>
+<li>实际项目中如果有安全漏洞是非常严重的。</li>
+<li>攻击本身也可能是 ZK 的，不知道谁干的。</li>
+</ul>
+<h2 id="Non-interactive"><a href="#Non-interactive" class="headerlink" title="Non-interactive"></a>Non-interactive</h2><p>BlockChain 中经常使用 Non-interactive ZKP。 Fiat-Shamir Transformation 能把 public-coin protocol 转换成 non-interactive protocol。</p>
+<blockquote>
+<p>public-coin 指的是掷硬币，公开的发随机数 challenge。<br>借助 Random Oracle (RO) 工具来辅助 Prover 来产生这些硬币。随机数不一定是由 verifier 作为来源，由可信第三方来提供也可以。<br>Prover 与 RO 交互，产生证明 $\pi$ 直接发送给 Verifier。不需要等待 Verifier 回复，Verifier 可以在未来异步验证这个证明。<br>通常使用一个足够安全的哈希函数（Cryptographic Hash Function）来替代 RO 的角色。没有严格的证明，大概率不会出问题。</p>
+</blockquote>
+<h2 id="Commitment"><a href="#Commitment" class="headerlink" title="Commitment"></a>Commitment</h2><ol>
+<li>$O(1)$ Size。无论数据多大，比如 10 GB 的文件，都可以产生一个很小的串来代表它。</li>
+<li>Binding。$CM(D1)\not ={CM(D2)} \iff D1\not ={D2}$。</li>
+<li>Hiding。能够保护数据，可以混入随机数。同一个文件两次 Commit 可以得到不同的 Commitment。</li>
+</ol>
+<p>Blockchain： Put commitment on chain （EIP-4844，Rollup-blob）</p>
+<h2 id="Commit-and-Prove"><a href="#Commit-and-Prove" class="headerlink" title="Commit-and-Prove"></a>Commit-and-Prove</h2><p><img src="zkp-note-2/commit-and-prove.jpg" alt="alt text"></p>
+<h1 id="Why-zkSNARK"><a href="#Why-zkSNARK" class="headerlink" title="Why zkSNARK"></a>Why zkSNARK</h1>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/05/25/zkp-note-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/25/zkp-note-1/" class="post-title-link" itemprop="url">零知识证明笔记-1-密码学基础</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-05-25 15:11:36" itemprop="dateCreated datePublished" datetime="2024-05-25T15:11:36+08:00">2024-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这是结诚浩的《图解密码技术》一书的读书笔记，我是在去北京的火车上把其中感兴趣的部分草草过完的。<a target="_blank" rel="noopener" href="https://learn.z2o-k7e.world">World of Z2O-K7E</a> 只是建议过一下，我就只是过一下，感觉还是很有帮助的，至少看过了之后，我能感觉自己的大脑切换到了“密码学的上下文”，接收零知识证明相关的知识似乎更高效了。</p>
+<h2 id="基本常识"><a href="#基本常识" class="headerlink" title="基本常识"></a>基本常识</h2><ol>
+<li>不要使用保密的密码算法（即隐蔽式的安全性），应该使用得到广为验证的公开的密码算法，而保护好密钥。</li>
+<li>使用低强度的密码会给人一种错误的安全感，比不进行加密更危险。</li>
+<li>任何密码总有一天会被破解，除了不实用的一次性密码本和传说中的量子密码。</li>
+<li>密码只是信息安全的一部分，提防“社会工程学”。</li>
+</ol>
+<h2 id="对称密码"><a href="#对称密码" class="headerlink" title="对称密码"></a>对称密码</h2><h3 id="DES-3DES"><a href="#DES-3DES" class="headerlink" title="DES / 3DES"></a>DES / 3DES</h3><p>一种将 64 位明文加密为 64 位密文的对称密码算法，需要以<strong>分组</strong>为单位对输入进行处理（这样的密码算法称为分组密码，block cipher）。DES 已经可以在现实时间内被破解。</p>
+<p>三重DES（3DES）是为了增加 DES 的强度设计的。三重 DES 并不是三轮加密，而是加密、解密、加密。如果三轮的密钥都相同，就跟 DES 一样了。</p>
+<p>第一轮和第三轮使用同样的密钥则称为 DES-EDE2。<br>三轮都不同则称为 DES-EDE3。</p>
+<h3 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h3><p>Rijndael 算法在 2000 年被选为 AES。</p>
+<p>分组长度固定为 128 比特，密钥长度有 128、192、256 比特三种。</p>
+<p>加密过程：SubBytes -&gt; ShiftRows -&gt; MixColumns -&gt; AddRoundKey</p>
+<p>解密过程: AddRoundKey -&gt; InvMixColumns -&gt; InvShiftRows -&gt; InvSubBytes</p>
+<h3 id="如何选择"><a href="#如何选择" class="headerlink" title="如何选择"></a>如何选择</h3><p>不用 DES，少用 3DES，尽量用 AES。</p>
+<h2 id="分组密码的模式"><a href="#分组密码的模式" class="headerlink" title="分组密码的模式"></a>分组密码的模式</h2><ul>
+<li><strong>ECB</strong>（Electronic CodeBook，电子密码本）：简单，快速，支持并行计算；明文中重复排列会反映在密文中，并且通过删除、替换密文分组可以对明文进行操作，对包含某些比特错误的密文解密时对应的分组会出错，不能抵御重放攻击。不要用。</li>
+<li><strong>CBC</strong>（Cipher Book Chaining，密文分组连接模式）：推荐使用，重复的明文不会导致重复的密文，可以解密任意密文分组。<strong>必须是先加密再 XOR</strong>，如果反过来，则其效果等同于 <strong>ECB</strong>，可以直接从 IV （初始化向量）开始，依次将前后两组密文执行 XOR，得到的每组结果恰好就等于 ECB 每组的结果。</li>
+<li><strong>CFB</strong> / <strong>OFB</strong>：不需要填充（padding）。</li>
+<li><strong>CTR</strong>（CounTeR，计数器模式）：推荐使用，主动攻击者反转密文分组中的某些比特时，明文分组中相对应的比特也会被反转。</li>
+</ul>
+<h2 id="公钥密码"><a href="#公钥密码" class="headerlink" title="公钥密码"></a>公钥密码</h2><p>RSA 的基本步骤：</p>
+<ol>
+<li>取两个比较大的质数 p 和 q。</li>
+<li>求两者的乘积 $N = p \times q$。</li>
+<li>求 <script type="math/tex; mode=display">
+L = lcm(p - 1, q - 1)</script>，即 p 和 q 的最小公倍数；有的资料说的是求欧拉函数值 $\phi = (p-1) \times (q-1)$，以下统称 $\phi$。</li>
+</ol>
+<blockquote>
+<p>GPT: 两者都有各自的使用场景，但在实际使用中，求欧拉函数值 ($\phi$) 更为常见。</p>
+</blockquote>
+<ol>
+<li>选择公钥 $E$，$E$ 与 $\phi$ 互质并且 $1 &lt; E  &lt; \phi$。</li>
+<li>求私钥 $D$，$D \times E \equiv 1$ (mod $\phi$)，即 D 为 E 的乘法逆元。</li>
+<li>这样得到公钥为 $(E, N)$，私钥为 $(D, N)$。</li>
+</ol>
+<p>一个使用小质数实现的简单的 RSA：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> num::BigInt;</span><br><span class="line"><span class="keyword">use</span> rand::seq::index::sample;</span><br><span class="line"><span class="keyword">use</span> rand::&#123;thread_rng, Rng&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> SMALL_PRIMES: [<span class="built_in">u64</span>; <span class="number">50</span>] = [</span><br><span class="line">    <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">17</span>, <span class="number">19</span>, <span class="number">23</span>, <span class="number">29</span>, <span class="number">31</span>, <span class="number">37</span>, <span class="number">41</span>, <span class="number">43</span>, <span class="number">47</span>, <span class="number">53</span>, <span class="number">59</span>, <span class="number">61</span>, <span class="number">67</span>, <span class="number">71</span>, <span class="number">73</span>, <span class="number">79</span>, <span class="number">83</span>, <span class="number">89</span>, <span class="number">97</span>,</span><br><span class="line">    <span class="number">101</span>, <span class="number">103</span>, <span class="number">107</span>, <span class="number">109</span>, <span class="number">113</span>, <span class="number">127</span>, <span class="number">131</span>, <span class="number">137</span>, <span class="number">139</span>, <span class="number">149</span>, <span class="number">151</span>, <span class="number">157</span>, <span class="number">163</span>, <span class="number">167</span>, <span class="number">173</span>, <span class="number">179</span>, <span class="number">181</span>, <span class="number">191</span>, <span class="number">193</span>,</span><br><span class="line">    <span class="number">197</span>, <span class="number">199</span>, <span class="number">211</span>, <span class="number">223</span>, <span class="number">227</span>, <span class="number">229</span>,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">KeyPair</span></span> &#123;</span><br><span class="line">    private_key: <span class="built_in">u64</span>,</span><br><span class="line">    public_key: <span class="built_in">u64</span>,</span><br><span class="line">    modulus: <span class="built_in">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> KeyPair &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">generate</span></span>() -&gt; <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> rng = thread_rng();</span><br><span class="line">        <span class="keyword">let</span> indices = sample(&amp;<span class="keyword">mut</span> rng, SMALL_PRIMES.len(), <span class="number">2</span>);</span><br><span class="line">        <span class="comment">// use crate rand to select two random prime numbers</span></span><br><span class="line">        <span class="keyword">let</span> p = SMALL_PRIMES[indices.index(<span class="number">0</span>)];</span><br><span class="line">        <span class="keyword">let</span> q = SMALL_PRIMES[indices.index(<span class="number">1</span>)];</span><br><span class="line">        <span class="keyword">let</span> modulus = p * q;</span><br><span class="line">        <span class="keyword">let</span> phi = (p - <span class="number">1</span>) * (q - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">let</span> public_key = <span class="keyword">loop</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> public_key = SMALL_PRIMES[thread_rng().gen_range(<span class="number">0</span>..SMALL_PRIMES.len())];</span><br><span class="line">            <span class="keyword">if</span> public_key &lt; phi &amp;&amp; gcd(public_key, phi) == <span class="number">1</span> &#123;</span><br><span class="line">                <span class="keyword">break</span> public_key;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> private_key = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (public_key * private_key) % phi != <span class="number">1</span> &#123;</span><br><span class="line">            private_key += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">Self</span> &#123;</span><br><span class="line">            private_key,</span><br><span class="line">            public_key,</span><br><span class="line">            modulus,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">encrypt</span></span>(&amp;<span class="keyword">self</span>, message: BigInt) -&gt; BigInt &#123;</span><br><span class="line">        message.pow(<span class="keyword">self</span>.public_key <span class="keyword">as</span> <span class="built_in">u32</span>) % <span class="keyword">self</span>.modulus</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">decrypt</span></span>(&amp;<span class="keyword">self</span>, encrypted_message: BigInt) -&gt; BigInt &#123;</span><br><span class="line">        encrypted_message.pow(<span class="keyword">self</span>.private_key <span class="keyword">as</span> <span class="built_in">u32</span>) % <span class="keyword">self</span>.modulus</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// getters</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_private_key</span></span>(&amp;<span class="keyword">self</span>) -&gt; (<span class="built_in">u64</span>, <span class="built_in">u64</span>) &#123;</span><br><span class="line">        (<span class="keyword">self</span>.private_key, <span class="keyword">self</span>.modulus)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_public_key</span></span>(&amp;<span class="keyword">self</span>) -&gt; (<span class="built_in">u64</span>, <span class="built_in">u64</span>) &#123;</span><br><span class="line">        (<span class="keyword">self</span>.public_key, <span class="keyword">self</span>.modulus)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_modulus</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.modulus</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">gcd</span></span>(p0: <span class="built_in">u64</span>, p1: <span class="built_in">u64</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> p0 = p0;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> p1 = p1;</span><br><span class="line">    <span class="keyword">while</span> p1 != <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> temp = p1;</span><br><span class="line">        p1 = p0 % p1;</span><br><span class="line">        p0 = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    p0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[cfg(test)]</span></span><br><span class="line"><span class="keyword">mod</span> tests &#123;</span><br><span class="line">    <span class="keyword">use</span> super::*;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#[test]</span></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">test_rsa</span></span>() &#123;</span><br><span class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0</span>..<span class="number">100</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> key_pair = KeyPair::generate();</span><br><span class="line">            <span class="keyword">let</span> message = BigInt::from(rand::thread_rng().gen_range(<span class="number">6</span>..key_pair.get_modulus()));</span><br><span class="line">            <span class="keyword">let</span> encrypted_message = key_pair.encrypt(message.clone());</span><br><span class="line">            <span class="keyword">let</span> decrypted_message = key_pair.decrypt(encrypted_message.clone());</span><br><span class="line">            <span class="built_in">assert_eq!</span>(decrypted_message, message);</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;public key: (&#123;&#125;, &#123;&#125;), private key: (&#123;&#125;, &#123;&#125;), message: &#123;&#125;, encrypted: &#123;&#125;, decrypted: &#123;&#125;&quot;</span>,</span><br><span class="line">                key_pair.get_public_key().<span class="number">0</span>, key_pair.get_public_key().<span class="number">1</span>,</span><br><span class="line">                key_pair.get_private_key().<span class="number">0</span>, key_pair.get_private_key().<span class="number">1</span>,</span><br><span class="line">                message,</span><br><span class="line">                encrypted_message,</span><br><span class="line">                decrypted_message</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="单向散列函数"><a href="#单向散列函数" class="headerlink" title="单向散列函数"></a>单向散列函数</h2><p>单向散列函数（也称为消息摘要函数、哈希函数、杂凑函数），用来保证消息的完整性（integrity），也称为一致性。</p>
+<p>输入的消息也称为原像（pre-image）。</p>
+<p>输出的散列值也称为消息摘要（message digest）或者指纹（fingerprint）。</p>
+<p>难以发现碰撞的性质称为抗碰撞性（collision resistance）。</p>
+<h3 id="算法选择"><a href="#算法选择" class="headerlink" title="算法选择"></a>算法选择</h3><p>MD5 是不安全的。</p>
+<p>SHA-1 不应该用于新用途。</p>
+<p>SHA-2 （SHA-256以上） 、SHA-3 是安全的，可以使用。</p>
+<h2 id="消息认证码"><a href="#消息认证码" class="headerlink" title="消息认证码"></a>消息认证码</h2><p>消息认证码（Message Authentication Code）是一种确认完整性并进行认证的技术。</p>
+<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><ul>
+<li>单向散列函数，例如 HMAC。</li>
+<li>分组密码，例如 AES-CMAC。</li>
+<li>其他，例如流密码和公钥密码。</li>
+</ul>
+<h2 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h2><p>使用公钥密码（比如 RSA、椭圆曲线）来实现。</p>
+<ul>
+<li>绝对不要对意思不清楚的消息进行签名，可能无意中解密了公钥加密的密文。</li>
+<li>依赖公钥基础设施，公钥必须属于真正的发送者，即使用证书来确认。</li>
+</ul>
+<h2 id="密钥交换"><a href="#密钥交换" class="headerlink" title="密钥交换"></a>密钥交换</h2><h3 id="Diffie-Hellman"><a href="#Diffie-Hellman" class="headerlink" title="Diffie-Hellman"></a>Diffie-Hellman</h3><p>一个使用小质数实现的简单的 Diffie-Hellman：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> num::BigInt;</span><br><span class="line"><span class="keyword">use</span> rand::thread_rng;</span><br><span class="line"><span class="keyword">use</span> rand::Rng;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> P_AND_G: [(<span class="built_in">u64</span>, <span class="built_in">u64</span>); <span class="number">20</span>] = [</span><br><span class="line">    (<span class="number">7</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">11</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">13</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">17</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">19</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">23</span>, <span class="number">5</span>),</span><br><span class="line">    (<span class="number">29</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">31</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">37</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">41</span>, <span class="number">6</span>),</span><br><span class="line">    (<span class="number">43</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">47</span>, <span class="number">5</span>),</span><br><span class="line">    (<span class="number">53</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">59</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">61</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">67</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">71</span>, <span class="number">7</span>),</span><br><span class="line">    (<span class="number">73</span>, <span class="number">5</span>),</span><br><span class="line">    (<span class="number">79</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">83</span>, <span class="number">2</span>),</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// prime P and generator G</span></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">PnG</span></span> &#123;</span><br><span class="line">    prime: <span class="built_in">u64</span>,</span><br><span class="line">    generator: <span class="built_in">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> PnG &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">generate</span></span>() -&gt; <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> (prime, generator) = P_AND_G[thread_rng().gen_range(<span class="number">0</span>..P_AND_G.len())];</span><br><span class="line">        <span class="keyword">Self</span> &#123; prime, generator &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_prime</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.prime</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_generator</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.generator</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">generate_random_number</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        <span class="comment">// generate a number in the range of 1 to prime - 2</span></span><br><span class="line">        thread_rng().gen_range(<span class="number">1</span>..<span class="keyword">self</span>.prime - <span class="number">2</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[cfg(test)]</span></span><br><span class="line"><span class="keyword">mod</span> tests &#123;</span><br><span class="line">    <span class="keyword">use</span> super::*;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#[test]</span></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">test_diffie_hellman</span></span>() &#123;</span><br><span class="line">        <span class="keyword">for</span> round <span class="keyword">in</span> <span class="number">0</span>..<span class="number">10</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> pg = PnG::generate();</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;&#123;round&#125;) Prime: &#123;&#125;, Generator: &#123;&#125;&quot;</span>,</span><br><span class="line">                pg.get_prime(),</span><br><span class="line">                pg.get_generator()</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">let</span> alice_number = pg.generate_random_number();</span><br><span class="line">            <span class="keyword">let</span> bob_number = pg.generate_random_number();</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;&#123;round&#125;) Alice number: &#123;&#125;, Bob number: &#123;&#125;&quot;</span>,</span><br><span class="line">                alice_number, bob_number</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">let</span> alice_partial_key =</span><br><span class="line">                BigInt::from(pg.get_generator()).pow(alice_number <span class="keyword">as</span> <span class="built_in">u32</span>) % pg.get_prime();</span><br><span class="line">            <span class="keyword">let</span> bob_partial_key =</span><br><span class="line">                BigInt::from(pg.get_generator()).pow(bob_number <span class="keyword">as</span> <span class="built_in">u32</span>) % pg.get_prime();</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;&#123;round&#125;) Alice partial key: &#123;&#125;, Bob partial key: &#123;&#125;&quot;</span>,</span><br><span class="line">                alice_partial_key, bob_partial_key</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">let</span> alice_full_key =</span><br><span class="line">                BigInt::from(bob_partial_key).pow(alice_number <span class="keyword">as</span> <span class="built_in">u32</span>) % pg.get_prime();</span><br><span class="line">            <span class="keyword">let</span> bob_full_key =</span><br><span class="line">                BigInt::from(alice_partial_key).pow(bob_number <span class="keyword">as</span> <span class="built_in">u32</span>) % pg.get_prime();</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;&#123;round&#125;) Alice full key: &#123;&#125;, Bob full key: &#123;&#125;&quot;</span>,</span><br><span class="line">                alice_full_key, bob_full_key</span><br><span class="line">            );</span><br><span class="line">            <span class="built_in">assert_eq!</span>(alice_full_key, bob_full_key);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="椭圆曲线密码"><a href="#椭圆曲线密码" class="headerlink" title="椭圆曲线密码"></a>椭圆曲线密码</h2><p>椭圆曲线密码是利用“椭圆曲线上的离散对数问题”的复杂度来实现的。</p>
+<script type="math/tex; mode=display">
+y^2 = x^3 + ax + b</script><p>使用了椭圆曲线的 schnorr 的一个简单实现：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> k256::&#123;NonZeroScalar, ProjectivePoint, PublicKey&#125;;</span><br><span class="line"><span class="keyword">use</span> rand::rngs::OsRng;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="comment">// 使用操作系统级别的 RNG</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> rng = OsRng;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Alice 拥有一个私钥 a，计算公钥 aG</span></span><br><span class="line">    <span class="comment">// 私钥 a</span></span><br><span class="line">    <span class="keyword">let</span> a = NonZeroScalar::random(&amp;<span class="keyword">mut</span> rng);</span><br><span class="line">    <span class="comment">// 公钥 aG</span></span><br><span class="line">    <span class="keyword">let</span> a_g = ProjectivePoint::from(PublicKey::from_secret_scalar(&amp;a));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 知道 G 和 aG，求 a，属于椭圆曲线上的离散对数问题，目前没有有效的解法</span></span><br><span class="line">    <span class="keyword">let</span> r = NonZeroScalar::random(&amp;<span class="keyword">mut</span> rng);</span><br><span class="line">    <span class="comment">// Alice 生成一个随机数 r，并计算 R = rG</span></span><br><span class="line">    <span class="keyword">let</span> r_g = ProjectivePoint::from(PublicKey::from_secret_scalar(&amp;r));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Bob 提供一个挑战 c</span></span><br><span class="line">    <span class="keyword">let</span> c = NonZeroScalar::random(&amp;<span class="keyword">mut</span> rng);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Alice 计算响应 z = r + a * c (mod q)</span></span><br><span class="line">    <span class="keyword">let</span> ac = a * c; <span class="comment">// 计算 a * c</span></span><br><span class="line">    <span class="keyword">let</span> z = r.add(&amp;ac);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="literal">Some</span>(z) = NonZeroScalar::new(z).into() <span class="keyword">else</span> &#123;</span><br><span class="line">        eprintln!(<span class="string">&quot;计算 z 为零。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Alice 将 z 发送给 Bob，Bob 验证 zG ?= R + c*PK</span></span><br><span class="line">    <span class="keyword">let</span> z_g = ProjectivePoint::from(PublicKey::from_secret_scalar(&amp;z));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算 c  * PK</span></span><br><span class="line">    <span class="keyword">let</span> c_pk = a_g * *c;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算 rG + c*PK</span></span><br><span class="line">    <span class="keyword">let</span> r_plus_cpk = r_g + c_pk;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 验证 zG ?= rG + c*PK</span></span><br><span class="line">    <span class="comment">// c * PK 与 a * c 的关系是？</span></span><br><span class="line">    <span class="comment">// 为什么这个证明是成立的</span></span><br><span class="line">    <span class="comment">// 为什么这个证明是不可伪造的</span></span><br><span class="line">    <span class="comment">// 回答:</span></span><br><span class="line">    <span class="comment">// c * PK = c * a * G = a * c * G = a * c * G = ac * G</span></span><br><span class="line">    <span class="comment">// PK = aG ?</span></span><br><span class="line">    <span class="keyword">if</span> z_g == r_plus_cpk &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;验证成功，Alice 证明了她拥有私钥.&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;验证失败.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与 GPT 的交谈：</span></span><br><span class="line"><span class="comment">// 为什么 Alice 要先生成一个随机数？</span></span><br><span class="line"><span class="comment">// 答：为了证明她拥有私钥，她需要一个随机数 r，然后计算 R = rG，然后计算 z = r + a * c (mod q)</span></span><br><span class="line"><span class="comment">// 可以让 Bob 先生成随机数并发送给 Alice 吗？（然后 Alice 再生成 r ，发送 rG）</span></span><br><span class="line"><span class="comment">// 答：可以，但是这样会暴露 Bob 的私钥，因为 Bob 会发送 c * PK，PK = aG，所以 Bob 的私钥就会暴露</span></span><br><span class="line"><span class="comment">// 不对啊，Bob 只需要发送 c，不会暴露私钥啊</span></span><br><span class="line"><span class="comment">// 答：对，Bob 只需要发送 c，不会暴露私钥，但是这样会暴露 Bob 的公钥，Bob 的公钥是 aG，这样会暴露 Bob 的身份</span></span><br><span class="line"><span class="comment">// 不对啊，aG 是 Alice 使用私钥 a 计算出来的公钥，怎么会是 Bob 的公钥呢？</span></span><br><span class="line"><span class="comment">// 答：对，我理解错了，Bob 只需要发送 c，不会暴露私钥，也不会暴露公钥，这样是可以的</span></span><br><span class="line"><span class="comment">// Bob 先发送随机数给 Alice 真的没问题吗？Alice 不会获得没有 a 但是证明她拥有 a 的超能力吗？</span></span><br><span class="line"><span class="comment">// 答：Alice 不会获得没有 a 但是证明她拥有 a 的超能力，因为 Alice 需要 a 来计算 z = r + a * c (mod q)，如果没有 a，Alice 就无法计算 z</span></span><br><span class="line"><span class="comment">// Alice 不能用假的 a&#x27; 来计算 z 吗？一直用假的 a&#x27;, 是否也能通过验证？</span></span><br><span class="line"><span class="comment">// 答：不能，因为 Bob 会用 a&#x27; 来计算 c * PK，然后验证 zG ?= R + c * PK，如果 a&#x27; 是错误的，那么 c * PK 也是错误的，验证就会失败</span></span><br><span class="line"><span class="comment">// PK 和 zG 都是用 a&#x27; 计算出来的，所以 Bob 永远都会验证成功，不管 Alice 用了什么 a&#x27;，验证都会成功，这样 Alice 是否就获得的超能力</span></span><br><span class="line"><span class="comment">// 答：不会，因为 Alice 无法计算出正确的 z，验证会失败</span></span><br><span class="line"><span class="comment">// z&#x27; = r + a&#x27; * c (mod q)，所以 z&#x27;G = R + c * a&#x27; * G 验证肯定成功吧？</span></span><br><span class="line"><span class="comment">// 答：不会，因为 c * a&#x27; * G != c * a * G，验证会失败</span></span><br><span class="line"><span class="comment">// 你好像没有理解，如果 Bob 实现发送了挑战 c，Alice 可以使用任何除了 a 之外的密钥替换 a（比如 a&#x27;)，这样整个流程只是证明了 Alice 拥有一个密钥（这个密钥并不一定是 a）</span></span><br><span class="line"><span class="comment">// 答：对，我理解错了，如果 Bob 先发送了挑战 c，Alice 可以使用任何除了 a 之外的密钥替换 a（比如 a&#x27;），这样整个流程只是证明了 Alice 拥有一个密钥（这个密钥并不一定是 a）</span></span><br><span class="line"><span class="comment">// 所以 Alice 即使没有任何密钥，她临时编造一个，在这种情况下，Bob 永远都无法验证 Alice 是否拥有私钥，这样 Alice 就获得了超能力</span></span><br><span class="line"><span class="comment">// 所以顺序不能调换，对吗？</span></span><br><span class="line"><span class="comment">// 答：对，顺序不能调换，Alice 必须先生成一个随机数 r，然后计算 R = rG，然后计算 z = r + a * c (mod q)，然后发送 z 给 Bob，Bob 验证 zG ?= R + c * PK</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/04/26/zkp-note-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/04/26/zkp-note-0/" class="post-title-link" itemprop="url">零知识证明笔记-0-目标与计划</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-04-26 11:39:19" itemprop="dateCreated datePublished" datetime="2024-04-26T11:39:19+08:00">2024-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>从今天开始，学习零知识证明相关知识，暂定 3 个月（到2024年7月26日完成）的学习目标为：</p>
+<ol>
+<li>完成零知识证明常见算法、实现的学习，至少能够知道它们解决的是什么问题，分别适用于什么业务场景。</li>
+<li>学会并熟练掌握使用至少一个流行的 Rust 零知识证明库。</li>
+<li>参与至少一个零知识证明的(开源?)项目，需要提交有质量的代码。</li>
+</ol>
+<hr>
+<h2 id="初步计划"><a href="#初步计划" class="headerlink" title="初步计划"></a>初步计划</h2><h3 id="V20240426"><a href="#V20240426" class="headerlink" title="V20240426"></a>V20240426</h3><ol>
+<li>第一个月: <a target="_blank" rel="noopener" href="https://learn.z2o-k7e.world">World of Z2O-K7E</a> 的学习；产出为“能够在朋友、同事甚至是小学生（如果我有幸能认识一个愿意听我讲的）面前把学到的哲学、原理、应用讲出来，讲清楚”。</li>
+<li>第二个月: 完成 <a target="_blank" rel="noopener" href="https://learn.z2o-k7e.world">World of Z2O-K7E</a> 的学习并开始学习 Rust 相关库，写 demo；学习产出参考上一个月，写 demo 的产出为能够全面反映该 Rust 库的各种功能的一个 repo。</li>
+<li>第三个月: 继续写 demo，看相关开源项目源码，参与项目；产出物为 项目地址 / commit / PR 记录等等。</li>
+</ol>
+<blockquote>
+<p>介于本人在该领域是完全的“零知识”，以上仅为初步计划，如果有任何修改（即使是放弃）都需要更新本文。</p>
+</blockquote>
+<h3 id="20240530"><a href="#20240530" class="headerlink" title="20240530"></a>20240530</h3><p>一个多月了，公司的事有点烦。实际上我话太少，并没有找人验证过我是否能证明我能讲出所有我学到的东西，目前学习进度并不快，只是能够把 RSA 和 schnorr 的流程完整复述出来（并用小质数作为例子介绍）。报了一个课，希望能学到我想学的东西，后面打算整理这个课的笔记了。继续加油！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2023/03/05/relation-algebra-division/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/05/relation-algebra-division/" class="post-title-link" itemprop="url">关系代数除法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-05 20:37:12" itemprop="dateCreated datePublished" datetime="2023-03-05T20:37:12+08:00">2023-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><ul>
+<li>$S$、$R$ 为关系模式，$s$、$r$ 为关系实例。</li>
+<li>要计算关系除法，需要满足 $S ⊆ R$。</li>
+<li>给定一个元组 $t$，令 $t[S]$ 代表元组 $t$ 在 $S$ 中属性上的投影；那么，$r ÷ s$ 是 $R-S$ 模式的一个关系。</li>
+<li>元组 $t$ 在 $r ÷ s$ 中的充要条件是<strong>满足以下两个</strong>：<ol>
+<li>$t$ 在 $Π_{R-S}(r)$ 中</li>
+<li>对于 $s$ 中的每个元组 $t_s$，在 $r$ 中存在一个元组 $t_r$ 且满足：<ul>
+<li>$t_r[S] = t_s[S]$</li>
+<li>$t_r[R-S] = t$</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>例子：</li>
+</ul>
+<p>$r$: </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+<th>A2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td><em>e</em></td>
+</tr>
+<tr>
+<td>a</td>
+<td><em>f</em></td>
+</tr>
+<tr>
+<td>b</td>
+<td>e</td>
+</tr>
+<tr>
+<td>b</td>
+<td>g</td>
+</tr>
+<tr>
+<td>c</td>
+<td><em>e</em></td>
+</tr>
+<tr>
+<td>c</td>
+<td><em>f</em></td>
+</tr>
+<tr>
+<td>d</td>
+<td>f</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>$s$:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>e</em></td>
+</tr>
+<tr>
+<td><em>f</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>$r ÷ s$:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+</tr>
+<tr>
+<td>c</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h1><p>关系代数除法可以使用其它关系代数运算替代：</p>
+<script type="math/tex; mode=display">
+r ÷ s = Π_{R-S}(r) - Π_{R-S}(Π_{R-S}(r) × s - Π_{R-S,S}(r))</script><p>用上一节的例子就是：</p>
+<script type="math/tex; mode=display">
+Π_{R-S}(r)</script><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+</tr>
+<tr>
+<td>b</td>
+</tr>
+<tr>
+<td>c</td>
+</tr>
+<tr>
+<td>d</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<script type="math/tex; mode=display">
+Π_{R-S}(r) × s</script><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+<th>A2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>e</td>
+</tr>
+<tr>
+<td>a</td>
+<td>f</td>
+</tr>
+<tr>
+<td>b</td>
+<td>e</td>
+</tr>
+<tr>
+<td>b</td>
+<td>f</td>
+</tr>
+<tr>
+<td>c</td>
+<td>e</td>
+</tr>
+<tr>
+<td>c</td>
+<td>f</td>
+</tr>
+<tr>
+<td>d</td>
+<td>e</td>
+</tr>
+<tr>
+<td>d</td>
+<td>f</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<script type="math/tex; mode=display">
+Π_{R-S,S}(r)</script><p>公式中是为了计算差（$-$）的时候两个操作数模式相同，对 $r$ 做了一下模式的颠倒，其实还是 $r$。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+<th>A2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>e</td>
+</tr>
+<tr>
+<td>a</td>
+<td>f</td>
+</tr>
+<tr>
+<td>b</td>
+<td>e</td>
+</tr>
+<tr>
+<td>b</td>
+<td>g</td>
+</tr>
+<tr>
+<td>c</td>
+<td>e</td>
+</tr>
+<tr>
+<td>c</td>
+<td>f</td>
+</tr>
+<tr>
+<td>d</td>
+<td>f</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<script type="math/tex; mode=display">
+Π_{R-S}(r) × s - Π_{R-S,S}(r)</script><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+<th>A2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>b</td>
+<td>f</td>
+</tr>
+<tr>
+<td>d</td>
+<td>e</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<script type="math/tex; mode=display">
+Π_{R-S}(Π_{R-S}(r) × s - Π_{R-S,S}(r))</script><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>b</td>
+</tr>
+<tr>
+<td>d</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<script type="math/tex; mode=display">
+Π_{R-S}(r) - Π_{R-S}(Π_{R-S}(r) × s - Π_{R-S,S}(r))</script><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+</tr>
+<tr>
+<td>c</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Thomasg</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengteng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengteng" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:me@gteng.org" title="E-Mail → mailto:me@gteng.org"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Thomasg</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

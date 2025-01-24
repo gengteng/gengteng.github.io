@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gteng.org","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="想写这样一篇总结也是因为在互联网上看了太多乱七八糟的说法，往往让读者越看越糊涂。这些说法往往给我这样的感觉：  没有先讲清楚在形容什么：同步、异步、阻塞、非阻塞通常作为形容词使用，无论是用在日常语境，还是用在编程领域内部，如果你不知道这些形容词是放在什么名词之前就开始讲什么意思，甚至一段话中掺杂多个名词去形容而不说明，那就会给人不知所云的感觉。 概念与实现混为一谈：同步阻塞、异步非阻塞是非常常见的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="同步与异步，阻塞与非阻塞">
+<meta property="og:url" content="https://gteng.org/2022/08/13/sync-async-blocking-nonblocking/index.html">
+<meta property="og:site_name" content="一口笔记">
+<meta property="og:description" content="想写这样一篇总结也是因为在互联网上看了太多乱七八糟的说法，往往让读者越看越糊涂。这些说法往往给我这样的感觉：  没有先讲清楚在形容什么：同步、异步、阻塞、非阻塞通常作为形容词使用，无论是用在日常语境，还是用在编程领域内部，如果你不知道这些形容词是放在什么名词之前就开始讲什么意思，甚至一段话中掺杂多个名词去形容而不说明，那就会给人不知所云的感觉。 概念与实现混为一谈：同步阻塞、异步非阻塞是非常常见的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-13T11:26:55.000Z">
+<meta property="article:modified_time" content="2025-01-24T08:48:32.270Z">
+<meta property="article:author" content="Thomasg">
+<meta property="article:tag" content="synchronous">
+<meta property="article:tag" content="asynchronous">
+<meta property="article:tag" content="blocking">
+<meta property="article:tag" content="nonblocking">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gteng.org/2022/08/13/sync-async-blocking-nonblocking/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>同步与异步，阻塞与非阻塞 | 一口笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一口笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">常期望安定，还期望即兴。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2022/08/13/sync-async-blocking-nonblocking/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          同步与异步，阻塞与非阻塞
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-13 19:26:55" itemprop="dateCreated datePublished" datetime="2022-08-13T19:26:55+08:00">2022-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>想写这样一篇总结也是因为在互联网上看了太多乱七八糟的说法，往往让读者越看越糊涂。这些说法往往给我这样的感觉：</p>
+<ol>
+<li><strong>没有先讲清楚在形容什么</strong>：同步、异步、阻塞、非阻塞通常作为形容词使用，无论是用在日常语境，还是用在编程领域内部，如果你不知道这些形容词是放在什么名词之前就开始讲什么意思，甚至一段话中掺杂多个名词去形容而不说明，那就会给人不知所云的感觉。</li>
+<li><strong>概念与实现混为一谈</strong>：同步阻塞、异步非阻塞是非常常见的组合方式，所以在讲同步、异步的概念时，它们忍不住拿这些具体实现来讲概念，也就顶多能让读者理解这些固定搭配，难以活学活用（其实能不能做到前者都存疑，甚至作者自己真的懂吗？）。</li>
+<li><strong>不恰当的比喻</strong>：比喻的使用是为了帮助表达，本体和喻体之间当然是不同的事物（否则就不是比喻了），但是讲了个生动的比喻，却没有把本体与喻体之间的对应关系讲清楚，或者没有讲清楚这个比喻的边界，给话题引入了不必要的复杂性，起到了相反的作用。</li>
+</ol>
+<p>所以，我打算好好聊一下我对这个话题的理解，尽可能不要犯我认为别人犯过的这些错误，欢迎读者监督。</p>
+<h2 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h2><p>同步这个词在日常语境下与计算机是有着一些不同的。日常语境下，同步经常用在同时进行的事情上，比如“多个平台同步直播卖货”，“推动新时代四化同步发展”，当然它们之间是经过协调一致的，不是无组织无纪律各行其是的。</p>
+<p>而在编程领域，“同步”和“异步”通常用来是形容“任务”、“函数”等可执行对象的（以下统一称作“任务”）；当然也有用来形容“API”的，此时它们表示的是一种具体实现的风格，即“同步风格的API”、“异步风格的API”，它跟前者有关系也有区别。</p>
+<p>那它们究竟是什么意思呢？</p>
+<p>无论是同步还是异步，都一定是用来形容<strong>多个任务</strong>的，我们可以说这两个任务或者这三个函数是同步或者异步执行的，但是一个任务不存在同步或者异步。<strong>同步指的是多个任务一个一个执行，不存在时间重叠的情况，异步指的是多个任务不一个一个执行，可能存在时间重叠的情况。</strong></p>
+<blockquote>
+<p>有的说法硬要在讲清楚这个概念之前，先把这个任务假设成一个异步函数，再把它分成调用和获取结果两个步骤，开始谈什么消息，打比方讲什么先打了个电话订餐，又接了个电话通知，然后告诉你这叫异步，这是很容易造成误解的。即便要拆成俩，单个任务的调用和获取结果也一定是一前一后，不可能先获取结果再调用，也不可能同时进行，这两个步骤是同步的，不以具体实现为转移，它们只是可能跟另一个任务是异步的，拆成俩徒增复杂度，没有任何必要。所以干脆不要拆，也不要聊具体实现，我们说一个任务，它就是一个任务，就是执行一段时间拿到结果，不要拆开。比如“吃外卖”，就等于“下单-收到电话-取餐-吃”这整个过程，反正经过了一段时间，<strong>不要在意内部细节</strong>。</p>
+</blockquote>
+<p>那么，同步和异步应该怎么使用呢，比如；</p>
+<ol>
+<li>我先吃了个外卖，然后打了一会游戏，吃外卖和打游戏这两个任务就是同步的。</li>
+<li>我先吃了个外卖，然后打了一会游戏，又写了会代码，这三个任务也是同步的。</li>
+<li>在 2. 的基础上，我在吃外卖的过程中还听了一段时间的音乐，那么听音乐和吃外卖是异步的（不要管我什么时候开的音乐，什么时候关的音乐）。</li>
+<li>在 2. 的基础上，打游戏期间都是保证把音乐关掉了的，但是吃外卖和写代码期间都听了一会音乐，那么听音乐和玩游戏是同步的，和吃外卖、写代码是异步的。</li>
+</ol>
+<p>是不是很简单，只要按照那个定义去套就行了。但是有一点要注意，4. 里面的 “打游戏期间都是保证把音乐关掉了” 的 “保证” 二字是很关键的，它确保了听音乐和玩游戏之间的 “一个一个执行” 的条件，这需要我在玩游戏之前确保音乐是关掉的，又保证玩游戏期间没有突然去把音乐打开，如果你只是凭运气，只是偶然造成了 “玩游戏期间音乐是关掉的” 的结果，那么它仍然是异步的，因为异步的定义里说的是“可能存在时间重叠”，你没有确保完全排除这个可能，它们就是异步的。</p>
+<p>我们再回到日常语境下的“同步”，会发现它跟编程的“同步”是相通的。比如“多个平台同步直播卖货”，虽然整体上各平台是同时在直播一个流媒体源，看上去更符合异步的定义，但其实把“直播”拆分成“录制”、“拉流”、“转场”、“互动”、“上链接”等任务时，会发现它们之间还是存在一些比较严格的先后顺序的，比如你不可能在媒体源录制之前拉流，也不可能在某个重要互动之前就享受某些优惠。也就是说，日常语境下的同步，更多的是描述两件相关的大任务，它们的子任务只要存在一定程度的“保证”就可以说“同步”，并没有编程领域这么严格。</p>
+<h2 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h2><p>这确实是一对很难脱离具体实现讲的概念。</p>
+<p>不过相比同步与异步，阻塞与非阻塞更简单，是用来形容单个可执行对象（以下仍统一称作“任务”）的执行状态的。</p>
+<p>可能被形容的有线程、协程、某一段业务逻辑等等：</p>
+<ol>
+<li>我在某线程用 BIO 接口读一个文件，造成该线程无法继续运行，这就是线程阻塞了</li>
+<li>我在某协程内使用该语言/框架提供的 sleep 方法，造成协程无法继续运行，这就是协程阻塞了（所在线程并没有阻塞）</li>
+<li>我写了一段代码，反正调用 IO 或者 sleep 了，我也不知道运行在哪个线程上，哪个协程上，或者只是一个异步的 setTimeout， 反正就是在等，这就是业务逻辑阻塞了（可能线程和协程都没有被阻塞）</li>
+</ol>
+<p>但其实这样说有点扩大概念外延的意思，99.9% 的情况下，我们说阻塞指的都是线程。而非阻塞，通常指的也是某个任务不会造成线程阻塞。</p>
+<p>为什么线程阻塞是最常讨论的话题呢？因为：</p>
+<ol>
+<li><strong>线程的调度和空间占用，都是比较消耗系统资源的。</strong>一个 I/O 密集型业务（比如最常见的 Web 服务），如果会因为 I/O 阻塞线程，那么为了支持多个并发同时进行，就需要为每个独立的并发单独开一个线程。在并发较高时，就需要开大量的线程，占用大量 CPU 和内存资源，所以我们有了 C10K 问题。</li>
+<li><strong>这是一个已经被用各种方式花式解决了的问题了。</strong>Linux 上的 epoll、Windows 上的 IOCP、MacOS 上的 kqueue（先不要管它们是异步/同步、阻塞/非阻塞，总之 —&gt;），都提供了可以让调用者不必开一堆线程而只需要复用固定数量的线程即可支撑较高并发的接口。不管是 Nodejs，还是 Vert.X 的异步回调，Go 的有栈协程，Rust 的无栈协程，甭管它们封装成异步风格还是同步风格的API，是甜还是咸，都是建立在前者基础上的。简单说，目的只有一个：<strong>不阻塞调用者的线程，或者说线程复用</strong>。</li>
+</ol>
+<p>业务要你等3秒，网络数据包要等几百毫秒才能到，硬盘读写要有时间，这些都会造成业务逻辑的阻塞，如果使用 BIO 接口，则业务逻辑的阻塞也会导致线程的阻塞。而使用了上述的框架/语言，让你不用在这些时候阻塞自己的线程，被阻塞的就只有当前业务逻辑，线程可以去跑别的业务逻辑，实现了线程复用。</p>
+<h2 id="组合起来"><a href="#组合起来" class="headerlink" title="组合起来"></a>组合起来</h2><p>现在，单讲同步、异步、阻塞、非阻塞，应该没什么问题了，我们再聊聊那些常见的搭配。</p>
+<p>我们经常听说同步阻塞、异步非阻塞这种搭配方式，而如果按照前文的定义，这种搭配方式是很奇怪的——同步和异步是用来形容多个任务的，阻塞和非阻塞时是说单个任务的，这样组合在一起是在干嘛？</p>
+<p>一般来讲，它们是用来形容某种 API 的风格和实现的。</p>
+<p><strong>同步和异步是表示这种 API 的接口风格。</strong>比如常见的 Linux 的 BIO 接口、Go 的 IO 接口、Rust 里的 async 函数，这些都是<strong>同步风格</strong>的接口，<strong>先后调用这样的两个接口，它们默认是同步执行的</strong>，你要异步执行，需要另外开线程或者协程；Node.js、Vert.X  的绝大部分接口，都是<strong>异步风格</strong>的接口，<strong>先后调用这样的两个接口，它们默认是异步执行的</strong>，你要同步执行，需要把第二个接口写到前一个接口的回调函数里。</p>
+<p><strong>阻塞和非阻塞是表示这种 API 需要调用者配合使用的线程模型。</strong>比如 Linux 的 BIO 接口会阻塞调用者的线程，它就是阻塞的，而 Go 的 IO 接口、Rust 的 async 函数、Node.js 和 Vert.X 里的异步接口，都不会阻塞调用者的线程，它们就是非阻塞的。</p>
+<p>在没有协程的年代，同步风格的 BIO 接口就是会导致线程阻塞，它意味着心智负担小，开发方便，但是吃资源；而不会阻塞线程的 NIO/AIO 接口往往是异步风格（或者封装为异步风格），代码写起来心智负担重，性能好，比如 Node.js 和 Vert.X。所以经常有人拿同步代指阻塞，拿异步代指非阻塞，它们成为了同义词两两绑定在一起，即“同步阻塞”和“异步非阻塞”。</p>
+<p>而 Go 、Rust 等语言提供的协程，相当于是对“异步非阻塞”的一种高级封装，可以像写同步代码那样写不阻塞线程的代码，让你即拥有高性能，又没有很高的心智负担。但是也很少见他们讨论自己是同步还是异步，阻塞还是非阻塞，因为风格上确实是同步的，封装的实际上是异步常用的非阻塞接口，确实不会阻塞线程，但是协程是可能被阻塞。<strong>所以不要套概念，理解原理，理解同步具体指的是谁和谁，异步具体指的是谁和谁，阻塞和非阻塞指的具体是谁，搞清楚对象，套定义就可以了。</strong></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在写这篇文章的时候，我并没有查询很多资料，但自认为这算是一个可以简化问题，帮助理解的模型。</p>
+<p>希望能给读者一些启发，也欢迎批评指正。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/synchronous/" rel="tag"># synchronous</a>
+              <a href="/tags/asynchronous/" rel="tag"># asynchronous</a>
+              <a href="/tags/blocking/" rel="tag"># blocking</a>
+              <a href="/tags/nonblocking/" rel="tag"># nonblocking</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/10/08/heap-sort/" rel="prev" title="堆排序">
+      <i class="fa fa-chevron-left"></i> 堆排序
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/03/05/relation-algebra-division/" rel="next" title="关系代数除法">
+      关系代数除法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  
+  <div class="comments">
+  <script src="https://utteranc.es/client.js" repo="gengteng/gengteng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script>
+  </div>
+  
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5"><span class="nav-number">1.</span> <span class="nav-text">同步与异步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9E"><span class="nav-number">2.</span> <span class="nav-text">阻塞与非阻塞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E8%B5%B7%E6%9D%A5"><span class="nav-number">3.</span> <span class="nav-text">组合起来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Thomasg</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengteng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengteng" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:me@gteng.org" title="E-Mail → mailto:me@gteng.org"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Thomasg</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

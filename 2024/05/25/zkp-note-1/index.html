@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gteng.org","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这是结诚浩的《图解密码技术》一书的读书笔记，我是在去北京的火车上把其中感兴趣的部分草草过完的。World of Z2O-K7E 只是建议过一下，我就只是过一下，感觉还是很有帮助的，至少看过了之后，我能感觉自己的大脑切换到了“密码学的上下文”，接收零知识证明相关的知识似乎更高效了。 基本常识 不要使用保密的密码算法（即隐蔽式的安全性），应该使用得到广为验证的公开的密码算法，而保护好密钥。 使用低强度">
+<meta property="og:type" content="article">
+<meta property="og:title" content="零知识证明笔记-1-密码学基础">
+<meta property="og:url" content="https://gteng.org/2024/05/25/zkp-note-1/index.html">
+<meta property="og:site_name" content="一口笔记">
+<meta property="og:description" content="这是结诚浩的《图解密码技术》一书的读书笔记，我是在去北京的火车上把其中感兴趣的部分草草过完的。World of Z2O-K7E 只是建议过一下，我就只是过一下，感觉还是很有帮助的，至少看过了之后，我能感觉自己的大脑切换到了“密码学的上下文”，接收零知识证明相关的知识似乎更高效了。 基本常识 不要使用保密的密码算法（即隐蔽式的安全性），应该使用得到广为验证的公开的密码算法，而保护好密钥。 使用低强度">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-05-25T07:11:36.000Z">
+<meta property="article:modified_time" content="2025-01-24T08:48:32.274Z">
+<meta property="article:author" content="Thomasg">
+<meta property="article:tag" content="Zero-Knowledge Proof">
+<meta property="article:tag" content="Web3">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gteng.org/2024/05/25/zkp-note-1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>零知识证明笔记-1-密码学基础 | 一口笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一口笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">常期望安定，还期望即兴。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/05/25/zkp-note-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          零知识证明笔记-1-密码学基础
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-05-25 15:11:36" itemprop="dateCreated datePublished" datetime="2024-05-25T15:11:36+08:00">2024-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这是结诚浩的《图解密码技术》一书的读书笔记，我是在去北京的火车上把其中感兴趣的部分草草过完的。<a target="_blank" rel="noopener" href="https://learn.z2o-k7e.world">World of Z2O-K7E</a> 只是建议过一下，我就只是过一下，感觉还是很有帮助的，至少看过了之后，我能感觉自己的大脑切换到了“密码学的上下文”，接收零知识证明相关的知识似乎更高效了。</p>
+<h2 id="基本常识"><a href="#基本常识" class="headerlink" title="基本常识"></a>基本常识</h2><ol>
+<li>不要使用保密的密码算法（即隐蔽式的安全性），应该使用得到广为验证的公开的密码算法，而保护好密钥。</li>
+<li>使用低强度的密码会给人一种错误的安全感，比不进行加密更危险。</li>
+<li>任何密码总有一天会被破解，除了不实用的一次性密码本和传说中的量子密码。</li>
+<li>密码只是信息安全的一部分，提防“社会工程学”。</li>
+</ol>
+<h2 id="对称密码"><a href="#对称密码" class="headerlink" title="对称密码"></a>对称密码</h2><h3 id="DES-3DES"><a href="#DES-3DES" class="headerlink" title="DES / 3DES"></a>DES / 3DES</h3><p>一种将 64 位明文加密为 64 位密文的对称密码算法，需要以<strong>分组</strong>为单位对输入进行处理（这样的密码算法称为分组密码，block cipher）。DES 已经可以在现实时间内被破解。</p>
+<p>三重DES（3DES）是为了增加 DES 的强度设计的。三重 DES 并不是三轮加密，而是加密、解密、加密。如果三轮的密钥都相同，就跟 DES 一样了。</p>
+<p>第一轮和第三轮使用同样的密钥则称为 DES-EDE2。<br>三轮都不同则称为 DES-EDE3。</p>
+<h3 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h3><p>Rijndael 算法在 2000 年被选为 AES。</p>
+<p>分组长度固定为 128 比特，密钥长度有 128、192、256 比特三种。</p>
+<p>加密过程：SubBytes -&gt; ShiftRows -&gt; MixColumns -&gt; AddRoundKey</p>
+<p>解密过程: AddRoundKey -&gt; InvMixColumns -&gt; InvShiftRows -&gt; InvSubBytes</p>
+<h3 id="如何选择"><a href="#如何选择" class="headerlink" title="如何选择"></a>如何选择</h3><p>不用 DES，少用 3DES，尽量用 AES。</p>
+<h2 id="分组密码的模式"><a href="#分组密码的模式" class="headerlink" title="分组密码的模式"></a>分组密码的模式</h2><ul>
+<li><strong>ECB</strong>（Electronic CodeBook，电子密码本）：简单，快速，支持并行计算；明文中重复排列会反映在密文中，并且通过删除、替换密文分组可以对明文进行操作，对包含某些比特错误的密文解密时对应的分组会出错，不能抵御重放攻击。不要用。</li>
+<li><strong>CBC</strong>（Cipher Book Chaining，密文分组连接模式）：推荐使用，重复的明文不会导致重复的密文，可以解密任意密文分组。<strong>必须是先加密再 XOR</strong>，如果反过来，则其效果等同于 <strong>ECB</strong>，可以直接从 IV （初始化向量）开始，依次将前后两组密文执行 XOR，得到的每组结果恰好就等于 ECB 每组的结果。</li>
+<li><strong>CFB</strong> / <strong>OFB</strong>：不需要填充（padding）。</li>
+<li><strong>CTR</strong>（CounTeR，计数器模式）：推荐使用，主动攻击者反转密文分组中的某些比特时，明文分组中相对应的比特也会被反转。</li>
+</ul>
+<h2 id="公钥密码"><a href="#公钥密码" class="headerlink" title="公钥密码"></a>公钥密码</h2><p>RSA 的基本步骤：</p>
+<ol>
+<li>取两个比较大的质数 p 和 q。</li>
+<li>求两者的乘积 $N = p \times q$。</li>
+<li>求 <script type="math/tex; mode=display">
+L = lcm(p - 1, q - 1)</script>，即 p 和 q 的最小公倍数；有的资料说的是求欧拉函数值 $\phi = (p-1) \times (q-1)$，以下统称 $\phi$。</li>
+</ol>
+<blockquote>
+<p>GPT: 两者都有各自的使用场景，但在实际使用中，求欧拉函数值 ($\phi$) 更为常见。</p>
+</blockquote>
+<ol>
+<li>选择公钥 $E$，$E$ 与 $\phi$ 互质并且 $1 &lt; E  &lt; \phi$。</li>
+<li>求私钥 $D$，$D \times E \equiv 1$ (mod $\phi$)，即 D 为 E 的乘法逆元。</li>
+<li>这样得到公钥为 $(E, N)$，私钥为 $(D, N)$。</li>
+</ol>
+<p>一个使用小质数实现的简单的 RSA：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> num::BigInt;</span><br><span class="line"><span class="keyword">use</span> rand::seq::index::sample;</span><br><span class="line"><span class="keyword">use</span> rand::&#123;thread_rng, Rng&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> SMALL_PRIMES: [<span class="built_in">u64</span>; <span class="number">50</span>] = [</span><br><span class="line">    <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">17</span>, <span class="number">19</span>, <span class="number">23</span>, <span class="number">29</span>, <span class="number">31</span>, <span class="number">37</span>, <span class="number">41</span>, <span class="number">43</span>, <span class="number">47</span>, <span class="number">53</span>, <span class="number">59</span>, <span class="number">61</span>, <span class="number">67</span>, <span class="number">71</span>, <span class="number">73</span>, <span class="number">79</span>, <span class="number">83</span>, <span class="number">89</span>, <span class="number">97</span>,</span><br><span class="line">    <span class="number">101</span>, <span class="number">103</span>, <span class="number">107</span>, <span class="number">109</span>, <span class="number">113</span>, <span class="number">127</span>, <span class="number">131</span>, <span class="number">137</span>, <span class="number">139</span>, <span class="number">149</span>, <span class="number">151</span>, <span class="number">157</span>, <span class="number">163</span>, <span class="number">167</span>, <span class="number">173</span>, <span class="number">179</span>, <span class="number">181</span>, <span class="number">191</span>, <span class="number">193</span>,</span><br><span class="line">    <span class="number">197</span>, <span class="number">199</span>, <span class="number">211</span>, <span class="number">223</span>, <span class="number">227</span>, <span class="number">229</span>,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">KeyPair</span></span> &#123;</span><br><span class="line">    private_key: <span class="built_in">u64</span>,</span><br><span class="line">    public_key: <span class="built_in">u64</span>,</span><br><span class="line">    modulus: <span class="built_in">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> KeyPair &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">generate</span></span>() -&gt; <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> rng = thread_rng();</span><br><span class="line">        <span class="keyword">let</span> indices = sample(&amp;<span class="keyword">mut</span> rng, SMALL_PRIMES.len(), <span class="number">2</span>);</span><br><span class="line">        <span class="comment">// use crate rand to select two random prime numbers</span></span><br><span class="line">        <span class="keyword">let</span> p = SMALL_PRIMES[indices.index(<span class="number">0</span>)];</span><br><span class="line">        <span class="keyword">let</span> q = SMALL_PRIMES[indices.index(<span class="number">1</span>)];</span><br><span class="line">        <span class="keyword">let</span> modulus = p * q;</span><br><span class="line">        <span class="keyword">let</span> phi = (p - <span class="number">1</span>) * (q - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">let</span> public_key = <span class="keyword">loop</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> public_key = SMALL_PRIMES[thread_rng().gen_range(<span class="number">0</span>..SMALL_PRIMES.len())];</span><br><span class="line">            <span class="keyword">if</span> public_key &lt; phi &amp;&amp; gcd(public_key, phi) == <span class="number">1</span> &#123;</span><br><span class="line">                <span class="keyword">break</span> public_key;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> private_key = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (public_key * private_key) % phi != <span class="number">1</span> &#123;</span><br><span class="line">            private_key += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">Self</span> &#123;</span><br><span class="line">            private_key,</span><br><span class="line">            public_key,</span><br><span class="line">            modulus,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">encrypt</span></span>(&amp;<span class="keyword">self</span>, message: BigInt) -&gt; BigInt &#123;</span><br><span class="line">        message.pow(<span class="keyword">self</span>.public_key <span class="keyword">as</span> <span class="built_in">u32</span>) % <span class="keyword">self</span>.modulus</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">decrypt</span></span>(&amp;<span class="keyword">self</span>, encrypted_message: BigInt) -&gt; BigInt &#123;</span><br><span class="line">        encrypted_message.pow(<span class="keyword">self</span>.private_key <span class="keyword">as</span> <span class="built_in">u32</span>) % <span class="keyword">self</span>.modulus</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// getters</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_private_key</span></span>(&amp;<span class="keyword">self</span>) -&gt; (<span class="built_in">u64</span>, <span class="built_in">u64</span>) &#123;</span><br><span class="line">        (<span class="keyword">self</span>.private_key, <span class="keyword">self</span>.modulus)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_public_key</span></span>(&amp;<span class="keyword">self</span>) -&gt; (<span class="built_in">u64</span>, <span class="built_in">u64</span>) &#123;</span><br><span class="line">        (<span class="keyword">self</span>.public_key, <span class="keyword">self</span>.modulus)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_modulus</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.modulus</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">gcd</span></span>(p0: <span class="built_in">u64</span>, p1: <span class="built_in">u64</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> p0 = p0;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> p1 = p1;</span><br><span class="line">    <span class="keyword">while</span> p1 != <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> temp = p1;</span><br><span class="line">        p1 = p0 % p1;</span><br><span class="line">        p0 = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    p0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[cfg(test)]</span></span><br><span class="line"><span class="keyword">mod</span> tests &#123;</span><br><span class="line">    <span class="keyword">use</span> super::*;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#[test]</span></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">test_rsa</span></span>() &#123;</span><br><span class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0</span>..<span class="number">100</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> key_pair = KeyPair::generate();</span><br><span class="line">            <span class="keyword">let</span> message = BigInt::from(rand::thread_rng().gen_range(<span class="number">6</span>..key_pair.get_modulus()));</span><br><span class="line">            <span class="keyword">let</span> encrypted_message = key_pair.encrypt(message.clone());</span><br><span class="line">            <span class="keyword">let</span> decrypted_message = key_pair.decrypt(encrypted_message.clone());</span><br><span class="line">            <span class="built_in">assert_eq!</span>(decrypted_message, message);</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;public key: (&#123;&#125;, &#123;&#125;), private key: (&#123;&#125;, &#123;&#125;), message: &#123;&#125;, encrypted: &#123;&#125;, decrypted: &#123;&#125;&quot;</span>,</span><br><span class="line">                key_pair.get_public_key().<span class="number">0</span>, key_pair.get_public_key().<span class="number">1</span>,</span><br><span class="line">                key_pair.get_private_key().<span class="number">0</span>, key_pair.get_private_key().<span class="number">1</span>,</span><br><span class="line">                message,</span><br><span class="line">                encrypted_message,</span><br><span class="line">                decrypted_message</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="单向散列函数"><a href="#单向散列函数" class="headerlink" title="单向散列函数"></a>单向散列函数</h2><p>单向散列函数（也称为消息摘要函数、哈希函数、杂凑函数），用来保证消息的完整性（integrity），也称为一致性。</p>
+<p>输入的消息也称为原像（pre-image）。</p>
+<p>输出的散列值也称为消息摘要（message digest）或者指纹（fingerprint）。</p>
+<p>难以发现碰撞的性质称为抗碰撞性（collision resistance）。</p>
+<h3 id="算法选择"><a href="#算法选择" class="headerlink" title="算法选择"></a>算法选择</h3><p>MD5 是不安全的。</p>
+<p>SHA-1 不应该用于新用途。</p>
+<p>SHA-2 （SHA-256以上） 、SHA-3 是安全的，可以使用。</p>
+<h2 id="消息认证码"><a href="#消息认证码" class="headerlink" title="消息认证码"></a>消息认证码</h2><p>消息认证码（Message Authentication Code）是一种确认完整性并进行认证的技术。</p>
+<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><ul>
+<li>单向散列函数，例如 HMAC。</li>
+<li>分组密码，例如 AES-CMAC。</li>
+<li>其他，例如流密码和公钥密码。</li>
+</ul>
+<h2 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h2><p>使用公钥密码（比如 RSA、椭圆曲线）来实现。</p>
+<ul>
+<li>绝对不要对意思不清楚的消息进行签名，可能无意中解密了公钥加密的密文。</li>
+<li>依赖公钥基础设施，公钥必须属于真正的发送者，即使用证书来确认。</li>
+</ul>
+<h2 id="密钥交换"><a href="#密钥交换" class="headerlink" title="密钥交换"></a>密钥交换</h2><h3 id="Diffie-Hellman"><a href="#Diffie-Hellman" class="headerlink" title="Diffie-Hellman"></a>Diffie-Hellman</h3><p>一个使用小质数实现的简单的 Diffie-Hellman：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> num::BigInt;</span><br><span class="line"><span class="keyword">use</span> rand::thread_rng;</span><br><span class="line"><span class="keyword">use</span> rand::Rng;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> P_AND_G: [(<span class="built_in">u64</span>, <span class="built_in">u64</span>); <span class="number">20</span>] = [</span><br><span class="line">    (<span class="number">7</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">11</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">13</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">17</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">19</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">23</span>, <span class="number">5</span>),</span><br><span class="line">    (<span class="number">29</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">31</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">37</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">41</span>, <span class="number">6</span>),</span><br><span class="line">    (<span class="number">43</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">47</span>, <span class="number">5</span>),</span><br><span class="line">    (<span class="number">53</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">59</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">61</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">67</span>, <span class="number">2</span>),</span><br><span class="line">    (<span class="number">71</span>, <span class="number">7</span>),</span><br><span class="line">    (<span class="number">73</span>, <span class="number">5</span>),</span><br><span class="line">    (<span class="number">79</span>, <span class="number">3</span>),</span><br><span class="line">    (<span class="number">83</span>, <span class="number">2</span>),</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// prime P and generator G</span></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">PnG</span></span> &#123;</span><br><span class="line">    prime: <span class="built_in">u64</span>,</span><br><span class="line">    generator: <span class="built_in">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> PnG &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">generate</span></span>() -&gt; <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> (prime, generator) = P_AND_G[thread_rng().gen_range(<span class="number">0</span>..P_AND_G.len())];</span><br><span class="line">        <span class="keyword">Self</span> &#123; prime, generator &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_prime</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.prime</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">get_generator</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.generator</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">generate_random_number</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        <span class="comment">// generate a number in the range of 1 to prime - 2</span></span><br><span class="line">        thread_rng().gen_range(<span class="number">1</span>..<span class="keyword">self</span>.prime - <span class="number">2</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[cfg(test)]</span></span><br><span class="line"><span class="keyword">mod</span> tests &#123;</span><br><span class="line">    <span class="keyword">use</span> super::*;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#[test]</span></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">test_diffie_hellman</span></span>() &#123;</span><br><span class="line">        <span class="keyword">for</span> round <span class="keyword">in</span> <span class="number">0</span>..<span class="number">10</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> pg = PnG::generate();</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;&#123;round&#125;) Prime: &#123;&#125;, Generator: &#123;&#125;&quot;</span>,</span><br><span class="line">                pg.get_prime(),</span><br><span class="line">                pg.get_generator()</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">let</span> alice_number = pg.generate_random_number();</span><br><span class="line">            <span class="keyword">let</span> bob_number = pg.generate_random_number();</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;&#123;round&#125;) Alice number: &#123;&#125;, Bob number: &#123;&#125;&quot;</span>,</span><br><span class="line">                alice_number, bob_number</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">let</span> alice_partial_key =</span><br><span class="line">                BigInt::from(pg.get_generator()).pow(alice_number <span class="keyword">as</span> <span class="built_in">u32</span>) % pg.get_prime();</span><br><span class="line">            <span class="keyword">let</span> bob_partial_key =</span><br><span class="line">                BigInt::from(pg.get_generator()).pow(bob_number <span class="keyword">as</span> <span class="built_in">u32</span>) % pg.get_prime();</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;&#123;round&#125;) Alice partial key: &#123;&#125;, Bob partial key: &#123;&#125;&quot;</span>,</span><br><span class="line">                alice_partial_key, bob_partial_key</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">let</span> alice_full_key =</span><br><span class="line">                BigInt::from(bob_partial_key).pow(alice_number <span class="keyword">as</span> <span class="built_in">u32</span>) % pg.get_prime();</span><br><span class="line">            <span class="keyword">let</span> bob_full_key =</span><br><span class="line">                BigInt::from(alice_partial_key).pow(bob_number <span class="keyword">as</span> <span class="built_in">u32</span>) % pg.get_prime();</span><br><span class="line">            <span class="built_in">println!</span>(</span><br><span class="line">                <span class="string">&quot;&#123;round&#125;) Alice full key: &#123;&#125;, Bob full key: &#123;&#125;&quot;</span>,</span><br><span class="line">                alice_full_key, bob_full_key</span><br><span class="line">            );</span><br><span class="line">            <span class="built_in">assert_eq!</span>(alice_full_key, bob_full_key);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="椭圆曲线密码"><a href="#椭圆曲线密码" class="headerlink" title="椭圆曲线密码"></a>椭圆曲线密码</h2><p>椭圆曲线密码是利用“椭圆曲线上的离散对数问题”的复杂度来实现的。</p>
+<script type="math/tex; mode=display">
+y^2 = x^3 + ax + b</script><p>使用了椭圆曲线的 schnorr 的一个简单实现：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> k256::&#123;NonZeroScalar, ProjectivePoint, PublicKey&#125;;</span><br><span class="line"><span class="keyword">use</span> rand::rngs::OsRng;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="comment">// 使用操作系统级别的 RNG</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> rng = OsRng;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Alice 拥有一个私钥 a，计算公钥 aG</span></span><br><span class="line">    <span class="comment">// 私钥 a</span></span><br><span class="line">    <span class="keyword">let</span> a = NonZeroScalar::random(&amp;<span class="keyword">mut</span> rng);</span><br><span class="line">    <span class="comment">// 公钥 aG</span></span><br><span class="line">    <span class="keyword">let</span> a_g = ProjectivePoint::from(PublicKey::from_secret_scalar(&amp;a));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 知道 G 和 aG，求 a，属于椭圆曲线上的离散对数问题，目前没有有效的解法</span></span><br><span class="line">    <span class="keyword">let</span> r = NonZeroScalar::random(&amp;<span class="keyword">mut</span> rng);</span><br><span class="line">    <span class="comment">// Alice 生成一个随机数 r，并计算 R = rG</span></span><br><span class="line">    <span class="keyword">let</span> r_g = ProjectivePoint::from(PublicKey::from_secret_scalar(&amp;r));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Bob 提供一个挑战 c</span></span><br><span class="line">    <span class="keyword">let</span> c = NonZeroScalar::random(&amp;<span class="keyword">mut</span> rng);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Alice 计算响应 z = r + a * c (mod q)</span></span><br><span class="line">    <span class="keyword">let</span> ac = a * c; <span class="comment">// 计算 a * c</span></span><br><span class="line">    <span class="keyword">let</span> z = r.add(&amp;ac);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="literal">Some</span>(z) = NonZeroScalar::new(z).into() <span class="keyword">else</span> &#123;</span><br><span class="line">        eprintln!(<span class="string">&quot;计算 z 为零。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Alice 将 z 发送给 Bob，Bob 验证 zG ?= R + c*PK</span></span><br><span class="line">    <span class="keyword">let</span> z_g = ProjectivePoint::from(PublicKey::from_secret_scalar(&amp;z));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算 c  * PK</span></span><br><span class="line">    <span class="keyword">let</span> c_pk = a_g * *c;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算 rG + c*PK</span></span><br><span class="line">    <span class="keyword">let</span> r_plus_cpk = r_g + c_pk;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 验证 zG ?= rG + c*PK</span></span><br><span class="line">    <span class="comment">// c * PK 与 a * c 的关系是？</span></span><br><span class="line">    <span class="comment">// 为什么这个证明是成立的</span></span><br><span class="line">    <span class="comment">// 为什么这个证明是不可伪造的</span></span><br><span class="line">    <span class="comment">// 回答:</span></span><br><span class="line">    <span class="comment">// c * PK = c * a * G = a * c * G = a * c * G = ac * G</span></span><br><span class="line">    <span class="comment">// PK = aG ?</span></span><br><span class="line">    <span class="keyword">if</span> z_g == r_plus_cpk &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;验证成功，Alice 证明了她拥有私钥.&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;验证失败.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与 GPT 的交谈：</span></span><br><span class="line"><span class="comment">// 为什么 Alice 要先生成一个随机数？</span></span><br><span class="line"><span class="comment">// 答：为了证明她拥有私钥，她需要一个随机数 r，然后计算 R = rG，然后计算 z = r + a * c (mod q)</span></span><br><span class="line"><span class="comment">// 可以让 Bob 先生成随机数并发送给 Alice 吗？（然后 Alice 再生成 r ，发送 rG）</span></span><br><span class="line"><span class="comment">// 答：可以，但是这样会暴露 Bob 的私钥，因为 Bob 会发送 c * PK，PK = aG，所以 Bob 的私钥就会暴露</span></span><br><span class="line"><span class="comment">// 不对啊，Bob 只需要发送 c，不会暴露私钥啊</span></span><br><span class="line"><span class="comment">// 答：对，Bob 只需要发送 c，不会暴露私钥，但是这样会暴露 Bob 的公钥，Bob 的公钥是 aG，这样会暴露 Bob 的身份</span></span><br><span class="line"><span class="comment">// 不对啊，aG 是 Alice 使用私钥 a 计算出来的公钥，怎么会是 Bob 的公钥呢？</span></span><br><span class="line"><span class="comment">// 答：对，我理解错了，Bob 只需要发送 c，不会暴露私钥，也不会暴露公钥，这样是可以的</span></span><br><span class="line"><span class="comment">// Bob 先发送随机数给 Alice 真的没问题吗？Alice 不会获得没有 a 但是证明她拥有 a 的超能力吗？</span></span><br><span class="line"><span class="comment">// 答：Alice 不会获得没有 a 但是证明她拥有 a 的超能力，因为 Alice 需要 a 来计算 z = r + a * c (mod q)，如果没有 a，Alice 就无法计算 z</span></span><br><span class="line"><span class="comment">// Alice 不能用假的 a&#x27; 来计算 z 吗？一直用假的 a&#x27;, 是否也能通过验证？</span></span><br><span class="line"><span class="comment">// 答：不能，因为 Bob 会用 a&#x27; 来计算 c * PK，然后验证 zG ?= R + c * PK，如果 a&#x27; 是错误的，那么 c * PK 也是错误的，验证就会失败</span></span><br><span class="line"><span class="comment">// PK 和 zG 都是用 a&#x27; 计算出来的，所以 Bob 永远都会验证成功，不管 Alice 用了什么 a&#x27;，验证都会成功，这样 Alice 是否就获得的超能力</span></span><br><span class="line"><span class="comment">// 答：不会，因为 Alice 无法计算出正确的 z，验证会失败</span></span><br><span class="line"><span class="comment">// z&#x27; = r + a&#x27; * c (mod q)，所以 z&#x27;G = R + c * a&#x27; * G 验证肯定成功吧？</span></span><br><span class="line"><span class="comment">// 答：不会，因为 c * a&#x27; * G != c * a * G，验证会失败</span></span><br><span class="line"><span class="comment">// 你好像没有理解，如果 Bob 实现发送了挑战 c，Alice 可以使用任何除了 a 之外的密钥替换 a（比如 a&#x27;)，这样整个流程只是证明了 Alice 拥有一个密钥（这个密钥并不一定是 a）</span></span><br><span class="line"><span class="comment">// 答：对，我理解错了，如果 Bob 先发送了挑战 c，Alice 可以使用任何除了 a 之外的密钥替换 a（比如 a&#x27;），这样整个流程只是证明了 Alice 拥有一个密钥（这个密钥并不一定是 a）</span></span><br><span class="line"><span class="comment">// 所以 Alice 即使没有任何密钥，她临时编造一个，在这种情况下，Bob 永远都无法验证 Alice 是否拥有私钥，这样 Alice 就获得了超能力</span></span><br><span class="line"><span class="comment">// 所以顺序不能调换，对吗？</span></span><br><span class="line"><span class="comment">// 答：对，顺序不能调换，Alice 必须先生成一个随机数 r，然后计算 R = rG，然后计算 z = r + a * c (mod q)，然后发送 z 给 Bob，Bob 验证 zG ?= R + c * PK</span></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Zero-Knowledge-Proof/" rel="tag"># Zero-Knowledge Proof</a>
+              <a href="/tags/Web3/" rel="tag"># Web3</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/04/26/zkp-note-0/" rel="prev" title="零知识证明笔记-0-目标与计划">
+      <i class="fa fa-chevron-left"></i> 零知识证明笔记-0-目标与计划
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/05/30/zkp-note-2/" rel="next" title="零知识证明笔记-2-PLONK概述笔记">
+      零知识证明笔记-2-PLONK概述笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  
+  <div class="comments">
+  <script src="https://utteranc.es/client.js" repo="gengteng/gengteng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script>
+  </div>
+  
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%B8%B8%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">基本常识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">对称密码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DES-3DES"><span class="nav-number">2.1.</span> <span class="nav-text">DES &#x2F; 3DES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AES"><span class="nav-number">2.2.</span> <span class="nav-text">AES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9"><span class="nav-number">2.3.</span> <span class="nav-text">如何选择</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81%E7%9A%84%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">分组密码的模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">公钥密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">单向散列函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E9%80%89%E6%8B%A9"><span class="nav-number">5.1.</span> <span class="nav-text">算法选择</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E8%AE%A4%E8%AF%81%E7%A0%81"><span class="nav-number">6.</span> <span class="nav-text">消息认证码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95"><span class="nav-number">6.1.</span> <span class="nav-text">实现方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="nav-number">7.</span> <span class="nav-text">数字签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2"><span class="nav-number">8.</span> <span class="nav-text">密钥交换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Diffie-Hellman"><span class="nav-number">8.1.</span> <span class="nav-text">Diffie-Hellman</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81"><span class="nav-number">9.</span> <span class="nav-text">椭圆曲线密码</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Thomasg</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengteng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengteng" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:me@gteng.org" title="E-Mail → mailto:me@gteng.org"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Thomasg</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

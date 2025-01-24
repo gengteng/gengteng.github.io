@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gteng.org","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1. 基本架构一个键值数据库需要有哪些功能&#x2F;结构&#x2F;特性。  支持多种数据结构 PUT、GET、DELETE、SCAN 设置过期 索引结构 对外接口，Socket、动态链接库等等 存储方式，内存、硬盘（持久化） 高可用 横向扩展 功能可扩展性   2. 数据结构Redis 接收到一个键值对操作后，能以 微秒 级别的速度找到数据，并快速完成操作。 Redis 的值有如下数据类型：  String（字符">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 学习笔记（基础）[WIP]">
+<meta property="og:url" content="https://gteng.org/2021/09/23/redis-basics/index.html">
+<meta property="og:site_name" content="一口笔记">
+<meta property="og:description" content="1. 基本架构一个键值数据库需要有哪些功能&#x2F;结构&#x2F;特性。  支持多种数据结构 PUT、GET、DELETE、SCAN 设置过期 索引结构 对外接口，Socket、动态链接库等等 存储方式，内存、硬盘（持久化） 高可用 横向扩展 功能可扩展性   2. 数据结构Redis 接收到一个键值对操作后，能以 微秒 级别的速度找到数据，并快速完成操作。 Redis 的值有如下数据类型：  String（字符">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-09-23T11:18:46.000Z">
+<meta property="article:modified_time" content="2025-01-24T08:48:32.270Z">
+<meta property="article:author" content="Thomasg">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gteng.org/2021/09/23/redis-basics/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Redis 学习笔记（基础）[WIP] | 一口笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一口笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">常期望安定，还期望即兴。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2021/09/23/redis-basics/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis 学习笔记（基础）[WIP]
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-23 19:18:46" itemprop="dateCreated datePublished" datetime="2021-09-23T19:18:46+08:00">2021-09-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="1-基本架构"><a href="#1-基本架构" class="headerlink" title="1. 基本架构"></a>1. 基本架构</h2><p>一个键值数据库需要有哪些功能/结构/特性。</p>
+<ul>
+<li>支持多种数据结构</li>
+<li>PUT、GET、DELETE、SCAN</li>
+<li>设置过期</li>
+<li>索引结构</li>
+<li>对外接口，Socket、动态链接库等等</li>
+<li>存储方式，内存、硬盘（持久化）</li>
+<li>高可用</li>
+<li>横向扩展</li>
+<li>功能可扩展性</li>
+</ul>
+<hr>
+<h2 id="2-数据结构"><a href="#2-数据结构" class="headerlink" title="2. 数据结构"></a>2. 数据结构</h2><p>Redis 接收到一个键值对操作后，能以 <strong>微秒</strong> 级别的速度找到数据，并快速完成操作。</p>
+<p>Redis 的值有如下数据类型：</p>
+<ul>
+<li>String（字符串）</li>
+<li>List（列表）</li>
+<li>Hash（哈希）</li>
+<li>Set（集合）</li>
+<li>Sorted Set（有序集合）</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>数据结构</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>String</td>
+<td>简单动态字符串</td>
+</tr>
+<tr>
+<td>List</td>
+<td>双向链表/压缩列表</td>
+</tr>
+<tr>
+<td>Hash</td>
+<td>压缩列表/哈希表</td>
+</tr>
+<tr>
+<td>Set</td>
+<td>整数数组/哈希表</td>
+</tr>
+<tr>
+<td>Sorted Set</td>
+<td>压缩列表/跳表</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Redis 使用一个全局的哈希表来保存所有键值对，可以在 $O(1)$ 的时间内查找到键值对。</p>
+<p>一个哈希表就是一个数组，数组元素为哈希桶，每个哈希桶存放一个链表，连接着哈希值映射到该桶中的多个键值对。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">｜0｜1｜2｜3｜4｜5｜</span><br><span class="line">    |       |</span><br><span class="line">    |       ---&gt; entry4</span><br><span class="line">    |</span><br><span class="line">    ---&gt; entry1 ---&gt; entry2 ---&gt; entry3</span><br></pre></td></tr></table></figure>
+<h3 id="哈希冲突及rehash"><a href="#哈希冲突及rehash" class="headerlink" title="哈希冲突及rehash"></a>哈希冲突及rehash</h3><p>当哈希冲突过多时，链表过长，导致查找效率下降，Redis会对哈希表进行rehash。</p>
+<p>为了 <strong>使 rehash 更高效</strong>，Redis 使用了两个全局哈希表：哈希表 1 和 哈希表 2 。默认情况下使用哈希表 1 ，哈希表 2 没有分配空间，当键值对增多时，Redis开始进行rehash：</p>
+<ol>
+<li>给哈希表 2 分配更大的空间，例如是当前哈希表 1 大小的两倍；</li>
+<li>把哈希表 1 中的数据重新映射并拷贝到哈希表 2 中；</li>
+<li>释放哈希表 1 的空间。</li>
+</ol>
+<p>然后使用哈希表 2 保存数据，下次rehash再使用哈希表 1 。</p>
+<p>为 <strong>避免一次性拷贝大量数据造成 Redis 线程阻塞</strong>，Redis采用了渐进式rehash。</p>
+<h4 id="渐进式rehash"><a href="#渐进式rehash" class="headerlink" title="渐进式rehash"></a>渐进式rehash</h4><p>Redis可以保持处理用户请求，每处理一个请求，就顺带将哈希表 1 中的一个桶的所有entries拷贝到哈希表 2 中。这样就能把一次性大量拷贝的开销，分摊到了多次请求中，避免了耗时可能造成的阻塞。</p>
+<h3 id="数据结构的操作效率"><a href="#数据结构的操作效率" class="headerlink" title="数据结构的操作效率"></a>数据结构的操作效率</h3><p><strong>整数数组</strong> 和 <strong>双向链表</strong> 都是顺序读写，操作复杂度都是 $O(N)$。</p>
+<h4 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h4><p>压缩列表表头有 <strong>列表长度（zlbytes）</strong>、<strong>列表尾偏移量（zltail）</strong>、<strong>列表中entry个数（zllen）</strong> 三个字段，表尾有一个 <strong>zlend</strong> 字段表示 <strong>列表结束</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">| zlbytes | zltail | zllen | entry1 | entry2 | ... | entryN | zlend |</span><br></pre></td></tr></table></figure>
+<p>查找表头、表尾元素的复杂度为 $O(1)$，查找其他元素的复杂度为 $O(N)$。</p>
+<h4 id="跳表"><a href="#跳表" class="headerlink" title="跳表"></a>跳表</h4><p><strong>跳表</strong> 是在 <strong>有序链表</strong> 的基础上增加了多级索引，通过索引位置的几次跳转，实现数据快速定位。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1 ----------------------&gt; 27 -----------------------&gt; 100 &#x2F;&#x2F; 二级索引</span><br><span class="line">↓                         ↓                           ↓</span><br><span class="line">1 --------&gt; 11 ---------&gt; 27 ---------&gt; 50 ---------&gt; 100 &#x2F;&#x2F; 一级索引</span><br><span class="line">↓           ↓             ↓             ↓             ↓</span><br><span class="line">1 --&gt; 5 --&gt; 11 --&gt; 20 --&gt; 27 --&gt; 33 --&gt; 50 --&gt; 62 --&gt; 100 --&gt; 156 &#x2F;&#x2F; 链表</span><br></pre></td></tr></table></figure>
+<p><strong>跳表</strong> 的查找复杂度为 $O(logN)$。</p>
+<h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><h4 id="数据结构的时间复杂度"><a href="#数据结构的时间复杂度" class="headerlink" title="数据结构的时间复杂度"></a>数据结构的时间复杂度</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>数据结构</th>
+<th>时间复杂度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>哈希表</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>跳表</td>
+<td>$O(logN)$</td>
+</tr>
+<tr>
+<td>双向链表</td>
+<td>$O(N)$</td>
+</tr>
+<tr>
+<td>压缩列表</td>
+<td>$O(N)$</td>
+</tr>
+<tr>
+<td>整数数组</td>
+<td>$O(N)$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="不同操作的时间复杂度"><a href="#不同操作的时间复杂度" class="headerlink" title="不同操作的时间复杂度"></a>不同操作的时间复杂度</h4><ol>
+<li><strong>单元数操作是基础</strong>。每一种集合类型对单个数据实现的增删改查操作，复杂度由数据结构决定。</li>
+<li><strong>范围操作很耗时</strong>。返回一个范围内的数据，复杂度一般是 $O(N)$，应尽量避免，可以使用 2.8 版本之后的 <code>HSCAN</code>、<code>SSCAN</code>、<code>ZSCAN</code> 等命令进行渐进式遍历。</li>
+<li><strong>统计操作通常高效</strong>。集合类型对集合中的元素个数由记录，例如 <code>LLEN</code>、<code>SCARD</code>。</li>
+<li><strong>例外情况只有几个</strong>。压缩列表和双向列表的会记录表头和表尾的偏移量，对它们的操作复杂度只有 $O(1)$，例如 <code>LPOP</code>、<code>RPOP</code>、<code>LPUSH</code>、<code>RPUSH</code>。</li>
+</ol>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>整数数组和压缩列表在查找时间复杂度方面并没有很大优势，为什么Redis还会把它作为底层数据结构？</p>
+<p>主要有两方面原因：</p>
+<ol>
+<li>内存利用率。Redis 是内存数据库，大量数据存储在内存中，整数数组和压缩列表结构比较紧凑，相比链表结构占用内存更少，可以提高内存利用率。</li>
+<li>数组对CPU高速缓存支持更友好。集合元素较少时，使用内存紧凑的排列方式，可以利用CPU高速缓存，尤其在一个缓存行内（64字节）有更高效的访问效率。当元素数量超过阈值后，为避免复杂度太高，可以转为哈希表和跳表。</li>
+</ol>
+<h2 id="3-高性能-IO-模型"><a href="#3-高性能-IO-模型" class="headerlink" title="3. 高性能 IO 模型"></a>3. 高性能 IO 模型</h2><p>Redis 的网络 IO 和键值对读写是由单个线程完成的；其他功能，例如持久化、异步删除、集群数据同步，是由额外的线程执行的。</p>
+<p>Redis使用 <strong>IO多路复用</strong>，即一个线程处理多个 IO 流。</p>
+<p>可能存在的瓶颈（来自Kaito）：</p>
+<ol>
+<li>单个请求耗时会导致后续所有请求阻塞等待，包括以下几种：<ul>
+<li>操作bigkey，分配、释放内存（4.0推出了lazy-free，可以异步执行bigkey释放）</li>
+<li>使用复杂度较高的命令，排序、union、查询全量数据</li>
+<li>大量key集中过期</li>
+<li>淘汰策略，内存超过Redis内存上线，每次写入都要淘汰一些key，导致耗时变长</li>
+<li>AOF 开启 always</li>
+<li>主从同步生成 RDB 时的 fork</li>
+</ul>
+</li>
+<li>并发量大时，单线程处理客户端请求，无法利用多核（6.0推出了多线程，可利用多核CPU处理用户请求）</li>
+</ol>
+<hr>
+<h2 id="4-AOF（Append-Only-File）"><a href="#4-AOF（Append-Only-File）" class="headerlink" title="4. AOF（Append Only File）"></a>4. AOF（Append Only File）</h2><p>Redis 的 AOF 是写后日志，先执行命令，把数据写入内存，然后再记录日志。</p>
+<p>不会阻塞当前写操作，执行完命令还没来得及记日志就宕机的话，会有数据丢失的风险。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">*3 --&gt; 这个命令有三个部分</span><br><span class="line">$3 --&gt; 第一部分的长度</span><br><span class="line">set --&gt; 第一部分的内容</span><br><span class="line">$5</span><br><span class="line">hello</span><br><span class="line">$5</span><br><span class="line">world</span><br></pre></td></tr></table></figure>
+<h3 id="三种写回策略"><a href="#三种写回策略" class="headerlink" title="三种写回策略"></a>三种写回策略</h3><ul>
+<li>Always，同步写回，每个命令执行完立马写回磁盘</li>
+<li>EverySec，每秒写回，写到AOF内存缓存，每秒写回一次</li>
+<li>No，写到AOF内存缓存，由操作系统决定何时将其写回</li>
+</ul>
+<h3 id="日志重写"><a href="#日志重写" class="headerlink" title="日志重写"></a>日志重写</h3><p>当日志文件过大时，可以对日志进行重写。可以把某些多条修改同一个键值对的命令合并为一条。</p>
+<p>重写流程：</p>
+<ol>
+<li>主线程 fork 出 bgrewriteaof 子进程，主线程在将新指令写入 AOF 缓存时，还会写入 AOF 重写缓存；</li>
+<li>子进程将 fork 拷贝出来的内存快照写成命令日志；</li>
+<li>写完后将AOF重写缓存中的日志写到这个新的日志中，然后就可以用这个新日志替换旧日志了。</li>
+</ol>
+<h3 id="其他要点"><a href="#其他要点" class="headerlink" title="其他要点"></a>其他要点</h3><ol>
+<li>fork 使用的是操作系统的写时复制（Copy On Write）机制，并不会直接拷贝所有内存。但是会拷贝父进程的的内存页表，如果页表较大，可能导致阻塞。</li>
+<li>主进程在提供服务时，如果操作的是bigkey，写时复制会导致内存分配；如果开启了内存大页（huge page）机制，内存分配会产生阻塞。（所以使用Redis通常要关闭内存大页，其对使用 fork 的程序不友好）</li>
+<li>AOF 重写可以使用 <code>bgrewriteaof</code> 命令手动执行，也由两个配置项控制自动触发：<ul>
+<li>auto-aof-rewrite-min-size：表示运行AOF重写的最小大小，默认为 64MB；</li>
+<li>auto-aof-rewrite-percentage：当前AOF文件大小和上一次重写后AOF文件大小的差值，除以上一次重写AOF文件大小，即增量和上一次全量的比值，默认为 100。<br>AOF 文件大小同时满足这两个配置项，会自动触发 AOF 重写。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="5-内存快照-RDB"><a href="#5-内存快照-RDB" class="headerlink" title="5. 内存快照 RDB"></a>5. 内存快照 RDB</h2><p>把某一时刻的内存数据以文件的形式写到磁盘上，即快照。这个快照文件即 RDB 文件（Redis DataBase 的缩写）。</p>
+<p>在数据恢复时，可直接把 RDB 文件读入内存，很快完成恢复。</p>
+<p>Redis 执行的是全量快照。</p>
+<p>可以使用 <code>save</code>、<code>bgsave</code> 来生成 RDB 文件；save在主线程中执行，会阻塞；bgsave 会创建子进程专门进行 RDB 文件写入，不会阻塞。</p>
+<h3 id="快照进行时数据如何修改"><a href="#快照进行时数据如何修改" class="headerlink" title="快照进行时数据如何修改"></a>快照进行时数据如何修改</h3><p>使用 fork 创建子进程，该子进程会跟主线程共享所有内存数据；利用操作系统的写时复制技术，当主进程修改数据时，会重新分配空间生成该数据的副本，并使用该副本提供服务，bgsave 子进程仍然使用未修改的数据进行快照写入。</p>
+<h3 id="快照频率"><a href="#快照频率" class="headerlink" title="快照频率"></a>快照频率</h3><p>频繁执行全量快照有两方面开销：</p>
+<ol>
+<li>给磁盘带来压力</li>
+<li>fork 本身可能阻塞主线程，如果频繁 fork 会导致主线程阻塞所以，如果有一个 bgsave 在运行，就不会启动第二个了</li>
+</ol>
+<p>4.0 中提出了混合使用AOF和RDB的方法，即快照以一定的频率执行，在快照间以AOF的形式记录这期间的命令。实现：</p>
+<ol>
+<li>避免了频繁 fork 对主线程的影响</li>
+<li>减少了 AOF 文件大小，提高了数据恢复效率</li>
+</ol>
+<p>在配置文件中设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aof-use-rdb-preamble yes</span><br></pre></td></tr></table></figure>
+<h3 id="三点建议"><a href="#三点建议" class="headerlink" title="三点建议"></a>三点建议</h3><ol>
+<li>数据不能丢失时，使用 AOF 和 RDB 混合方案</li>
+<li>允许分钟级别的数据丢失，使用 RDB</li>
+<li>只用 AOF 的话，优先使用 everysec，在可靠性和性能之间比较平衡</li>
+</ol>
+<p>课后题：资源风险（Kaito）</p>
+<ol>
+<li>考虑 fork 导致多大程度的写时复制，是否会造成 OOM，或者 swap 到磁盘上导致性能降低；</li>
+<li>CPU 核数较少时，Redis的其他子进程会跟主线程竞争CPU，导致性能下降；</li>
+<li>如果 Redis 进程绑定了 CPU，子进程会继承它的 CPU 亲和属性，与父进程争夺同一个 CPU 资源，导致效率下降。所以如果开启RDB和AOF，一定不要绑定CPU。</li>
+</ol>
+<hr>
+<h2 id="6-主从同步"><a href="#6-主从同步" class="headerlink" title="6. 主从同步"></a>6. 主从同步</h2><p>可靠性分两方面：</p>
+<ol>
+<li><strong>数据少丢失</strong>（由RDB、AOF保证）；</li>
+<li><strong>服务少中断</strong>（通过增加副本冗余量保证）</li>
+</ol>
+<p><strong>读写分离</strong>：主库、从库都可以执行读操作，主库限制性写操作，然后同步给从库。</p>
+<p>如果都允许写，会造成各实例副本不一致，需要涉及加锁、协商等各种操作，产生巨额开销。</p>
+<h3 id="主从第一次同步"><a href="#主从第一次同步" class="headerlink" title="主从第一次同步"></a>主从第一次同步</h3><p>在从库实例上执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replicaof [主库ip] [主库port]</span><br></pre></td></tr></table></figure>
+<h4 id="三个阶段"><a href="#三个阶段" class="headerlink" title="三个阶段"></a>三个阶段</h4><ol>
+<li>主从建立链接、协商同步，从库给主库发送 psync 命令，表示要进行数据同步，主库根据这个命令的参数来启动复制。psync 命令包含了主库的 runID 和复制进度 offset 两个参数。主库收到 psync 命令后，用 <code>FULLRESYNC</code> 响应命令带上两个参数，主库的 runID 和主库目前的复制进度 offset 给从库，从库会记住这两个参数。</li>
+</ol>
+<blockquote>
+<p>runID：每个 Redis 实例启动时自动生成的一个随机 ID，唯一标识一个实例。第一次复制时从库不知道主库的 runID，使用 <code>?</code>；<br>offset：第一次复制设置为 <code>-1</code>。</p>
+</blockquote>
+<ol>
+<li>主库执行 bgsave 生成 RDB 文件，并发送给从库。从库收到 RDB 文件后，清空数据库并加载 RDB 文件。此时主库不会停止服务，但在内存中会有专门的 replication buffer，记录 RDB 文件生成后收到的所有写操作。</li>
+<li>主库把 replication buffer 中的修改操作发送给从库执行。</li>
+</ol>
+<h4 id="主从级联"><a href="#主从级联" class="headerlink" title="主从级联"></a>主从级联</h4><p>使用“主-从-从”模式分担主库压力。二级从库可以选择一个内存较高的从库进行同步。</p>
+<p>主从间使用基于长连接的命令传播。</p>
+<h4 id="网络断开"><a href="#网络断开" class="headerlink" title="网络断开"></a>网络断开</h4><p>2.8 前网络闪断会造成重新全量复制，2.8 后可以增量复制，实现继续同步。</p>
+<p>（Kaito）主库除了将所有写命令传给从库之外，也会在 <code>repl_backlog_buffer</code> 中记录一份。当从库断线重连后，会发送 <code>psync $master_runid $offset</code>，主库就能通过 <code>$offset</code> 在 <code>repl_backlog_buffer</code> 中找到从库断开的位置，只发送 <code>$offset</code> 之后的增量给从库。</p>
+<blockquote>
+<p><code>repl_backlog_buffer</code>：为了解决从库断开后找到主从差异而设计的环形缓冲区。配置大一点，可以减少全量同步的频率。</p>
+<p><code>replication buffer</code>：客户端、从库与 Redis 通信时，Redis 都会分配一个内存 buffer 用于交互，把数据写进去并通过 socket 发送到对端。当对端为从库时，该 buffer 只负责传播写命令，通常叫做 <code>replication buffer</code>。这个 buffer 由 <code>client-output-buffer-limit</code> 参数控制，如果过小或者从库处理过慢，Redis 会强制断开这个链接。</p>
+</blockquote>
+<h4 id="为啥不用-AOF-同步"><a href="#为啥不用-AOF-同步" class="headerlink" title="为啥不用 AOF 同步"></a>为啥不用 AOF 同步</h4><ol>
+<li>相比 RDB 文件更大，效率低；</li>
+<li>必须打开 AOF，数据丢失不敏感业务没必要开启</li>
+</ol>
+<hr>
+<h2 id="7-哨兵"><a href="#7-哨兵" class="headerlink" title="7. 哨兵"></a>7. 哨兵</h2><hr>
+<h2 id="8-哨兵集群"><a href="#8-哨兵集群" class="headerlink" title="8. 哨兵集群"></a>8. 哨兵集群</h2><hr>
+<h2 id="9-切片集群"><a href="#9-切片集群" class="headerlink" title="9. 切片集群"></a>9. 切片集群</h2><hr>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Redis/" rel="tag"># Redis</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/14/sorting-algorithm-in-rust-std/" rel="prev" title="Rust 标准库中的排序算法[WIP]">
+      <i class="fa fa-chevron-left"></i> Rust 标准库中的排序算法[WIP]
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/09/26/redis-practices/" rel="next" title="Redis 学习笔记（实践）[WIP]">
+      Redis 学习笔记（实践）[WIP] <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  
+  <div class="comments">
+  <script src="https://utteranc.es/client.js" repo="gengteng/gengteng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script>
+  </div>
+  
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">1. 基本架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">2. 数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E5%8F%8Arehash"><span class="nav-number">2.1.</span> <span class="nav-text">哈希冲突及rehash</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%90%E8%BF%9B%E5%BC%8Frehash"><span class="nav-number">2.1.1.</span> <span class="nav-text">渐进式rehash</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E6%93%8D%E4%BD%9C%E6%95%88%E7%8E%87"><span class="nav-number">2.2.</span> <span class="nav-text">数据结构的操作效率</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8"><span class="nav-number">2.2.1.</span> <span class="nav-text">压缩列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%B3%E8%A1%A8"><span class="nav-number">2.2.2.</span> <span class="nav-text">跳表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.3.</span> <span class="nav-text">时间复杂度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.3.1.</span> <span class="nav-text">数据结构的时间复杂度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E6%93%8D%E4%BD%9C%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.3.2.</span> <span class="nav-text">不同操作的时间复杂度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">2.3.3.</span> <span class="nav-text">问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E9%AB%98%E6%80%A7%E8%83%BD-IO-%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">3. 高性能 IO 模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-AOF%EF%BC%88Append-Only-File%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">4. AOF（Append Only File）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E5%86%99%E5%9B%9E%E7%AD%96%E7%95%A5"><span class="nav-number">4.1.</span> <span class="nav-text">三种写回策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E9%87%8D%E5%86%99"><span class="nav-number">4.2.</span> <span class="nav-text">日志重写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E8%A6%81%E7%82%B9"><span class="nav-number">4.3.</span> <span class="nav-text">其他要点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%86%85%E5%AD%98%E5%BF%AB%E7%85%A7-RDB"><span class="nav-number">5.</span> <span class="nav-text">5. 内存快照 RDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E7%85%A7%E8%BF%9B%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9"><span class="nav-number">5.1.</span> <span class="nav-text">快照进行时数据如何修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E7%85%A7%E9%A2%91%E7%8E%87"><span class="nav-number">5.2.</span> <span class="nav-text">快照频率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%82%B9%E5%BB%BA%E8%AE%AE"><span class="nav-number">5.3.</span> <span class="nav-text">三点建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5"><span class="nav-number">6.</span> <span class="nav-text">6. 主从同步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%90%8C%E6%AD%A5"><span class="nav-number">6.1.</span> <span class="nav-text">主从第一次同步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E4%B8%AA%E9%98%B6%E6%AE%B5"><span class="nav-number">6.1.1.</span> <span class="nav-text">三个阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E7%BA%A7%E8%81%94"><span class="nav-number">6.1.2.</span> <span class="nav-text">主从级联</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%96%AD%E5%BC%80"><span class="nav-number">6.1.3.</span> <span class="nav-text">网络断开</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E5%95%A5%E4%B8%8D%E7%94%A8-AOF-%E5%90%8C%E6%AD%A5"><span class="nav-number">6.1.4.</span> <span class="nav-text">为啥不用 AOF 同步</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E5%93%A8%E5%85%B5"><span class="nav-number">7.</span> <span class="nav-text">7. 哨兵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E5%93%A8%E5%85%B5%E9%9B%86%E7%BE%A4"><span class="nav-number">8.</span> <span class="nav-text">8. 哨兵集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E5%88%87%E7%89%87%E9%9B%86%E7%BE%A4"><span class="nav-number">9.</span> <span class="nav-text">9. 切片集群</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Thomasg</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengteng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengteng" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:me@gteng.org" title="E-Mail → mailto:me@gteng.org"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Thomasg</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

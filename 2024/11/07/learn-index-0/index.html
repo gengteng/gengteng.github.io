@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gteng.org","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="以下是各种索引算法的简要对比表，包括其原理、性能优势、适用场景和缺点。     索引算法 原理介绍 为什么性能高 适用场景 缺点&#x2F;性能差的场景     B+ 树 B+ 树是一种平衡多叉树，数据仅存储在叶节点，所有叶节点按顺序连接，适合范围查询和顺序访问。 结构层次分明，叶节点通过链表相连，实现快速范围查找和顺序遍历。 适用于数据库索引、大量顺序读取或范围查询的场景。 高维数据或频繁更新的场景性能较">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见索引结构-0">
+<meta property="og:url" content="https://gteng.org/2024/11/07/learn-index-0/index.html">
+<meta property="og:site_name" content="一口笔记">
+<meta property="og:description" content="以下是各种索引算法的简要对比表，包括其原理、性能优势、适用场景和缺点。     索引算法 原理介绍 为什么性能高 适用场景 缺点&#x2F;性能差的场景     B+ 树 B+ 树是一种平衡多叉树，数据仅存储在叶节点，所有叶节点按顺序连接，适合范围查询和顺序访问。 结构层次分明，叶节点通过链表相连，实现快速范围查找和顺序遍历。 适用于数据库索引、大量顺序读取或范围查询的场景。 高维数据或频繁更新的场景性能较">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-07T03:20:45.000Z">
+<meta property="article:modified_time" content="2025-01-24T08:48:32.265Z">
+<meta property="article:author" content="Thomasg">
+<meta property="article:tag" content="algorithm">
+<meta property="article:tag" content="index">
+<meta property="article:tag" content="data structure">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gteng.org/2024/11/07/learn-index-0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>常见索引结构-0 | 一口笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一口笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">常期望安定，还期望即兴。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gteng.org/2024/11/07/learn-index-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thomasg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一口笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          常见索引结构-0
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-11-07 11:20:45" itemprop="dateCreated datePublished" datetime="2024-11-07T11:20:45+08:00">2024-11-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-24 16:48:32" itemprop="dateModified" datetime="2025-01-24T16:48:32+08:00">2025-01-24</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>以下是各种索引算法的简要对比表，包括其原理、性能优势、适用场景和缺点。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>索引算法</th>
+<th>原理介绍</th>
+<th>为什么性能高</th>
+<th>适用场景</th>
+<th>缺点/性能差的场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>B+ 树</strong></td>
+<td>B+ 树是一种平衡多叉树，数据仅存储在叶节点，所有叶节点按顺序连接，适合范围查询和顺序访问。</td>
+<td>结构层次分明，叶节点通过链表相连，实现快速范围查找和顺序遍历。</td>
+<td>适用于数据库索引、大量顺序读取或范围查询的场景。</td>
+<td>高维数据或频繁更新的场景性能较差。插入、删除操作复杂，维护成本高。</td>
+</tr>
+<tr>
+<td><strong>倒排索引</strong></td>
+<td>建立词项到文档的映射关系，将每个词项关联到出现该词的文档列表，通常用于全文搜索。</td>
+<td>通过直接访问词项位置，可快速找到包含该词的所有文档。</td>
+<td>适用于文本搜索、日志检索等全文检索场景。</td>
+<td>对于非文本数据无效，处理频繁更新的文档集时性能较差，占用内存大。</td>
+</tr>
+<tr>
+<td><strong>HNSW</strong></td>
+<td>HNSW 基于分层的小世界图结构，通过近似最近邻的方法实现高效向量检索。</td>
+<td>通过多层图索引和邻居节点搜索，实现快速的近似最近邻查找。</td>
+<td>适用于向量相似度检索、推荐系统、图像搜索等高维向量场景。</td>
+<td>构建和维护图的成本较高，尤其是频繁更新和插入向量的情况下。对高精度要求场景不适合。</td>
+</tr>
+<tr>
+<td><strong>跳表（Skip List）</strong></td>
+<td>通过多级链表实现快速搜索，每级链表跳过部分节点，提高查找速度。</td>
+<td>基于多级链表，可在 O(log n) 时间内查找目标节点。</td>
+<td>适用于键值存储、顺序查询需求的场景，作为简单替代结构。</td>
+<td>在超大数据集或高频率更新的场景下不够高效，性能会下降。</td>
+</tr>
+<tr>
+<td><strong>LSM 树</strong></td>
+<td>LSM 树通过分层排序和合并，将数据写入磁盘前缓存在内存，适合高写入量的场景。</td>
+<td>数据批量写入减少随机写的开销，分层合并提升读取效率。</td>
+<td>适合写密集型的键值数据库，如 RocksDB、LevelDB。</td>
+<td>读性能可能较差，特别是大量读操作时，需通过多层合并查询。</td>
+</tr>
+<tr>
+<td><strong>Trie 树</strong></td>
+<td>用树结构保存字符串的前缀，每个节点代表一个字符，用于高效的前缀匹配。</td>
+<td>可以快速定位字符串的前缀路径，适合匹配和自动补全。</td>
+<td>适用于自动补全、前缀匹配等需要快速定位前缀的场景。</td>
+<td>占用内存较大，无法很好地处理非字符串数据，不适合范围查询。</td>
+</tr>
+<tr>
+<td><strong>Annoy</strong></td>
+<td>使用多棵随机 KD 树构建索引，用于近似最近邻查询，查询时从多棵树中查找相似点。</td>
+<td>随机生成多棵树，提高查找相似度的效率，查询速度快。</td>
+<td>适用于低维度、高性能要求的向量检索，推荐系统等。</td>
+<td>处理高维数据时性能较差，存储空间需求大。更新不便。</td>
+</tr>
+<tr>
+<td><strong>LSH（Locality-Sensitive Hashing）</strong></td>
+<td>将相似数据哈希到相同的桶中，快速找到相似数据的近似最近邻索引方法。</td>
+<td>通过哈希实现分桶，减少相似数据查询范围，查询速度快。</td>
+<td>适用于低维向量的相似性搜索，处理文本等场景。</td>
+<td>高维度数据上效率低，近似度精度差，占用较多内存。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="简要总结"><a href="#简要总结" class="headerlink" title="简要总结"></a>简要总结</h3><ul>
+<li><strong>B+ 树</strong> 和 <strong>倒排索引</strong> 是经典的数据库和全文搜索引擎中常用的索引结构，适合关系型数据和文本数据的检索。</li>
+<li><strong>HNSW</strong> 和 <strong>Annoy</strong> 是面向高维向量的近似最近邻索引结构，常用于推荐系统、语义搜索等场景。</li>
+<li><strong>LSM 树</strong> 适合写密集的场景，如键值数据库。</li>
+<li><strong>Trie 树</strong> 和 <strong>跳表</strong> 更适合简单的键值存储和字符串匹配，但不适合复杂的数据查询和高维向量检索。</li>
+<li><strong>LSH</strong> 在维度较低的数据上表现较好，但对高维数据表现有限。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+              <a href="/tags/index/" rel="tag"># index</a>
+              <a href="/tags/data-structure/" rel="tag"># data structure</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/05/30/zkp-note-2/" rel="prev" title="零知识证明笔记-2-PLONK概述笔记">
+      <i class="fa fa-chevron-left"></i> 零知识证明笔记-2-PLONK概述笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/12/06/learn-solana-0/" rel="next" title="Solana / Anchor 学习笔记 - 账户">
+      Solana / Anchor 学习笔记 - 账户 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  
+  <div class="comments">
+  <script src="https://utteranc.es/client.js" repo="gengteng/gengteng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script>
+  </div>
+  
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E8%A6%81%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">简要总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Thomasg</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengteng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengteng" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:me@gteng.org" title="E-Mail → mailto:me@gteng.org"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Thomasg</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
